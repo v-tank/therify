@@ -4,14 +4,14 @@ import Expo from 'expo';
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
-    title: 'Login',
+    header: null,
   };
 
   async signInWithGoogleAsync() {
   try {
     const result = await Expo.Google.logInAsync({
-      androidClientId: '184726345923-qv2gj4frmeqei7sh33hdavbukljl7pnr.apps.googleusercontent.com',
-      iosClientId: '184726345923-u59gpfub56aubet443knjnd4gnevn8uv.apps.googleusercontent.com',
+      androidClientId: '1037327035065-ajdv9id43hfneomj9vn06m95nbv31399.apps.googleusercontent.com',
+      iosClientId: '1037327035065-valj41h4a4qal4qn8ki45lqnthlqa23v.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
 
