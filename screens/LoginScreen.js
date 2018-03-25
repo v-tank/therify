@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Button, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import Expo from 'expo';
 
 export default class LoginScreen extends React.Component {
@@ -37,10 +37,14 @@ export default class LoginScreen extends React.Component {
         }}
       >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Button
+
+          <Text style={{flex: 1}}>Therify</Text>
+          <TouchableOpacity
             onPress={ this.signInWithGoogleAsync.bind(this)}
-            title="Sign in with Google" 
-          />
+            style={styles.button}
+          >
+            <Text style={styles.text}>Sign in with Google</Text>
+          </TouchableOpacity>
         </View>
 
       </ImageBackground >
@@ -57,5 +61,14 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover'
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#dd4b39',
+    padding: 10,
+  },
+  text: {
+    color: '#ffffff',
+    fontSize: 18 
   }
 });

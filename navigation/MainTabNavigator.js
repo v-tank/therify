@@ -6,19 +6,19 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CaptureScreen from '../screens/CaptureScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
     },
-    Links: {
-      screen: LinksScreen,
+    Capture: {
+      screen: CaptureScreen,
     },
-    Settings: {
-      screen: SettingsScreen,
+    Profile: {
+      screen: ProfileScreen,
     },
   },
   {
@@ -30,15 +30,15 @@ export default TabNavigator(
           case 'Home':
             iconName =
               Platform.OS === 'ios'
-                ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle';
+                ? `ios-home${focused ? '' : '-outline'}`
+                : 'md-home';
             break;
-          case 'Links':
-            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
+          case 'Capture':
+            iconName = Platform.OS === 'ios' ? `ios-camera${focused ? '' : '-outline'}` : 'md-camera';
             break;
-          case 'Settings':
+          case 'Profile':
             iconName =
-              Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
+              Platform.OS === 'ios' ? `ios-person${focused ? '' : '-outline'}` : 'md-person';
         }
         return (
           <Ionicons
