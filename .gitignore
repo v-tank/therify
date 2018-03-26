@@ -1,2 +1,3 @@
 node_modules/**/*
 .expo/**/*
+backend/node_modules/*

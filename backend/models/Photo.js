@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const photoSchema = new Schema({
-	image: { data: Buffer, contentType: String, required: true },
+	image: { data: Buffer, type: String, required: true }, //not sure if this is exactly what's needed
 	fileType: { type: String, required: true },
 	location: { type: String, required: true },
 	date: { type: Date, default: Date.now },
