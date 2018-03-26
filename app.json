@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "therify-v2",
-    "description": "This project is really great.",
+    "name": "therify",
+    "description": "A very interesting project.",
     "slug": "therify-v2",
     "privacy": "public",
     "sdkVersion": "25.0.0",
