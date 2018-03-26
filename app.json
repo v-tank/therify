@@ -2,7 +2,7 @@
   "expo": {
     "name": "therify",
     "description": "A very interesting project.",
-    "slug": "therify-v2",
+    "slug": "therify",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
