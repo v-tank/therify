@@ -1,30 +1,33 @@
-import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
+//import liraries
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Expo from 'expo';
 
-export default class LoginScreen extends React.Component {
+// create a component
+export default class LoginScreen extends Component {
   static navigationOptions = {
-    header: null,
-  };
+    header: null
+  }
 
   async signInWithGoogleAsync() {
-  try {
-    const result = await Expo.Google.logInAsync({
-      androidClientId: '1037327035065-ajdv9id43hfneomj9vn06m95nbv31399.apps.googleusercontent.com',
-      iosClientId: '1037327035065-valj41h4a4qal4qn8ki45lqnthlqa23v.apps.googleusercontent.com',
-      scopes: ['profile', 'email'],
-    });
+    try {
+      const result = await Expo.Google.logInAsync({
+        androidClientId: '1037327035065-ajdv9id43hfneomj9vn06m95nbv31399.apps.googleusercontent.com',
+        iosClientId: '1037327035065-valj41h4a4qal4qn8ki45lqnthlqa23v.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      });
 
-    if (result.type === 'success') {
-      this.props.navigation.navigate('Main');
-      return result.accessToken;
-    } else {
-      return { cancelled: true };
+      if (result.type === 'success') {
+        this.props.navigation.navigate('Main');
+        console.log(result.accessToken);
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
     }
-  } catch (e) {
-    return { error: true };
   }
-}
 
   render() {
     return (
@@ -37,16 +40,14 @@ export default class LoginScreen extends React.Component {
         }}
       >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-          <Text style={{flex: 1}}>Therify</Text>
+          <Text style={styles.title}>Therify</Text>
           <TouchableOpacity
-            onPress={ this.signInWithGoogleAsync.bind(this)}
+            onPress={this.signInWithGoogleAsync.bind(this)}
             style={styles.button}
           >
             <Text style={styles.text}>Sign in with Google</Text>
           </TouchableOpacity>
         </View>
-
       </ImageBackground >
     );
   }
@@ -64,11 +65,19 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#dd4b39',
-    padding: 10,
+    backgroundColor: 'transparent',
+    paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
+    borderRadius: 50, borderWidth: 2, borderColor: 'white'
+  },
+  title: {
+    color: '#ffffff',
+    fontSize: 72,
+    margin: 50,
+    fontFamily: 'Futura'
   },
   text: {
     color: '#ffffff',
-    fontSize: 18 
+    fontSize: 18,
+    fontFamily: 'Futura'
   }
 });
