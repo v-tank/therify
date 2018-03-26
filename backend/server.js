@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
 var db = require("./models");
+var controllers = require("./controllers");
 
 var PORT = process.env.PORT || 8080;
 
