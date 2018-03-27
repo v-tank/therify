@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
 import { MapView } from 'expo';
+import { TextInput, FlatList, Button } from 'react-native';
 
 // create a component
 class HomeTab extends Component {
@@ -30,16 +31,28 @@ class HomeTab extends Component {
           <Body><Text>Therify</Text></Body>
           <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
         </Header>
+        <TextInput placeholder="Search"/>
+        <Button title="Search"/>
+        <MapView
+          style={{ alignSelf: 'stretch', height: 200 }}
+          region={this.state.mapRegion}
+          provider={'google'}
+          onRegionChange={this._handleMapRegionChange}
+        />
+        <Text>Location</Text>
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={[{key: 'a'}, {key: 'b'}]}
+          renderItem={({item}) => <Text>{item.key}</Text>}
+        />
+        {/*
         <Content>
           <CardComponent 
           imageSource="1"
           therifies="301"/>
+        
         </Content>
-        <MapView
-          style={{ alignSelf: 'stretch', height: 200 }}
-          region={this.state.mapRegion}
-          onRegionChange={this._handleMapRegionChange}
-        />
+        */}
       </Container>
     );
   }
@@ -51,6 +64,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  list: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 });
 
 //make this component available to the app
