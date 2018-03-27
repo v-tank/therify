@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
+import { MapView } from 'expo';
 
 // create a component
 class HomeTab extends Component {
@@ -13,6 +14,14 @@ class HomeTab extends Component {
     )
   }
 
+  state = {
+    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+  };
+
+  _handleMapRegionChange = mapRegion => {
+    this.setState({ mapRegion });
+  };
+
   render() {
     return (
       <Container style={styles.container}>
@@ -21,12 +30,16 @@ class HomeTab extends Component {
           <Body><Text>Therify</Text></Body>
           <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
         </Header>
-
         <Content>
           <CardComponent 
           imageSource="1"
           therifies="301"/>
         </Content>
+        <MapView
+          style={{ alignSelf: 'stretch', height: 200 }}
+          region={this.state.mapRegion}
+          onRegionChange={this._handleMapRegionChange}
+        />
       </Container>
     );
   }
