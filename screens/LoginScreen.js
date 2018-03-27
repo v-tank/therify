@@ -42,13 +42,13 @@ export default class LoginScreen extends Component {
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.title}>Therify</Text>
           <TouchableOpacity
-            onPress={this.signInWithGoogleAsync.bind(this)}
+            onPress={() => this.signInWithGoogleAsync()}
             style={styles.button}
           >
             <Text style={styles.text}>Sign in with Google</Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground >
+      </ImageBackground>
     );
   }
 }

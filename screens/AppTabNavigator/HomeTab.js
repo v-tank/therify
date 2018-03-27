@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
+import MapViewScreen from '../../MapView';
 
 // create a component
 class HomeTab extends Component {
@@ -27,6 +28,8 @@ class HomeTab extends Component {
           imageSource="1"
           therifies="301"/>
         </Content>
+
+        <MapViewScreen/>
       </Container>
     );
   }

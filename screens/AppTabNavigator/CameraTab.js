@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'native-base';
+import ImagePickerScreen from '../../components/imagePicker';
 
 // create a component
 class CameraTab extends Component {
@@ -15,7 +16,7 @@ class CameraTab extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>CameraTab</Text>
+        <ImagePickerScreen />
       </View>
     );
   }

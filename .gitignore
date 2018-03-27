@@ -1,3 +1,4 @@
 node_modules/**/*
 .expo/**/*
 backend/node_modules/*
+yarn-error.log

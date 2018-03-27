@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
+import MapViewScreen from './MapView';
 
 // create a component
 class CardComponent extends Component {
@@ -14,7 +15,15 @@ class CardComponent extends Component {
     }
 
     return (
+      
+
       <Card>
+
+        <CardItem>
+          <MapViewScreen style={styles.container} />
+          <Text>MAP HERE</Text>
+        </CardItem>
+
         <CardItem>
           <Left>
             <Thumbnail source ={require('../assets/images/icon.png')} />
@@ -24,6 +33,8 @@ class CardComponent extends Component {
             </Body>
           </Left>
         </CardItem>
+
+        
 
         <CardItem cardBody>
           <Image source={images[this.props.imageSource]} style={styles.mainImage}/>
