@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
 import { Location, Permissions, MapView } from 'expo';
+import { TextInput, FlatList, Button } from 'react-native';
 
 // create a component
 class HomeTab extends Component {
@@ -47,18 +48,30 @@ class HomeTab extends Component {
           <Body><Text>Therify</Text></Body>
           <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
         </Header>
-
-        <Content>
-          <CardComponent 
-          imageSource="1"
-          therifies="301"/>
-        </Content>
-
+        <TextInput placeholder="Search"/>
+        <Button title="Search"/>
+        {/* show user location nd follows user location working fine, 
+              necessary for stuff 
+        */}
         <MapView
           style={{ alignSelf: 'stretch', height: 200 }}
           showsUserLocation = {true} 
           followsUserLocation = {true}
         />
+        <Text>Location</Text>
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={[{key: 'a'}, {key: 'b'}]}
+          renderItem={({item}) => <Text>{item.key}</Text>}
+        />
+        {/*
+        <Content>
+          <CardComponent 
+          imageSource="1"
+          therifies="301"/>
+        
+        </Content>
+        */}
       </Container>
     );
   }
@@ -70,6 +83,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  list: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 });
 
 //make this component available to the app

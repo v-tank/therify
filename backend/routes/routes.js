@@ -1,9 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const userRoutes = require('./api/users');
+const photoRoutes = require('./api/photos');
+//const commentRoutes = require('./api/comments');
 
-var db = require("../models");
+router.use("/user", userRoutes);
+router.use("/photos", photoRoutes);
+//router.use("/comment", commentRoutes);
 
-//routes go here
-//router.get(...)
+// If no API routes are hit, send a nice message
+router.use(function(req, res) {
+  res.send("Have a nice day.");
+});
 
 module.exports = router;
