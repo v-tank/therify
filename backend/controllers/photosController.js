@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = {
 	add: function(req, res) { //add a photo to the db
-
+		
 	},
 	getWithComments: function(req, res) {
 
