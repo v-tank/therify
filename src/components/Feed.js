@@ -8,9 +8,12 @@ import {LinearGradient} from "expo";
 
 import NavigationBar from "./NavigationBar";
 import Text from "./Text";
+// import { PhotoMap } from "../photography/components";
+
 import {withTheme, StyleGuide, type StyleProps, type ThemeProps} from "./theme";
 import type {NavigationProps} from "./Navigation";
 import type {Action} from "./Model";
+
 
 type Item = {
     id: string
@@ -85,6 +88,7 @@ class Feed<T: Item> extends React.Component<FeedProps<T>> {
                     columnWrapperStyle={(numColumns && numColumns > 0) ? styles.columnWrapperStyle : undefined}
                     {...{data, keyExtractor, renderItem, onScroll, numColumns}}
                 />
+              {/* <PhotoMap {...{ navigation, photos }} /> */}
             </LinearGradient>
         );
     }

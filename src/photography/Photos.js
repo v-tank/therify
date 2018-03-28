@@ -3,7 +3,7 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet} from "react-native";
 
-import {Feed, StyleGuide, NavigationHelpers, type NavigationProps} from "../components";
+import {Feed, StyleGuide, NavigationHelpers, Container, type NavigationProps} from "../components";
 
 import PhotograhyAPI, {type Photo} from "./api";
 import {PhotoThumbnail} from "./components";
@@ -34,13 +34,14 @@ export default class Photos extends React.Component<NavigationProps<>> {
         return (
             // Search bar can go here
             // Map component can go here
-            
+          <Container>
             <Feed 
                 style={styles.content}
                 numColumns={3}
                 {...{data, renderItem, title, navigation, rightAction}}
                 
             />
+          </Container>
         );
     }
 }

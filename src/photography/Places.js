@@ -19,7 +19,7 @@ export default class Places extends React.PureComponent<NavigationProps<>> {
             <Container>
                 <NavigationBar title="Profile" expanded {...{rightAction, navigation}} />
                 <Container>
-                    {/* <PhotoMap {...{navigation, photos}} /> */}
+                    <PhotoMap {...{navigation, photos}} />
                 </Container>
             </Container>
         );

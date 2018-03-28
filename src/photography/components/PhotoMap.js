@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet} from "react-native";
-import {MapView} from "expo";
+import {MapView, Location, Permissions} from "expo";
 import ClusteredMapView from "react-native-maps-super-cluster";
 
 import {type NavigationProps} from "../../components";
@@ -14,11 +14,11 @@ const mapStyle = require("../../components/mapStyle");
 
 const {Marker} = MapView;
 
-type Location = { latitude: number, longitude: number };
+type locMarkers = { latitude: number, longitude: number };
 type Cluster = {
     pointCount: number,
     clusterId: string,
-    coordinate: Location
+    coordinate: locMarkers
 };
 
 type PhotoMapProps = NavigationProps<*> & {
@@ -38,8 +38,8 @@ export default class PhotoMap extends React.Component<PhotoMapProps> {
         // eslint-disable-next-line no-undef
         requestAnimationFrame(() => {
             this.map.getMapRef().animateToRegion({
-                latitude: 47.377343,
-                longitude: 8.535342,
+                latitude: 37.8719,
+                longitude: -122.2585,
                 latitudeDelta: 20,
                 longitudeDelta: 20
             }, 1);
@@ -58,7 +58,7 @@ export default class PhotoMap extends React.Component<PhotoMapProps> {
     }
 
     @autobind
-    renderMarker(dp: { location: Location, photo: Photo }): React.Node {
+    renderMarker(dp: { location: locMarkers, photo: Photo }): React.Node {
         const {navigation} = this.props;
         const {photo} = dp;
         return (
