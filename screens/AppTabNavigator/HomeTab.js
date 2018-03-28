@@ -40,6 +40,10 @@ class HomeTab extends Component {
   };
   */
 
+  searchPressed() {
+    console.log("button pressed");
+  }
+
   render() {
     return (
       <Container style={styles.container}>
@@ -49,7 +53,7 @@ class HomeTab extends Component {
           <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
         </Header>
         <TextInput placeholder="Search"/>
-        <Button title="Search"/>
+        <Button title="Search" onPress={this.searchPressed}/>
         {/* show user location nd follows user location working fine, 
               necessary for stuff 
         */}
@@ -85,8 +89,8 @@ const styles = StyleSheet.create({
   },
   list: {
     justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexDirection: 'row'
+    //flexWrap: 'wrap'
   }
 });
 
