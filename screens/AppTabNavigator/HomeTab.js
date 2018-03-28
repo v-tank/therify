@@ -14,13 +14,9 @@ class HomeTab extends Component {
     )
   }
   state = {
-    mapRegion: 
-    { 
-       latitude: 37.78825, 
-       longitude: -122.4324, 
-       latitudeDelta: 0.0922, 
-       longitudeDelta: 0.0421 
-    }
+    /*//TODO: Another garbage code
+    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+    */
   };
 
   componentDidMount() {
@@ -35,21 +31,14 @@ class HomeTab extends Component {
         locationResult: 'Permission to access location was denied',
       });
     }
-    let loc = await Location.getCurrentPositionAsync({});
-    //get the latitude and long from loc and place those on theee mapRegion
-    let region:{
-      latitude: loc.coords.latitude, 
-      longitude: loc.coords.longitude,
-      latitudeDelta: 0.0922, 
-      longitudeDelta: 0.0421 
-    }
-    this.setState({region});
-    console.log("Region:"+JSON.stringify(region,null,2));
+    //let loc = await Location.getCurrentPositionAsync({}); //TODO: this is garbage
   };
 
+  /*//TODO: this looks like garbage 
   _handleMapRegionChange = mapRegion => {
     this.setState({ mapRegion });
   };
+  */
 
   render() {
     return (
