@@ -1,31 +1,60 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {StackNavigator} from 'react-navigation';
-import MainScreen from './screens/MainScreen'
-import LoginScreen from './screens/LoginScreen'
+// @flow
+import * as React from "react";
+import {useStrict, observable, action} from "mobx";
+import {Provider, observer} from "mobx-react/native";
+import {StackNavigator} from "react-navigation";
+import {Font, AppLoading} from "expo";
+import {Feather} from "@expo/vector-icons";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <AppStackNavigator />
-    );
-  }
+import {Images, createTheme} from "./src/components";
+import {StackNavigatorOptions} from "./src/components/Navigation";
+
+import {Welcome} from "./src/welcome";
+import {SocialNavigator} from "./src/social";
+import {PhotographyNavigator} from "./src/photography";
+import {Player} from "./src/music/components";
+
+const SFProTextBold = require("./fonts/SF-Pro-Text-Bold.otf");
+const SFProTextSemibold = require("./fonts/SF-Pro-Text-Semibold.otf");
+const SFProTextRegular = require("./fonts/SF-Pro-Text-Regular.otf");
+
+useStrict(true);
+
+const onNavigationStateChange = () => undefined;
+
+@observer
+export default class App extends React.Component<{}> {
+
+    @observable isReady = false;
+    @action ready() { this.isReady = true; }
+
+    async componentWillMount(): Promise<void> {
+        const fonts = Font.loadAsync({
+            "SFProText-Bold": SFProTextBold,
+            "SFProText-Semibold": SFProTextSemibold,
+            "SFProText-Regular": SFProTextRegular
+        });
+        const images = Images.downloadAsync();
+        const icons = Font.loadAsync(Feather.font);
+        await Promise.all([fonts, ...images, icons]);
+        this.ready();
+    }
+
+    render(): React.Node {
+        const {isReady} = this;
+        if (!isReady) {
+            return <AppLoading />;
+        }
+        return (
+            <Provider theme={createTheme()} player={new Player()}>
+                <MainNavigator {...{onNavigationStateChange}} />
+            </Provider>
+        );
+    }
 }
 
-const AppStackNavigator = StackNavigator({
-  Login: {
-    screen: LoginScreen
-  },
-  Main: {
-    screen: MainScreen
-  }
-})
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const MainNavigator = StackNavigator({
+    Welcome: { screen: Welcome },
+    Social: { screen: SocialNavigator },
+    Photography: { screen: PhotographyNavigator },
+}, StackNavigatorOptions);
