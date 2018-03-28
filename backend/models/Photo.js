@@ -6,7 +6,9 @@ const photoSchema = new Schema({
 	fileType: { type: String, required: true },
 	location: { type: String, required: true },
 	date: { type: Date, default: Date.now },
-	user: { type: [Schema.Types.ObjectId], ref: "User" }
+	user: { type: [Schema.Types.ObjectId], ref: "User" },
+	rating: Number,
+	verified: { type: Boolean, default: false }
 });
 
 const Photo = mongoose.model("Photo", photoSchema);
