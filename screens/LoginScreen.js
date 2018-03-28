@@ -12,6 +12,7 @@ export default class LoginScreen extends Component {
   async signInWithGoogleAsync() {
     try {
       const result = await Expo.Google.logInAsync({
+        behavior: 'web',
         androidClientId: '1037327035065-ajdv9id43hfneomj9vn06m95nbv31399.apps.googleusercontent.com',
         iosClientId: '1037327035065-valj41h4a4qal4qn8ki45lqnthlqa23v.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
@@ -48,7 +49,7 @@ export default class LoginScreen extends Component {
             <Text style={styles.text}>Sign in with Google</Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground >
+      </ImageBackground>
     );
   }
 }
@@ -73,11 +74,9 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 72,
     margin: 50,
-    fontFamily: 'Futura'
   },
   text: {
     color: '#ffffff',
     fontSize: 18,
-    fontFamily: 'Futura'
   }
 });
