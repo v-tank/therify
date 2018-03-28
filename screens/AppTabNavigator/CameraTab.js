@@ -29,6 +29,8 @@ class CameraTab extends Component {
         console.log("a Picture has been taken");
       });
     }
+  }
+
   render() {
     const { hasCameraPermission } = this.state;
       if (hasCameraPermission === null) {
@@ -53,7 +55,8 @@ class CameraTab extends Component {
                   });
                 }}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}
+                  >
                   {' '}Flip{' '}
                 </Text>
               </TouchableOpacity>
@@ -64,6 +67,12 @@ class CameraTab extends Component {
     }
   }
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    fontSize: 20
+  }
+ });
 
 //make this component available to the app
 export default CameraTab;
