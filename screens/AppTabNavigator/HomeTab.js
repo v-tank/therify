@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
-import { Location, Permissions, MapView } from 'expo';
+import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
@@ -14,33 +14,6 @@ class HomeTab extends Component {
       <Icon name="home" style={styles.icon} />
     )
   }
-  state = {
-    /*//TODO: Another garbage code
-    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
-    */
-  };
-
-  componentDidMount() {
-    //when the component mount get the current location from the device and center that on the maps
-    this._getLocationAsync();
-  }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-      });
-    }
-    //let loc = await Location.getCurrentPositionAsync({}); //TODO: this is garbage
-  };
-
-  /*//TODO: this looks like garbage 
-  _handleMapRegionChange = mapRegion => {
-    this.setState({ mapRegion });
-  };
-  */
-
   searchPressed() {
     console.log("button pressed");
   }
@@ -55,14 +28,7 @@ class HomeTab extends Component {
         </Header>
         <TextInput placeholder="Search"/>
         <Button title="Search" onPress={this.searchPressed}/>
-        {/* show user location nd follows user location working fine, 
-              necessary for stuff 
-        */}
-        <MapView
-          style={{ alignSelf: 'stretch', height: 200 }}
-          showsUserLocation = {true} 
-          followsUserLocation = {true}
-        />
+        <MapComponent/>
         <Text>Location</Text>
         <FlatList
           contentContainerStyle={styles.list}
