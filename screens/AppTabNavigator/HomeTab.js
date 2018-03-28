@@ -1,16 +1,17 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
+import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
 import { Location, Permissions, MapView } from 'expo';
 import { TextInput, FlatList, Button } from 'react-native';
+import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
 // create a component
 class HomeTab extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-home" style={{color: tintColor}} />
+      <Icon name="home" style={styles.icon} />
     )
   }
   state = {
@@ -48,9 +49,9 @@ class HomeTab extends Component {
     return (
       <Container style={styles.container}>
         <Header style={{backgroundColor: '#e8195b'}}>
-          <Left><Icon name="ios-send-outline" style={{ paddingLeft: 10 }} /></Left>
+          <Left><Icon name="paper-plane" style={styles.icon} /></Left>
           <Body><Text>Therify</Text></Body>
-          <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
+          <Right><Icon name="camera" style={styles.icon} /></Right>
         </Header>
         <TextInput placeholder="Search"/>
         <Button title="Search" onPress={this.searchPressed}/>
@@ -91,6 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row'
     //flexWrap: 'wrap'
+  },
+  icon: {
+    fontSize: 20
   }
 });
 

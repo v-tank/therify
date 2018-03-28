@@ -1,24 +1,25 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { Icon, Container, Content, Header, Left, Body, Right, Button, Thumbnail } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, Button, Thumbnail } from 'native-base';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import { Feather as Icon } from "@expo/vector-icons";
 
 // create a component
 class ProfileTab extends Component {
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Icon name="ios-person" style={{ color: tintColor }} />
+      <Icon name="user" style={styles.icon} />
     )
   }
   render() {
     return (
       <Container style={{flex: 1, backgroundColor: 'white' }}>
         <Header style={{backgroundColor: 'white'}}>
-          <Left><Icon name="md-person" style={{ paddingLeft: 10 }} /></Left>
+          <Left><Icon name="user" style={styles.icon} /></Left>
           <Body><Text>Username</Text></Body>
-          <Right><EntypoIcon name="back-in-time" style={{ paddingLeft: 10, fontSize: 32 }} /></Right>
+          <Right><EntypoIcon name="back-in-time" style={styles.icon} /></Right>
         </Header>
 
         <Content>
@@ -69,6 +70,9 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 37.5
+  },
+  icon: {
+    fontSize: 20
   }
 });
 

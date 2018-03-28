@@ -1,14 +1,14 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Icon } from 'native-base';
+import { Feather as Icon } from "@expo/vector-icons";
 
 // create a component
 class CameraTab extends Component {
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Icon name="ios-camera" style={{ color: tintColor }} />
+      <Icon name="camera" style={styles.icon} />
     )
   }
 
@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  icon: {
+    fontSize: 20
+  }
 });
 
 //make this component available to the app
