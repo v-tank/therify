@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'native-base';
+import { Camera,Permissions} from 'expo';
 
 // create a component
 class CameraTab extends Component {
@@ -11,6 +12,7 @@ class CameraTab extends Component {
       <Icon name="ios-camera" style={{ color: tintColor }} />
     )
   }
+  
 
   render() {
     return (
