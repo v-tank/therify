@@ -21,16 +21,15 @@ class HomeTab extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Header style={{backgroundColor: '#e8195b'}}>
+        <Header style={{backgroundColor: '#e8195b', marginTop: 24}}>
           <Left><Icon name="paper-plane" style={styles.icon} /></Left>
           <Body><Text>Therify</Text></Body>
           <Right><Icon name="camera" style={styles.icon} /></Right>
         </Header>
+        <MapComponent />
         <TextInput placeholder="Search"/>
         <Button title="Search" onPress={this.searchPressed}/>
 
-        <MapComponent/>
-        
         <Text>Location</Text>
         <FlatList
           contentContainerStyle={styles.list}
@@ -62,7 +61,8 @@ const styles = StyleSheet.create({
     //flexWrap: 'wrap'
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
+ 
   }
 });
 
