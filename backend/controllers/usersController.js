@@ -1,9 +1,13 @@
 const db = require("../models");
 
 module.exports = {
+<<<<<<< HEAD
 	login: function(req, res) {
 		
 	},
+=======
+
+>>>>>>> 71afac1734f9f128a0ea6cefc642ff9f6340a405
 	add: function(req, res) { //add a user to the db
 		db.User
 			.insertOne(req.body)
