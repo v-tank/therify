@@ -3,6 +3,7 @@ const usersController = require('../../controllers/usersController');
 
 // "/user"
 router.route("/")
+	.get(usersController.get)
 	.post(usersController.add);
 
 // "/user/photos"
