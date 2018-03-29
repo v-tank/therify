@@ -1,9 +1,9 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Platform, StyleSheet } from 'react-native';
 import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
-import { Location, Permissions, MapView } from 'expo';
+import { MapView, Location, Permissions } from 'expo';
 
 // create a component
 class HomeTab extends Component {
@@ -13,13 +13,12 @@ class HomeTab extends Component {
     )
   }
   state = {
-    /*//TODO: Another garbage code
-    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
-    */
+    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
+    locationResult: null,
+    location: { coords: { latitude: 37.78825, longitude: -122.4324 } },
   };
 
   componentDidMount() {
-    //when the component mount get the current location from the device and center that on the maps
     this._getLocationAsync();
   }
 
@@ -28,16 +27,13 @@ class HomeTab extends Component {
     if (status !== 'granted') {
       this.setState({
         locationResult: 'Permission to access location was denied',
+        location,
       });
     }
-    //let loc = await Location.getCurrentPositionAsync({}); //TODO: this is garbage
-  };
 
-  /*//TODO: this looks like garbage 
-  _handleMapRegionChange = mapRegion => {
-    this.setState({ mapRegion });
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location), location, });
   };
-  */
 
   render() {
     return (
@@ -54,11 +50,14 @@ class HomeTab extends Component {
           therifies="301"/>
         </Content>
 
+
         <MapView
+          provider={'google'}
           style={{ alignSelf: 'stretch', height: 200 }}
-          showsUserLocation = {true} 
-          followsUserLocation = {true}
+          showsUserLocation = {true}
+          region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
         />
+          
       </Container>
     );
   }
