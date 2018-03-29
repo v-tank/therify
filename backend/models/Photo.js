@@ -7,6 +7,7 @@ const photoSchema = new Schema({
 	location: { type: String, required: true },
 	date: { type: Date, default: Date.now },
 	user: { type: [Schema.Types.ObjectId], ref: "User" },
+	comments: { type: [Schema.Types.ObjectId], ref: "Comment" },
 	rating: Number,
 	verified: { type: Boolean, default: false }
 });

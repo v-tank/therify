@@ -6,8 +6,5 @@ module.exports = {
 	},
 	getPhotos: function(req, res) {
 
-	},
-	addPhoto: function(req, res) {
-
 	}
 };
