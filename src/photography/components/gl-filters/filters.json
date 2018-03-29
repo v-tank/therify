@@ -1,0 +1,32 @@
+{
+  "brannanBlowout": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FbrannanBlowout.png?alt=media&token=100bd09e-1dec-4f1e-8054-cd6e292d2e16"
+  },
+  "brannanContrast": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FbrannanContrast.png?alt=media&token=8f5a42c7-9e06-4289-84aa-88405e6747ba"
+  },
+  "brannanLuma": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FbrannanLuma.png?alt=media&token=91d6e999-dbb0-4852-9348-02288a30eb2b"
+  },
+  "brannanProcess": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FbrannanProcess.png?alt=media&token=9d6fef7a-39b4-45d9-813e-26583f2a0a3e"
+  },
+  "brannanScreen": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FbrannanScreen.png?alt=media&token=2d190b54-ff0d-4195-bf79-4db6b72c3a3c"
+  },
+  "overlayMap": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FearlybirdOverlayMap.png?alt=media&token=0f9cef7f-69af-47ab-9cec-6aaee3e9e2b9"
+  },
+  "valenciaGradientMap": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FvalenciaGradientMap.png?alt=media&token=f0a6f6de-2094-4491-995c-2be988479762"
+  },
+  "valenciaMap": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FvalenciaMap.png?alt=media&token=223a15a5-839c-4493-9d5b-113fcc463773"
+  },
+  "vignetteMap": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FvignetteMap.png?alt=media&token=e036ccb2-fcc0-458c-b07d-1975c68495c2"
+  },
+  "waldenMap": {
+    "uri": "https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/filters%2FwaldenMap.png?alt=media&token=4276af6f-d9b1-4f90-bc20-2898e84bf416"
+  }
+}

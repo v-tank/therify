@@ -6,6 +6,8 @@ import CardComponent from '../../components/CardComponent';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
+import Feed from '../../components/Feed';
+import SearchBar from '../../components/SearchBar';
 
 // create a component
 class HomeTab extends Component {
@@ -14,28 +16,31 @@ class HomeTab extends Component {
       <Icon name="home" style={styles.icon} />
     )
   }
-  searchPressed() {
-    console.log("button pressed");
-  }
 
   render() {
     return (
       <Container style={styles.container}>
-        <Header style={{backgroundColor: '#e8195b', marginTop: 24}}>
-          <Left><Icon name="paper-plane" style={styles.icon} /></Left>
-          <Body><Text>Therify</Text></Body>
-          <Right><Icon name="camera" style={styles.icon} /></Right>
-        </Header>
-        <MapComponent />
-        <TextInput placeholder="Search"/>
-        <Button title="Search" onPress={this.searchPressed}/>
 
-        <Text>Location</Text>
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={[{key: 'a'}, {key: 'b'}]}
-          renderItem={({item}) => <Text>{item.key}</Text>}
-        />
+        <Header style={{ backgroundColor: '#e8195b', marginTop: 24}}>
+          <Left>
+            <Icon name="paper-plane" style={styles.icon} />
+          </Left>
+
+
+          <Body><Text>Therify</Text></Body>
+
+          <Right>
+            <Icon name="camera" style={styles.icon} />
+          </Right>
+        </Header>
+        
+        <SearchBar />
+
+        <MapComponent style={[styles.map]}/>
+        
+        <Feed />
+
+
         {/*
         <Content>
           <CardComponent 

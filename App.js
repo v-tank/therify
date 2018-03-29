@@ -10,22 +10,11 @@ export default class App extends React.Component {
       <AppStackNavigator/>
     );
   }
+
 }
 
-const AppStackNavigator = StackNavigator({
-  Login: {
-    screen: LoginScreen
-  },
-  Main: {
-    screen: MainScreen
-  }
-})
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const MainNavigator = StackNavigator({
+    Welcome: { screen: Welcome },
+    Social: { screen: SocialNavigator },
+    Photography: { screen: PhotographyNavigator },
+}, StackNavigatorOptions);
