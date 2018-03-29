@@ -30,9 +30,9 @@ class MapComponent extends Component {
     return (
       <MapView
         provider={'google'}
-        style={{ alignSelf: 'stretch', height: 200 }}
+        style={{ alignSelf: 'stretch', flex: 0.8 }}
         showsUserLocation={true}
-        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
+        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}
       />
     );
   }

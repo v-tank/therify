@@ -21,10 +21,11 @@ class HomeTab extends Component {
     return (
       <Container style={styles.container}>
 
-        <Header style={{backgroundColor: '#e8195b'}}>
+        <Header style={{ backgroundColor: '#e8195b', marginTop: 24}}>
           <Left>
             <Icon name="paper-plane" style={styles.icon} />
           </Left>
+
 
           <Body><Text>Therify</Text></Body>
 
@@ -38,6 +39,7 @@ class HomeTab extends Component {
         <MapComponent style={[styles.map]}/>
         
         <Feed />
+
 
         {/*
         <Content>
@@ -64,7 +66,8 @@ const styles = StyleSheet.create({
     //flexWrap: 'wrap'
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
+ 
   }
 });
 

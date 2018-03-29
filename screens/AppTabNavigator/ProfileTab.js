@@ -16,7 +16,7 @@ class ProfileTab extends Component {
   render() {
     return (
       <Container style={{flex: 1, backgroundColor: 'white' }}>
-        <Header style={{backgroundColor: 'white'}}>
+        <Header style={{ backgroundColor: 'white', marginTop: 24}}>
           <Left><Icon name="user" style={styles.icon} /></Left>
           <Body><Text>Username</Text></Body>
           <Right><EntypoIcon name="back-in-time" style={styles.icon} /></Right>
