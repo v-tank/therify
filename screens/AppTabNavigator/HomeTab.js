@@ -28,7 +28,9 @@ class HomeTab extends Component {
         </Header>
         <TextInput placeholder="Search"/>
         <Button title="Search" onPress={this.searchPressed}/>
+
         <MapComponent/>
+        
         <Text>Location</Text>
         <FlatList
           contentContainerStyle={styles.list}
