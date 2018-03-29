@@ -4,4 +4,4 @@ backend/node_modules/*
 *.swp
 *DS_Store
 *.log
-
+assets/.DS_Store
