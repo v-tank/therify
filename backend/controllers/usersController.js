@@ -1,9 +1,12 @@
 const db = require("../models");
 
 module.exports = {
+	login: function(req, res) {
+		
+	},
 	add: function(req, res) { //add a user to the db
 		db.User
-			.create(req.body)
+			.insertOne(req.body)
 			.then(createdUser => res.json(createdUser))
 			.catch(err => res.status(422).json(err));
 	},

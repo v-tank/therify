@@ -20,7 +20,7 @@ export default class LoginScreen extends Component {
 
       if (result.type === 'success') {
         this.props.navigation.navigate('Main');
-        console.log(result);
+        console.log(result.user);
         return result.accessToken;
       } else {
         return { cancelled: true };

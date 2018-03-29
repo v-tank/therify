@@ -6,6 +6,10 @@ router.route("/")
 	.get(usersController.get)
 	.post(usersController.add);
 
+// "/user/login"
+router.route("/")
+	.post(usersController.login)
+
 // "/user/photos"
 router.route("/photos")
 	.get(usersController.getPhotos)
