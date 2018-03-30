@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button,Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { FileSystem, } from 'expo';
+//const exif=require("jpeg-exif");
 
 const pictureSize = 150;
 
@@ -26,8 +27,8 @@ export default class GalleryScreen extends React.Component {
 
   uploadPhoto = (photoUri) =>{
     //TODO: Upload an image to the server
-    console.log("Uploading the image");
-    console.log(`${FileSystem.documentDirectory}photos/${photoUri}`);
+    let imgUri =`${FileSystem.documentDirectory}photos/${photoUri}`;
+    console.log("Uploading: "+ imgUri);
   }
 
   getImageDimensions = ({ width, height }) => {
@@ -74,7 +75,7 @@ export default class GalleryScreen extends React.Component {
                 <Button 
                   style={styles.uploadButton} 
                   title="Upload"
-                  onPress={this.uploadPhoto(photoUri)}
+                  onPress={()=>this.uploadPhoto(photoUri)}
                 > </Button>
               </View>
             ))}
