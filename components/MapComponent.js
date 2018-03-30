@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { MapView, Location, Permissions} from 'expo';
+import { MapView, Location, Permissions } from 'expo';
 
 class MapComponent extends Component {
   state = {
-    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
     locationResult: null,
     location: { coords: { latitude: 37.78825, longitude: -122.4324 } },
   };
-  
+
   componentDidMount() {
     this._getLocationAsync();
   }
