@@ -10,15 +10,15 @@ class ProfileTab extends Component {
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Icon name="user" style={styles.icon} />
+      <Icon name="user" style={styles.tabBarIcon} />
     )
   }
   render() {
     return (
       <Container style={{flex: 1, backgroundColor: 'white' }}>
-        <Header style={{ backgroundColor: 'white', marginTop: 24}}>
+        <Header style={{ backgroundColor: '#e8195b', paddingTop: 30 }}>
           <Left><Icon name="user" style={styles.icon} /></Left>
-          <Body><Text>Username</Text></Body>
+          <Body><Image source={require('../../assets/images/text-logo.png')} /></Body>
           <Right><EntypoIcon name="back-in-time" style={styles.icon} /></Right>
         </Header>
 
@@ -72,6 +72,11 @@ const styles = StyleSheet.create({
     borderRadius: 37.5
   },
   icon: {
+    fontSize: 20,
+    color: 'white'
+  },
+  tabBarIcon: {
+    color: '#e8195b',
     fontSize: 20
   }
 });
