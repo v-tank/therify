@@ -43,7 +43,6 @@ export default class CameraTab extends Component {
     photoId: 1,
     showGallery: false,
     photos: [],
-    faces: [],
     permissionsGranted: false,
   };
 
@@ -135,82 +134,9 @@ export default class CameraTab extends Component {
     }
   };
 
-  onFacesDetected = ({ faces }) => this.setState({ faces });
-  onFaceDetectionError = state => console.warn('Faces detection error:', state);
-
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
   }
-
-  renderFace({ bounds, faceID, rollAngle, yawAngle }) {
-    return (
-      <View
-        key={faceID}
-        transform={[
-          { perspective: 600 },
-          { rotateZ: `${rollAngle.toFixed(0)}deg` },
-          { rotateY: `${yawAngle.toFixed(0)}deg` },
-        ]}
-        style={[
-          styles.face,
-          {
-            ...bounds.size,
-            left: bounds.origin.x,
-            top: bounds.origin.y,
-          },
-        ]}>
-        <Text style={styles.faceText}>ID: {faceID}</Text>
-        <Text style={styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
-        <Text style={styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
-      </View>
-    );
-  }
-
-  renderLandmarksOfFace(face) {
-    const renderLandmark = position =>
-      position &&
-      <View
-        style={[
-          styles.landmark,
-          {
-            left: position.x - landmarkSize / 2,
-            top: position.y - landmarkSize / 2,
-          },
-        ]}
-      />;
-    return (
-      <View key={`landmarks-${face.faceID}`}>
-        {renderLandmark(face.leftEyePosition)}
-        {renderLandmark(face.rightEyePosition)}
-        {renderLandmark(face.leftEarPosition)}
-        {renderLandmark(face.rightEarPosition)}
-        {renderLandmark(face.leftCheekPosition)}
-        {renderLandmark(face.rightCheekPosition)}
-        {renderLandmark(face.leftMouthPosition)}
-        {renderLandmark(face.mouthPosition)}
-        {renderLandmark(face.rightMouthPosition)}
-        {renderLandmark(face.noseBasePosition)}
-        {renderLandmark(face.bottomMouthPosition)}
-      </View>
-    );
-  }
-
-  renderFaces() {
-    return (
-      <View style={styles.facesContainer} pointerEvents="none">
-        {this.state.faces.map(this.renderFace)}
-      </View>
-    );
-  }
-
-  renderLandmarks() {
-    return (
-      <View style={styles.facesContainer} pointerEvents="none">
-        {this.state.faces.map(this.renderLandmarksOfFace)}
-      </View>
-    );
-  }
-
   renderNoPermissions() {
     return (
       <View
@@ -242,9 +168,6 @@ export default class CameraTab extends Component {
         zoom={this.state.zoom}
         whiteBalance={this.state.whiteBalance}
         ratio={this.state.ratio}
-        faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
-        onFacesDetected={this.onFacesDetected}
-        onFaceDetectionError={this.onFaceDetectionError}
         focusDepth={this.state.depth}>
         <View
           style={{
@@ -332,8 +255,6 @@ export default class CameraTab extends Component {
             <Text style={styles.flipText}> Gallery </Text>
           </TouchableOpacity>
         </View>
-        {this.renderFaces()}
-        {this.renderLandmarks()}
       </Camera>
     );
   }
@@ -397,34 +318,11 @@ const styles = StyleSheet.create({
   galleryButton: {
     backgroundColor: 'indianred',
   },
-  facesContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    top: 0,
-  },
-  face: {
-    padding: 10,
-    borderWidth: 2,
-    borderRadius: 2,
-    position: 'absolute',
-    borderColor: '#FFD700',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   landmark: {
     width: landmarkSize,
     height: landmarkSize,
     position: 'absolute',
     backgroundColor: 'red',
-  },
-  faceText: {
-    color: '#FFD700',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 10,
-    backgroundColor: 'transparent',
   },
   row: {
     flexDirection: 'row',

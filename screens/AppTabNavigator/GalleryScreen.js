@@ -1,12 +1,11 @@
 import React from 'react';
-import { Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
-import { FileSystem, FaceDetector } from 'expo';
+import { Button,Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { FileSystem, } from 'expo';
 
 const pictureSize = 150;
 
 export default class GalleryScreen extends React.Component {
   state = {
-    faces: {},
     images: {},
     photos: [],
   };
@@ -16,12 +15,20 @@ export default class GalleryScreen extends React.Component {
     this._mounted = true;
     FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'photos').then(photos => {
       if (this._mounted) {
-        this.setState({ photos,}, this.detectFaces);
+        this.setState( { photos, }, );
       }
     });
   }
 
-  componentWillUnmount() { this._mounted = false; }
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
+  uploadPhoto = (photoUri) =>{
+    //TODO: Upload an image to the server
+    console.log("Uploading the image");
+    console.log(`${FileSystem.documentDirectory}photos/${photoUri}`);
+  }
 
   getImageDimensions = ({ width, height }) => {
     if (width > height) {
@@ -29,10 +36,8 @@ export default class GalleryScreen extends React.Component {
       return {
         width: pictureSize,
         height: scaledHeight,
-
         scaleX: pictureSize / width,
         scaleY: scaledHeight / height,
-
         offsetX: 0,
         offsetY: (pictureSize - scaledHeight) / 2,
       };
@@ -41,62 +46,12 @@ export default class GalleryScreen extends React.Component {
       return {
         width: scaledWidth,
         height: pictureSize,
-
         scaleX: scaledWidth / width,
         scaleY: pictureSize / height,
-
         offsetX: (pictureSize - scaledWidth) / 2,
         offsetY: 0,
       };
     }
-  };
-
-  detectFaces = () => this.state.photos.forEach(this.detectFace);
-
-  detectFace = photoUri =>
-    FaceDetector.detectFacesAsync(`${FileSystem.documentDirectory}photos/${photoUri}`, {
-      detectLandmarks: FaceDetector.Constants.Landmarks.none,
-      runClassifications: FaceDetector.Constants.Classifications.all,
-    })
-      .then(this.facesDetected)
-      .catch(this.handleFaceDetectionError);
-
-  facesDetected = ({ image, faces }) => {
-    if (!this._mounted) return;
-    this.setState({
-      faces: { ...this.state.faces, [image.uri]: faces },
-      images: { ...this.state.images, [image.uri]: image },
-    });
-  }
-
-  handleFaceDetectionError = error => console.warn(error);
-
-  renderFaces = photoUri =>
-    this.state.images[photoUri] &&
-    this.state.faces[photoUri] &&
-    this.state.faces[photoUri].map(this.renderFace(this.state.images[photoUri]));
-
-  renderFace = image => (face, index) => {
-    const { scaleX, scaleY, offsetX, offsetY } = this.getImageDimensions(image);
-    const layout = {
-      top: offsetY + face.bounds.origin.y * scaleY,
-      left: offsetX + face.bounds.origin.x * scaleX,
-      width: face.bounds.size.width * scaleX,
-      height: face.bounds.size.height * scaleY,
-    };
-
-    return (
-      <View
-        key={index}
-        style={[styles.face, layout]}
-        transform={[
-          { perspective: 600 },
-          { rotateZ: `${(face.rollAngle || 0).toFixed(0)}deg` },
-          { rotateY: `${(face.yawAngle || 0).toFixed(0)}deg` },
-        ]}>
-        <Text style={styles.faceText}>😁 {(face.smilingProbability * 100).toFixed(0)}%</Text>
-      </View>
-    );
   };
 
   render() {
@@ -116,9 +71,11 @@ export default class GalleryScreen extends React.Component {
                     uri: `${FileSystem.documentDirectory}photos/${photoUri}`,
                   }}
                 />
-                <View style={styles.facesContainer}>
-                  {this.renderFaces(`${FileSystem.documentDirectory}photos/${photoUri}`)}
-                </View>
+                <Button 
+                  style={styles.uploadButton} 
+                  title="Upload"
+                  onPress={this.uploadPhoto(photoUri)}
+                > </Button>
               </View>
             ))}
           </View>
@@ -151,33 +108,14 @@ const styles = StyleSheet.create({
     height: pictureSize,
     margin: 5,
   },
-  facesContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    top: 0,
-  },
-  face: {
-    borderWidth: 2,
-    borderRadius: 2,
-    position: 'absolute',
-    borderColor: '#FFD700',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  faceText: {
-    color: '#FFD700',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 2,
-    fontSize: 10,
-    backgroundColor: 'transparent',
-  },
   backButton: {
     padding: 20,
     marginBottom: 4,
     backgroundColor: 'indianred',
   },
+  uploadButton: {
+    padding: 10,
+    marginBottom: 4,
+    backgroundColor: 'blue',
+  }
 });
-
