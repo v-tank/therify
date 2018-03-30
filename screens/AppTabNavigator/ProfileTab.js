@@ -10,29 +10,29 @@ class ProfileTab extends Component {
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Icon name="user" style={styles.icon} />
+      <Icon name="user" style={styles.tabBarIcon} />
     )
   }
   render() {
     return (
-      <Container style={{flex: 1, backgroundColor: 'white' }}>
-        <Header style={{ backgroundColor: 'white', marginTop: 24}}>
+      <Container style={{ flex: 1, backgroundColor: 'white' }}>
+        <Header style={{ backgroundColor: '#e8195b', paddingTop: 30 }}>
           <Left><Icon name="user" style={styles.icon} /></Left>
-          <Body><Text>Username</Text></Body>
+          <Body><Image source={require('../../assets/images/text-logo.png')} /></Body>
           <Right><EntypoIcon name="back-in-time" style={styles.icon} /></Right>
         </Header>
 
         <Content>
           <View style={{ padding: 10 }}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <View>
                 <Thumbnail source={require('../../assets/images/icon.png')} style={styles.profileImage} />
               </View>
-              <View style={{flex: 3}}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                  <View style={{alignItems: 'center'}}>
+              <View style={{ flex: 3 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <View style={{ alignItems: 'center' }}>
                     <Text>24</Text>
-                    <Text style={{fontSize: 10, color: 'grey'}}>posts</Text>
+                    <Text style={{ fontSize: 10, color: 'grey' }}>posts</Text>
                   </View>
                   <View style={{ alignItems: 'center' }}>
                     <Text>101</Text>
@@ -46,7 +46,7 @@ class ProfileTab extends Component {
               </View>
             </View>
 
-            <View style={{paddingVertical: 10, paddingHorizontal: 10}}>
+            <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
               <Text style={{ fontWeight: 'bold' }}>User's Name</Text>
               <Text>Description can go here</Text>
             </View>
@@ -72,6 +72,11 @@ const styles = StyleSheet.create({
     borderRadius: 37.5
   },
   icon: {
+    fontSize: 20,
+    color: 'white'
+  },
+  tabBarIcon: {
+    color: '#e8195b',
     fontSize: 20
   }
 });

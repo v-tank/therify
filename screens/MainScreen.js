@@ -58,4 +58,4 @@ const AppTabNavigator = TabNavigator({
       showLabel: false,
       showIcon: true
     }
-})
+  })
