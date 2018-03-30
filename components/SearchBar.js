@@ -1,35 +1,30 @@
 //import liraries
 import React, { Component } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import { Permissions, Location } from 'expo';
-import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
+import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
 // create a component
 class SearchBar extends Component {
 
-  handleTextInputChange = (text) => {
-    // console.log(text)
-    this.props.updateState(text);
-  }
+  state = {
+    locationText: '',
+  };
 
-  handleSubmit = () => {
-    this.props.updateLocation();
+  searchPressed = () => {
+    const { locationText } = this.state;
+    alert(`Searching for ${locationText}`);
   }
 
   render() {
     return (
-      <View style={{ flexDirection: 'row', margin: 20, justifyContent: 'space-around', alignItems: 'center'}}>
-          <TextInput
-            ref="search"
-            placeholder="Search"
-            style={{ height: 40, fontSize: 20, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10}}
-            onChangeText={(text) => {this.handleTextInputChange(text)}}
-          />
-
-        <Icon name="search"
-          onPress={this.handleSubmit} 
-          style={{ flex: 1, fontSize: 30, backgroundColor: '#e8195b', color: 'white', paddingLeft: 20, paddingTop: 5, paddingBottom: 5}}
+      <View>
+        <TextInput
+          ref="search"
+          placeholder="Search"
+          style={{ height: 40, fontSize: 20, textAlign: 'center' }}
+          onChangeText={locationText => this.setState({ locationText })}
         />
+
+        <Button title="Search" onPress={this.searchPressed} />
       </View>
     );
   }
