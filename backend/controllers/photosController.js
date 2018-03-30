@@ -74,19 +74,28 @@ function removeAllComments(){
 }
 
 //function to calculate if a given location is within a given range
-function global_dist(st_long,st_lat,f_long,f_lat, range){
+function global_dist(st_lat,st_long,f_lat,f_long, range){
+    function degrees_to_radians(degrees){
+        var pi = Math.PI;
+        return degrees * (pi/180);
+    }
 	const earth_rad = 6371;
-	const ch_lat = Math.abs(st_lat - f_lat);
-	const ch_long = Math.abs(st_long, f_long);
+    let ch_lat = Math.abs(f_lat - st_lat);
+    ch_lat = degrees_to_radians(ch_lat);
+    let ch_long = Math.abs(f_long- st_long);
+    ch_long = degrees_to_radians(ch_long);
 	
 	const a = Math.pow(Math.sin(ch_lat/2),2) + 
 	(Math.cos(st_lat)*Math.cos(f_lat)*Math.pow(Math.sin(ch_long/2),2));
 
 	const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-	const ans = earth_rad * c;
+    const ans = earth_rad * c;
+    console.log("location a is ",ans,"km away from location b");
 	if (ans <= range){
+        console.log(true);
 		return true;
 	} else {
+        console.log(false);
 		return false;
 	}
 }
