@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
 import Grid from 'react-native-grid-component';
-import data from './data.json';
+import images from './data.json';
 
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
 
-export default class Simple extends Component {
+export default class Feed extends Component {
 
   state = {
-    data
+    images
   }
 
   componentDidMount() {
-    this.setState({ data });
+    this.setState({ images });
+    // debugger;
+    // console.log(this.data);
   }
 
   _renderItem = (data, i) => (
-    <View style={styles.item} key={i} >
-      <Image
-        source={{ uri: data.image }}
-      />
-    </View>
+
+    <TouchableWithoutFeedback key={data.id} onPress={() => alert(`${data.id} was pressed!`)}>
+      <View style={styles.item}>
+        {/* <View style={[{ backgroundColor: data }, styles.item]} key={i} /> */}
+        <Image
+          source={{ uri: data.image }}
+          style={styles.item}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 
   render() {
@@ -29,7 +36,7 @@ export default class Simple extends Component {
       <Grid
         style={styles.list}
         renderItem={this._renderItem}
-        data={this.state.data}
+        data={this.state.images}
         itemsPerRow={3}
       />
     );
@@ -40,7 +47,9 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     height: imageWidth,
-    margin: 1
+    margin: 1,
+    borderWidth: 1,
+    borderColor: '#cccccc'
   },
   list: {
     flex: 1,
