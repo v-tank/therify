@@ -47,21 +47,20 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('../assets/images/bg_screen1.jpg')}
-        style={{
-          flex: 1,
-          width: null,
-          height: null,
-        }}
+        source={require('../assets/images/bg_screen1.png')}
+        style={styles.backgroundImage}
       >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.title}>Therify</Text>
-          <TouchableOpacity
-            onPress={this.signInWithGoogleAsync.bind(this)}
-            style={styles.button}
-          >
-            <Text style={styles.text}>Sign in with Google</Text>
-          </TouchableOpacity>
+          <View style={styles.emptyContainer} />
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={this.signInWithGoogleAsync.bind(this)}
+              style={styles.button}
+            >
+              <Text style={styles.text}>Sign in with Google</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     );
@@ -76,7 +75,6 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover'
   },
   button: {
     alignItems: 'center',
@@ -84,10 +82,11 @@ const styles = StyleSheet.create({
     paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
     borderRadius: 50, borderWidth: 2, borderColor: 'white'
   },
-  title: {
-    color: '#ffffff',
-    fontSize: 72,
-    margin: 50,
+  buttonContainer: {
+    flex: 1
+  },
+  emptyContainer: {
+    flex: 3
   },
   text: {
     color: '#ffffff',
