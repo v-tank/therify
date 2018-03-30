@@ -21,6 +21,20 @@ export default class LoginScreen extends Component {
       if (result.type === 'success') {
         this.props.navigation.navigate('Main');
         console.log(result.user);
+
+        var serverRequest = { email: result.user.email };
+
+        fetch('http://10.0.1.59:8080/user/login', {
+          method: 'POST',
+          body: JSON.stringify(serverRequest),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(response => {
+          //set global logged-in variable
+          console.log(response);
+        }).catch(error => console.log(error));
+
         return result.accessToken;
       } else {
         return { cancelled: true };

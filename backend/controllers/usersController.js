@@ -9,20 +9,20 @@ module.exports = {
 	login: function(req, res) {
 		console.log(req.body);
 		db.User
-			.create(req.body)
+			.findOne({'email': req.body.email})
 			.then(result => {
-				if(result.acknowledged) { //the user was new
-					console.log("New user registered.");
-					db.User.findById(result.id)
+				if(result === null) { //the user was new
+					console.log("New user registering.");
+					db.User
+						.create(req.body)
 						.then(newUser => res.json(newUser))
 						.catch(err => res.status(422).json(err));
-				} else { //find and return the user
+				} else {
 					console.log("Existing user returning");
-					db.User.findOne({email: req.body.email})
-						.then(foundUser => res.json(foundUser))
-						.catch(err => res.status(422).json(err));
+					res.json(result);
 				}
-			}).catch(err => res.status(422).json(err));
+			})
+			.catch(err => res.status(422).json(err));
 	},
 	getPhotos: function(req, res) {
 
