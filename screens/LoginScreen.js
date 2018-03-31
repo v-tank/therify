@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { AsyncStorage, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Expo from 'expo';
 
 // create a component
@@ -19,8 +19,7 @@ export default class LoginScreen extends Component {
       });
 
       if (result.type === 'success') {
-        this.props.navigation.navigate('Main');
-        console.log(result.user);
+        //console.log(result.user);
 
         var serverRequest = { email: result.user.email };
 
@@ -31,11 +30,16 @@ export default class LoginScreen extends Component {
             'Content-Type': 'application/json',
           },
         }).then(response => {
+          //console.log(serverRequest.email);
           //set global logged-in variable
-          console.log(response);
-        }).catch(error => console.log(error));
+          AsyncStorage.setItem('userEmail', serverRequest.email);
 
-        return result.accessToken;
+          //navigate to the main page
+          this.props.navigation.navigate('Main');
+
+          //return statement seems unecessary
+          //return result.accessToken;
+        }).catch(error => console.log(error));
       } else {
         return { cancelled: true };
       }
