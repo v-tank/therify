@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
 import images from './data.json';
 
@@ -22,11 +22,19 @@ export default class Feed extends Component {
 
     <TouchableWithoutFeedback key={data.id} onPress={() => alert(`${data.id} was pressed!`)}>
       <View style={styles.item}>
-        {/* <View style={[{ backgroundColor: data }, styles.item]} key={i} /> */}
-        <Image
-          source={{ uri: data.image }}
-          style={styles.item}
+        <Image 
+          source={{ uri: data.image}}
+          style={styles.image}
         />
+
+        { 
+          data.verified ? 
+          <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center'}} >
+            <Text style={{ color: 'white' , backgroundColor: 'transparent'}}>✓</Text> 
+          </View> :
+          <View />
+        }
+        
       </View>
     </TouchableWithoutFeedback>
   );
@@ -53,5 +61,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+  },
+  image: {
+    flex: 1,
+    height: imageWidth,
   }
 });
