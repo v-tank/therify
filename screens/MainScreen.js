@@ -9,7 +9,8 @@ import ProfileTab from './AppTabNavigator/ProfileTab';
 // create a component
 class MainScreen extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false
   }
 
   componentDidMount () {
