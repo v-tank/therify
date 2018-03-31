@@ -40,7 +40,7 @@ class HomeTab extends Component {
       // alert(`${JSON.stringify(result)}`);
       this.setState({ result });
       // this.setState({ locationText: '' });
-      console.log(result);
+      alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
     } catch (e) {
       console.log(e);
       // this.setState({ error: e.message });
