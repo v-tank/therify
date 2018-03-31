@@ -40,7 +40,6 @@ export default class CameraTab extends Component {
     whiteBalance: 'auto',
     ratio: '16:9',
     ratios: [],
-    photoId: 1,
     showGallery: false,
     photos: [],
     permissionsGranted: false,
@@ -118,17 +117,21 @@ export default class CameraTab extends Component {
     });
   }
 
+  getPhotoId(uri){
+    //grabs the filename
+    let myArr = uri.split('/'); 
+    return myArr[myArr.length-1];
+  }
+
   takePicture = async function() {
     if (this.camera) {
       this.camera.takePictureAsync().then(data => {
-        console.log("This data: "+data.uri);
+        console.log("Data data" +JSON.stringify(data,null,2));
+        let newPhotoId = this.getPhotoId(data.uri);
         FileSystem.moveAsync({
           from: data.uri,
-          to: `${FileSystem.documentDirectory}photos/Photo_${this.state.photoId}.jpg`,
+          to: `${FileSystem.documentDirectory}photos/${newPhotoId}`,
         }).then(() => {
-          this.setState({
-            photoId: this.state.photoId + 1,
-          });
           Vibration.vibrate();
         });
       });
@@ -138,7 +141,8 @@ export default class CameraTab extends Component {
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
   }
-  renderNoPermissions() {
+
+  renderNoPermissions(){
     return (
       <View
         style={{
