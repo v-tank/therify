@@ -61,17 +61,6 @@ function getAllComments(ids, index, comments){
 		});
 	}
 }
-function removeAllComments(){
-	if(index === ids.length){
-		return;
-	} else{
-		db.Comment.findOne({id: ids[index]})
-		.then(comment =>{
-			comments.push(comment);
-			getAllComments(ids,index+1,comments);
-		});
-	}
-}
 
 //function to calculate if a given location is within a given range
 function global_dist(st_lat,st_long,f_lat,f_long, range){
