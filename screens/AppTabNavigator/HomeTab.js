@@ -4,10 +4,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
 import MapComponent from '../../components/MapComponent';
-import { TextInput, FlatList, Button, Image } from 'react-native';
+import { AsyncStorage, TextInput, FlatList, Button, Image } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 import SearchBar from '../../components/SearchBar';
-import Feed from '../../components/Feed';
+//import Feed from '../../components/Feed';
 
 import { Permissions, Location } from 'expo';
 // create a component
@@ -78,7 +78,7 @@ class HomeTab extends Component {
           updateLocation={this._attemptGeocodeAsync}
         />
 
-        <Feed />
+        {/*<Feed />*/}
 
       </Container>
     );

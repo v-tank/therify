@@ -10,6 +10,7 @@ router.use("/photos", photoRoutes);
 
 // If no API routes are hit, send a nice message
 router.use(function(req, res) {
+  console.log('!!!!');
   res.send("Have a nice day.");
 });
 
