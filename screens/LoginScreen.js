@@ -29,8 +29,7 @@ export default class LoginScreen extends Component {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then(response => {
-          //console.log(serverRequest.email);
+        }).then(response => {          
           //set global logged-in variable
           AsyncStorage.setItem('userEmail', serverRequest.email);
 
@@ -43,10 +42,14 @@ export default class LoginScreen extends Component {
       } else {
         return { cancelled: true };
       }
+
+    //ONLY FOR DEVELOPMENT, SO APP CAN BE ACCESSED WITHOUT SERVER RESPONSE
+    this.props.navigation.navigate('Main');
+     
     } catch (e) {
       return { error: true };
     }
-  }
+}
 
   render() {
     return (

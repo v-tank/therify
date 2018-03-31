@@ -22,10 +22,13 @@ class MainScreen extends Component {
         .then(userEmail => {
           // console.log("Stored Email:");
           // console.log(userEmail);
+          
           //if user is not logged in, boot back to login page
-          if(userEmail === null) {
-            this.props.navigation.navigate('Login');
-          }
+          //DISABLED FOR DEVELOPMENT
+          // if(userEmail === null) {
+          //   this.props.navigation.navigate('Login');
+          // }
+          //else, load the user's info...
         });
   }
 
