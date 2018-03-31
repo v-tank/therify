@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { AsyncStorage, View, Text, StyleSheet, Platform } from 'react-native';
 import { Icon } from 'native-base';
 import { TabNavigator } from 'react-navigation';
 import HomeTab from './AppTabNavigator/HomeTab';
@@ -9,11 +9,32 @@ import ProfileTab from './AppTabNavigator/ProfileTab';
 // create a component
 class MainScreen extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false
   }
+
+  componentDidMount () {
+    this.checkLoggedIn();
+  }
+
+  checkLoggedIn () {
+      AsyncStorage.getItem('userEmail')
+        .then(userEmail => {
+          // console.log("Stored Email:");
+          // console.log(userEmail);
+          
+          //if user is not logged in, boot back to login page
+          //DISABLED FOR DEVELOPMENT
+          // if(userEmail === null) {
+          //   this.props.navigation.navigate('Login');
+          // }
+          //else, load the user's info...
+        });
+  }
+
   render() {
     return (
-      <AppTabNavigator />
+      <AppTabNavigator/>
     );
   }
 }
