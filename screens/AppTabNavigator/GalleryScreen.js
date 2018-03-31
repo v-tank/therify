@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button,Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { AsyncStorage, Button, Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { FileSystem, } from 'expo';
 //const exif=require("jpeg-exif");
 
@@ -25,11 +25,36 @@ export default class GalleryScreen extends React.Component {
     this._mounted = false;
   }
 
-  uploadPhoto = (photoUri) =>{
+  async uploadPhoto (photoUri) {
     //TODO: Upload an image to the server
     let imgUri =`${FileSystem.documentDirectory}photos/${photoUri}`;
-    console.log("Uploading: "+ imgUri);
     
+    var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
+      console.log(err);
+      return;
+     });
+
+    var image = FileSystem.readAsStringAsync(imgUri).catch(err => {
+      console.log("Error converting file to string:");
+      console.log(err);
+    });
+
+    var photo = {
+      image: image,
+      fileType: imgUri.split('.')[1],
+      location: '',
+      email: userEmail
+    }
+
+    // fetch('http://10.0.1.59:8080/photos', {
+    //       method: 'POST',
+    //       body: ,
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     }).then(response => {          
+
+    //     }).catch(error => console.log(error));
   }
 
   getImageDimensions = ({ width, height }) => {

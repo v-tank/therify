@@ -2,16 +2,26 @@ const db = require("../models");
 
 module.exports = {
 	add: function(req, res) {
-		db.Photo.create(req.body)
-			.then(createPhoto => db.User.findOneAndUpdate({
-				email:req.email},{$push:{photos: createdPhoto.id}}))
-				.then(updatedUser => res.json(updatedUser))
-				.catch(err => {
-					if (err){
-						console.log("err adding photo ")
-					}
-				});
-		
+		db.User.findOne({email: req.body.email})
+			.then(user => {
+				var photo = {
+					image: req.body.image,
+      				fileType: req.body.fileType,
+      				location: req.body.location,
+      				user: user.id
+				};
+				db.Photo.create(photo)
+					.then(createdPhoto => {
+						db.User
+							.findOneAndUpdate({email:req.body.email},{$push:{photos: createdPhoto.id}})
+							.then(updatedUser => res.json(updatedUser))
+							.catch(err => {
+								if(err) {
+									console.log("err adding photo ")
+								}
+							});
+					})
+			});
 	},
 	getWithComments: function(req, res) {
 		let photoWithComments = {

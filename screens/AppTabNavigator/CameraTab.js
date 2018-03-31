@@ -136,7 +136,7 @@ export default class CameraTab extends Component {
   };
 
   renderGallery() {
-    return <GalleryScreen onPress={this.toggleView.bind(this)} />;
+    return <GalleryScreen onPress={this.toggleView.bind(this)} userEmail={this.props.userEmail}/>;
   }
   renderNoPermissions() {
     return (
