@@ -29,6 +29,7 @@ export default class GalleryScreen extends React.Component {
     //TODO: Upload an image to the server
     let imgUri =`${FileSystem.documentDirectory}photos/${photoUri}`;
     console.log("Uploading: "+ imgUri);
+    
   }
 
   getImageDimensions = ({ width, height }) => {
@@ -74,7 +75,7 @@ export default class GalleryScreen extends React.Component {
                 />
                 <Button 
                   style={styles.uploadButton} 
-                  title="Upload"
+                  title="Post Photo"
                   onPress={()=>this.uploadPhoto(photoUri)}
                 > </Button>
               </View>
