@@ -18,17 +18,17 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <View style={{ flexDirection: 'row', margin: 20, justifyContent: 'space-around', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-around', alignItems: 'center' }}>
         <TextInput
           ref="search"
           placeholder="Search"
-          style={{ height: 40, fontSize: 20, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+          style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
           onChangeText={(text) => { this.handleTextInputChange(text) }}
         />
 
         <Icon name="search"
           onPress={this.handleSubmit}
-          style={{ flex: 1, fontSize: 30, backgroundColor: '#e8195b', color: 'white', paddingLeft: 20, paddingTop: 5, paddingBottom: 5 }}
+          style={{ flex: 1, fontSize: 20, backgroundColor: '#e8195b', color: 'white', paddingLeft: 30, paddingTop: 5, paddingBottom: 5 }}
         />
       </View>
     );
