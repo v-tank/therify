@@ -118,7 +118,7 @@ export default class CameraTab extends Component {
   }
 
   getPhotoId(uri){
-    //grabs the filename
+    //grabs the filename of the image
     let myArr = uri.split('/'); 
     return myArr[myArr.length-1];
   }

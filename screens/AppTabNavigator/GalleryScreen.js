@@ -1,5 +1,6 @@
 import React from 'react';
-import {AsyncStorage,Button,TextInput,Image,StyleSheet,View,TouchableOpacity,Text,ScrollView} from 'react-native';
+import {AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
+  StyleSheet,View,TouchableOpacity,Text,ScrollView} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
@@ -9,7 +10,7 @@ export default class GalleryScreen extends React.Component {
   state = {
     photos: [],
     showUploadPage:false,
-    currentPhotoUri: null,
+    currentPhoto: null,
     currentPhotoTitle: null,
     currentPhotoAbout: null,
   };
@@ -34,21 +35,22 @@ export default class GalleryScreen extends React.Component {
      });
 
     var photo = {
-      image: photoUri,
+      image: this.state.currentPhoto,
       fileType: 'jpg',
       location: '37.8287656 -122.4860667',
       email: userEmail
     }
 
-    fetch('http://10.0.1.59:8080/photos', {
-          method: 'POST',
-          body: JSON.stringify(photo),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then(response => {          
-          console.log(response);
-        }).catch(error => console.log(error));
+    fetch('http://192.168.0.100:8080/photos', {
+      method: 'POST',
+      body: JSON.stringify(photo),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {          
+      console.log(response);
+      console.log(response);
+    }).catch(error => console.log(error));
   }
 
   renderGalleryScreen(){
@@ -59,17 +61,17 @@ export default class GalleryScreen extends React.Component {
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
-            {this.state.photos.map(photoUri => (
-              <View style={styles.pictureWrapper} key={photoUri}>
+            {this.props.photos.map(photoData => (
+              <View style={styles.pictureWrapper} key={photoData}>
                 <Image
-                  key={photoUri}
+                  key={photoData}
                   style={styles.picture}
-                  source={{ uri: `${FileSystem.documentDirectory}photos/${photoUri}`, }}
+                  source={{uri: photoData}}
                 />
                 <Button 
                   style={styles.uploadButton} 
                   title="Post Photo"
-                  onPress={()=>{ this.showUploadScreen(photoUri); }}
+                  onPress={()=>{ this.showUploadScreen(photoData); }}
                 > </Button>
               </View>
             ))}
@@ -85,54 +87,56 @@ export default class GalleryScreen extends React.Component {
         <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
           <Text>Go To Gallery</Text>
         </TouchableOpacity>
-        <ScrollView contentComponentStyle={{ flex: 1 }}>
-          <View style={styles.uploadPictureWrapper} key={this.state.currentPhotoUri}>
-            <Image
-              key={this.state.currentPhotoUri}
-              style={styles.picture}
-              source={{ uri: this.state.currentPhotoUri }}
-            />
-          </View>
-          <View style={styles.titleAreaView}>
-            <TextInput
-              ref="title"
-              placeholder="Title"
-              style={styles.titleTextArea}
-              onChangeText={(text) => { this.handleTextInputChange(text) }}
-            />
-            <TextInput
-              ref="summary"
-              placeholder="Summary"
-              style={styles.summaryTextArea}
-              onChangeText={(text) => { this.handleTextInputChange(text) }}
-            />
-            <Button 
-              title="Upload"
-              onPress={this.handleUpload}
-              style={styles.uploadPhotoButton}
-            />
-          </View>
-        </ScrollView>
+        <KeyboardAvoidingView behavior='padding' style={styles.keyboardAvoid}>
+          <ScrollView contentComponentStyle={{ flex: 1 }}>
+            <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto}>
+              <Image
+                key={this.state.currentPhoto}
+                style={styles.picture}
+                source={{ uri: this.state.currentPhoto }}
+              />
+            </View>
+            <View style={styles.infoAreaView}>
+              <TextInput
+                ref="title"
+                placeholder="Title"
+                style={styles.titleTextArea}
+                onChangeText={(text) => this.setState({currentPhotoTitle:text})}
+              />
+              <TextInput
+                ref="summary"
+                placeholder="About Photo"
+                style={styles.summaryTextArea}
+                onChangeText={(text) => this.setState({currentPhotoAbout:text})}
+              />
+              <Button 
+                title="Upload"
+                onPress={this.handleUpload}
+                style={styles.uploadPhotoButton}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   };
 
   handleUpload = () => {
-    //TODO: handle all the image upload stuffs here
-  }
-  handleTextInputChange = (text) => {
-
+    //console.log("That state: "+JSON.stringify(this.state, null ,2));
+    this.uploadPhoto().then( function(err,something){
+      if(err){ console.log("error");}
+    });
+    this.showGalleryScreen();
   }
 
   showGalleryScreen(){
-    console.log("Show upload page is: "+ JSON.stringify(this.state));
     this.setState({showUploadPage:false });
   };
 
-  showUploadScreen(photoUri) {
+  showUploadScreen(photoData) {
     this.setState({
       showUploadPage: true,
-      currentPhotoUri: `${FileSystem.documentDirectory}photos/${photoUri}`,
+      currentPhoto: photoData,
     });
   };
 
@@ -176,31 +180,42 @@ const styles = StyleSheet.create({
     backgroundColor: 'indianred',
   },
   uploadButton: {
-    padding: 10,
-    marginBottom: 4,
+    marginBottom: 5,
     backgroundColor: 'blue',
   },
+  titleAreaView:{
+    
+  },
   titleTextArea:{
+    height: 40, 
+    fontSize: 20, 
+    textAlign: 'center', 
     flexDirection: 'row',
-    margin: 10, 
-    justifyContent: 'space-around', 
-    alignItems: 'center' 
+    flex: 1, 
+    backgroundColor: '#eeeeee', 
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
   },
   summaryTextArea:{
-    height: 80, 
+    height: 70, 
     fontSize: 15, 
     textAlign: 'center', 
-    flex: 5, 
+    flexDirection: 'row',
+    flex: 1, 
     backgroundColor: '#eeeeee', 
-    marginRight: 10 
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
   },
   uploadPhotoButton:{ 
     flex: 1, 
     fontSize: 20, 
     backgroundColor: '#e8195b', 
-    color: 'white', 
-    paddingLeft: 30, 
     paddingTop: 5, 
-    paddingBottom: 5 
-  }
+    paddingBottom: 5, 
+  },
+  keyboardAvoid: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 20,
+  },
 });
