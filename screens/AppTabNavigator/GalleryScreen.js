@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Button, Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import {AsyncStorage,Button,TextInput,Image,StyleSheet,View,TouchableOpacity,Text,ScrollView} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
@@ -51,30 +51,6 @@ export default class GalleryScreen extends React.Component {
         }).catch(error => console.log(error));
   }
 
-  getImageDimensions = ({ width, height }) => {
-    if (width > height) {
-      const scaledHeight = pictureSize * height / width;
-      return {
-        width: pictureSize,
-        height: scaledHeight,
-        scaleX: pictureSize / width,
-        scaleY: scaledHeight / height,
-        offsetX: 0,
-        offsetY: (pictureSize - scaledHeight) / 2,
-      };
-    } else {
-      const scaledWidth = pictureSize * width / height;
-      return {
-        width: scaledWidth,
-        height: pictureSize,
-        scaleX: scaledWidth / width,
-        scaleY: pictureSize / height,
-        offsetX: (pictureSize - scaledWidth) / 2,
-        offsetY: 0,
-      };
-    }
-  };
-
   renderGalleryScreen(){
     return (
       <View style={styles.container}>
@@ -110,33 +86,30 @@ export default class GalleryScreen extends React.Component {
           <Text>Go To Gallery</Text>
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
-          <View style={styles.pictures}>
-            <View style={styles.pictureWrapper} key={this.state.currentPhotoUri}>
-              <Image
-                key={this.state.currentPhotoUri}
-                style={styles.picture}
-                source={{
-                  uri: this.state.currentPhotoUri
-                }}
-              />
-            </View>
+          <View style={styles.uploadPictureWrapper} key={this.state.currentPhotoUri}>
+            <Image
+              key={this.state.currentPhotoUri}
+              style={styles.picture}
+              source={{ uri: this.state.currentPhotoUri }}
+            />
           </View>
-          <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-around', alignItems: 'center' }}>
+          <View style={styles.titleAreaView}>
             <TextInput
-              ref="search"
+              ref="title"
               placeholder="Title"
-              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+              style={styles.titleTextArea}
               onChangeText={(text) => { this.handleTextInputChange(text) }}
             />
             <TextInput
               ref="summary"
-              placeholder="summar"
-              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+              placeholder="Summary"
+              style={styles.summaryTextArea}
               onChangeText={(text) => { this.handleTextInputChange(text) }}
             />
-            <Icon name="search"
-              onPress={this.handleSubmit}
-              style={{ flex: 1, fontSize: 20, backgroundColor: '#e8195b', color: 'white', paddingLeft: 30, paddingTop: 5, paddingBottom: 5 }}
+            <Button 
+              title="Upload"
+              onPress={this.handleUpload}
+              style={styles.uploadPhotoButton}
             />
           </View>
         </ScrollView>
@@ -144,8 +117,8 @@ export default class GalleryScreen extends React.Component {
     );
   };
 
-  handleSubmit = () => {
-
+  handleUpload = () => {
+    //TODO: handle all the image upload stuffs here
   }
   handleTextInputChange = (text) => {
 
@@ -193,6 +166,10 @@ const styles = StyleSheet.create({
     height: pictureSize,
     margin: 5,
   },
+  uploadPictureWrapper: {
+    width: 300,
+    height: 200,
+  },
   backButton: {
     padding: 20,
     marginBottom: 4,
@@ -202,5 +179,28 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 4,
     backgroundColor: 'blue',
+  },
+  titleTextArea:{
+    flexDirection: 'row',
+    margin: 10, 
+    justifyContent: 'space-around', 
+    alignItems: 'center' 
+  },
+  summaryTextArea:{
+    height: 80, 
+    fontSize: 15, 
+    textAlign: 'center', 
+    flex: 5, 
+    backgroundColor: '#eeeeee', 
+    marginRight: 10 
+  },
+  uploadPhotoButton:{ 
+    flex: 1, 
+    fontSize: 20, 
+    backgroundColor: '#e8195b', 
+    color: 'white', 
+    paddingLeft: 30, 
+    paddingTop: 5, 
+    paddingBottom: 5 
   }
 });
