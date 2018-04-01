@@ -1,23 +1,24 @@
 import React from 'react';
-import { Button,Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { Button,Image, TextInput, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { FileSystem, } from 'expo';
-//const exif=require("jpeg-exif");
+import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
 const pictureSize = 150;
 
 export default class GalleryScreen extends React.Component {
   state = {
-    images: {},
     photos: [],
+    showUploadPage:false,
+    currentPhotoUri: null,
+    currentPhotoTitle: null,
+    currentPhotoAbout: null,
   };
   _mounted = false;
 
   componentDidMount() {
     this._mounted = true;
     FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'photos').then(photos => {
-      if (this._mounted) {
-        this.setState( { photos, }, );
-      }
+      if (this._mounted) { this.setState( { photos, }, ); }
     });
   }
 
@@ -25,39 +26,8 @@ export default class GalleryScreen extends React.Component {
     this._mounted = false;
   }
 
-  uploadPhoto = (photoUri) =>{
-    //TODO: Upload an image to the server
-    let imgUri =`${FileSystem.documentDirectory}photos/${photoUri}`;
-    console.log("Uploading: "+ imgUri);
-    
-  }
-
-  getImageDimensions = ({ width, height }) => {
-    if (width > height) {
-      const scaledHeight = pictureSize * height / width;
-      return {
-        width: pictureSize,
-        height: scaledHeight,
-        scaleX: pictureSize / width,
-        scaleY: scaledHeight / height,
-        offsetX: 0,
-        offsetY: (pictureSize - scaledHeight) / 2,
-      };
-    } else {
-      const scaledWidth = pictureSize * width / height;
-      return {
-        width: scaledWidth,
-        height: pictureSize,
-        scaleX: scaledWidth / width,
-        scaleY: pictureSize / height,
-        offsetX: (pictureSize - scaledWidth) / 2,
-        offsetY: 0,
-      };
-    }
-  };
-
-  render() {
-    return (
+  renderGalleryScreen(){
+    return(
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.props.onPress}>
           <Text>Back</Text>
@@ -69,14 +39,12 @@ export default class GalleryScreen extends React.Component {
                 <Image
                   key={photoUri}
                   style={styles.picture}
-                  source={{
-                    uri: `${FileSystem.documentDirectory}photos/${photoUri}`,
-                  }}
+                  source={{ uri: `${FileSystem.documentDirectory}photos/${photoUri}`, }}
                 />
                 <Button 
                   style={styles.uploadButton} 
                   title="Post Photo"
-                  onPress={()=>this.uploadPhoto(photoUri)}
+                  onPress={()=>{ this.showUploadScreen(photoUri); }}
                 > </Button>
               </View>
             ))}
@@ -84,6 +52,72 @@ export default class GalleryScreen extends React.Component {
         </ScrollView>
       </View>
     );
+  };
+
+  renderUploadScreen(){
+    return(
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
+          <Text>Go To Gallery</Text>
+        </TouchableOpacity>
+        <ScrollView contentComponentStyle={{ flex: 1 }}>
+          <View style={styles.pictures}>
+            <View style={styles.pictureWrapper} key={this.state.currentPhotoUri}>
+              <Image
+                key={this.state.currentPhotoUri}
+                style={styles.picture}
+                source={{
+                  uri: this.state.currentPhotoUri
+                }}
+              />
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-around', alignItems: 'center' }}>
+            <TextInput
+              ref="search"
+              placeholder="Title"
+              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+              onChangeText={(text) => { this.handleTextInputChange(text) }}
+            />
+            <TextInput
+              ref="summary"
+              placeholder="summar"
+              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+              onChangeText={(text) => { this.handleTextInputChange(text) }}
+            />
+            <Icon name="search"
+              onPress={this.handleSubmit}
+              style={{ flex: 1, fontSize: 20, backgroundColor: '#e8195b', color: 'white', paddingLeft: 30, paddingTop: 5, paddingBottom: 5 }}
+            />
+          </View>
+        </ScrollView>
+      </View>
+    );
+  };
+
+  handleSubmit = () => {
+
+  }
+  handleTextInputChange = (text) => {
+
+  }
+
+  showGalleryScreen(){
+    console.log("Show upload page is: "+ JSON.stringify(this.state));
+    this.setState({showUploadPage:false });
+  };
+
+  showUploadScreen(photoUri) {
+    this.setState({
+      showUploadPage: true,
+      currentPhotoUri: `${FileSystem.documentDirectory}photos/${photoUri}`,
+    });
+  };
+
+  render() {
+    const content = this.state.showUploadPage
+      ? this.renderUploadScreen() : this.renderGalleryScreen();
+    return <View style={styles.container}>{content}</View>;
   }
 }
 

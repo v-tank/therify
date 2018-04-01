@@ -273,7 +273,7 @@ export default class CameraTab extends Component {
       : cameraScreenContent;
     return <View style={styles.container}>{content}</View>;
   }
-}
+};
 
 const styles = StyleSheet.create({
   icon: {
