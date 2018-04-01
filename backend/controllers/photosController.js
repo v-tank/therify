@@ -49,20 +49,25 @@ module.exports = {
 
 	},
 	findByLocation: function(req, res) {
-		console.log(req.body.location);
-		//request has range and location
-		db.Photo.find().then(photos => {
-			var results = [];
-			photos.forEach(photo => {
-				if(global_dist(parseLocation(req.body.location), parseLocation(photo.location), req.body.range)) {
-					results.push(photo);
-				}
-			});
-			console.log(results.length);
-			res.json(results);
-		}).catch(err => {
-			res.json(err);
-		})
+		if(req.body.location == undefined) {
+			res.json([]);
+		} else {
+			process.stdout.write("Given location: ");
+			console.log(req.body.location);
+			//request has range and location
+			db.Photo.find().then(photos => {
+				var results = [];
+				photos.forEach(photo => {
+					if(global_dist(parseLocation(req.body.location), parseLocation(photo.location), req.body.range)) {
+						results.push(photo);
+					}
+				});
+				console.log("Number of photos in range: " + results.length);
+				res.json(results);
+			}).catch(err => {
+				res.json(err);
+			})
+		}
 	},
 	findByLocationAndDate: function(req, res) {
 
@@ -99,7 +104,7 @@ function removeAllComments(){
 
 function parseLocation(locationString) {
 	var location = locationString.split(" ");
-	console.log(location);
+	console.log("Parsed location: " + location);
 	var lat = parseFloat(location[0]);
 	var long = parseFloat(location[1]);
 	//check to make sure lat and long are valid

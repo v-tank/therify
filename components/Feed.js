@@ -29,16 +29,18 @@ export default class Feed extends Component {
             'Content-Type': 'application/json',
           },
         }).then(response => {          
+          //console.log(Object.keys(response));
+          //the actual data of the response is stored in its json
+          return response.json();
+        }).then(photoData => {
           var feedImages = [];
-          // response.forEach(image => {
-          //   feedImages.push(image.image);
-          // });
-          console.log(typeof(response));
-          console.log(feedImages.length);
+          //get the "image" property of every photo, which is the base64
+          photoData.forEach(photo => {
+            feedImages.push(photo.image);
+          });
+          console.log("Retrieved Images: " + feedImages.length);
           this.setState({ images: feedImages });
         }).catch(error => console.log(error));
-    // debugger;
-    // console.log(this.data);
   }
 
   _renderItem = (data, i) => (
