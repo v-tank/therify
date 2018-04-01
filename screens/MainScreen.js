@@ -13,13 +13,18 @@ class MainScreen extends Component {
     gesturesEnabled: false
   }
 
-  componentDidMount () {
+  state = {
+    userEmail: ''
+  }
+
+  async componentWillMount () {
     this.checkLoggedIn();
   }
 
   checkLoggedIn () {
       AsyncStorage.getItem('userEmail')
         .then(userEmail => {
+          this.setState({userEmail});
           // console.log("Stored Email:");
           // console.log(userEmail);
           
@@ -34,7 +39,7 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <AppTabNavigator/>
+      <AppTabNavigator userEmail={this.state.userEmail}/>
     );
   }
 }

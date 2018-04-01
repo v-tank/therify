@@ -9,11 +9,34 @@ const imageWidth = (deviceWidth - 6) / 3;
 export default class Feed extends Component {
 
   state = {
-    images
+    images: []
   }
 
   componentDidMount() {
-    this.setState({ images });
+    var lat, long = '';
+    if(this.props.location != '') {
+      lat = this.props.location.coords.latitude;
+      long = this.props.location.coords.longitude;
+    }
+    var request = {
+      location: `${lat} ${long}`,
+      range: 50000
+    }
+    fetch('http://10.0.1.59:8080/photos/location', {
+          method: 'POST',
+          body: JSON.stringify(request),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(response => {          
+          var feedImages = [];
+          // response.forEach(image => {
+          //   feedImages.push(image.image);
+          // });
+          console.log(typeof(response));
+          console.log(feedImages.length);
+          this.setState({ images: feedImages });
+        }).catch(error => console.log(error));
     // debugger;
     // console.log(this.data);
   }

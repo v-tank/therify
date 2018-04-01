@@ -2,16 +2,27 @@ const db = require("../models");
 
 module.exports = {
 	add: function(req, res) {
-		db.Photo.create(req.body)
-			.then(createPhoto => db.User.findOneAndUpdate({
-				email:req.email},{$push:{photos: createdPhoto.id}}))
-				.then(updatedUser => res.json(updatedUser))
-				.catch(err => {
-					if (err){
-						console.log("err adding photo ")
-					}
-				});
-		
+		db.User.findOne({email: req.body.email})
+			.then(user => {
+				var photo = {
+					image: req.body.image,
+      				fileType: req.body.fileType,
+      				location: req.body.location,
+      				user: user.id
+				};
+				db.Photo.create(photo)
+					.then(createdPhoto => {
+						console.log('photo in the DB!');
+						db.User
+							.findOneAndUpdate({email:req.body.email},{$push:{photos: createdPhoto.id}})
+							.then(updatedUser => res.json(updatedUser))
+							.catch(err => {
+								if(err) {
+									console.log("err adding photo ")
+								}
+							});
+					})
+			});
 	},
 	getWithComments: function(req, res) {
 		let photoWithComments = {
@@ -33,12 +44,25 @@ module.exports = {
 					comment.remove();
 				})
 			})
-			res.json(photo)
+			res.json(photo);
 		})
 
 	},
 	findByLocation: function(req, res) {
-		db.Photo.findOne
+		console.log(req.body.location);
+		//request has range and location
+		db.Photo.find().then(photos => {
+			var results = [];
+			photos.forEach(photo => {
+				if(global_dist(parseLocation(req.body.location), parseLocation(photo.location), req.body.range)) {
+					results.push(photo);
+				}
+			});
+			console.log(results.length);
+			res.json(results);
+		}).catch(err => {
+			res.json(err);
+		})
 	},
 	findByLocationAndDate: function(req, res) {
 
@@ -73,8 +97,25 @@ function removeAllComments(){
 	}
 }
 
+function parseLocation(locationString) {
+	var location = locationString.split(" ");
+	console.log(location);
+	var lat = parseFloat(location[0]);
+	var long = parseFloat(location[1]);
+	//check to make sure lat and long are valid
+	return [lat, long];
+}
+
 //function to calculate if a given location is within a given range
-function global_dist(st_lat,st_long,f_lat,f_long, range){
+function global_dist(pos1, pos2, range){
+    var st_long = pos1[1];
+    var st_lat = pos1[0];
+    var f_long = pos2[1];
+    var f_lat = pos2[0];
+
+    // console.log(pos1);
+    // console.log(pos2);
+
     function degrees_to_radians(degrees){
         var pi = Math.PI;
         return degrees * (pi/180);
@@ -90,12 +131,12 @@ function global_dist(st_lat,st_long,f_lat,f_long, range){
 
 	const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
     const ans = earth_rad * c;
-    console.log("location a is ",ans,"km away from location b");
+    // console.log("location a is ",ans,"km away from location b");
 	if (ans <= range){
-        console.log(true);
+        // console.log(true);
 		return true;
 	} else {
-        console.log(false);
+        // console.log(false);
 		return false;
 	}
 }
