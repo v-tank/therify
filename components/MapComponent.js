@@ -9,21 +9,9 @@ class MapComponent extends Component {
   };
 
   componentDidMount() {
-    this._getLocationAsync();
+      this.setState({ locationResult: this.props.locationResult });
+      this.setState({ location: this.props.locationResult });
   }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location, });
-  };
 
   render() {
     return (
@@ -31,7 +19,7 @@ class MapComponent extends Component {
         provider={'google'}
         style={{ alignSelf: 'stretch', flex: 0.8 }}
         showsUserLocation={true}
-        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}
+        //region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}
       />
     );
   }

@@ -2,7 +2,7 @@
 import {Feather as Icon } from "@expo/vector-icons";
 import { Constants, Camera, FileSystem, Permissions } from 'expo';
 import React ,{Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, } from 'react-native';
 import GalleryScreen from './GalleryScreen';
 
 const landmarkSize = 2;
@@ -51,11 +51,11 @@ export default class CameraTab extends Component {
   }
 
   componentDidMount() {
-    FileSystem.makeDirectoryAsync(
-      FileSystem.documentDirectory + 'photos'
-    ).catch(e => {
-      console.log(e, 'Directory exists');
-    });
+    // FileSystem.makeDirectoryAsync(
+    //   FileSystem.documentDirectory + 'photos'
+    // ).catch(e => {
+    //   console.log(e, 'Directory exists');
+    // });
   }
 
   getRatios = async () => {
@@ -125,21 +125,36 @@ export default class CameraTab extends Component {
 
   takePicture = async function() {
     if (this.camera) {
-      this.camera.takePictureAsync().then(data => {
-        console.log("Data data" +JSON.stringify(data,null,2));
+      this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
+        // console.log("Data data" +JSON.stringify(data.uri,null,2));
         let newPhotoId = this.getPhotoId(data.uri);
-        FileSystem.moveAsync({
-          from: data.uri,
-          to: `${FileSystem.documentDirectory}photos/${newPhotoId}`,
-        }).then(() => {
-          Vibration.vibrate();
-        });
+        
+        var base64 = 'data:image/jpg;base64,' + data.base64;
+
+        let photoArray = this.state.photos;
+        photoArray.push(base64);
+        this.setState({photos: photoArray});
+        Vibration.vibrate();
+        // AsyncStorage.getItem('photos').then(arrayString => {
+        //   var photosArray;
+        //   if(arrayString != null) { photosArray = JSON.parse(arrayString); }
+        //   else { photosArray = []; }
+        //   photosArray.push(base64);
+        //   AsyncStorage.setItem('photos', JSON.stringify(photosArray));
+        // });
+
+        // FileSystem.moveAsync({
+        //   from: data.uri,
+        //   to: `${FileSystem.documentDirectory}photos/${newPhotoId}`,
+        // }).then(() => {
+        //   Vibration.vibrate();
+        // });
       });
     }
   };
 
   renderGallery() {
-    return <GalleryScreen onPress={this.toggleView.bind(this)} userEmail={this.props.userEmail}/>;
+    return <GalleryScreen onPress={this.toggleView.bind(this)} photos={this.state.photos}/>;
   }
 
   renderNoPermissions(){

@@ -24,6 +24,25 @@ class HomeTab extends Component {
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
   }
 
+  componentDidMount() {
+    this._getLocationAsync();
+  }
+
+  _getLocationAsync = async () => {
+    this.setState({ inProgress: true });
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+        location,
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({locationText: location});
+    this.setState({ inProgress: false });
+  };
+
   _attemptGeocodeAsync = async () => {
     const { locationText, result } = this.state;
     // alert(`Searching for ${locationText}`);
@@ -71,14 +90,18 @@ class HomeTab extends Component {
           <Right><Icon name="camera" style={styles.icon} /></Right>
         </Header>
 
-        <MapComponent />
+        <MapComponent locationResult={this.state.locationText}/>
 
         <SearchBar
           updateState={this.updateState}
           updateLocation={this._attemptGeocodeAsync}
         />
 
-        <Feed />
+
+        { this.state.inProgress ?
+          <Text>Loading</Text> :  <Feed location={this.state.locationText}/>
+        }
+       
 
       </Container>
     );
