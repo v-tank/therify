@@ -23,11 +23,7 @@ export default class LoginScreen extends Component {
 
         var serverRequest = { email: result.user.email };
 
-<<<<<<< HEAD
         fetch('http://10.142.124.37:8080/user/login', {
-=======
-        fetch('http://10.0.1.59:8080/user/login', {
->>>>>>> 2cd6ba2027ea5dc28a9c7bf03360b6a185096565
           method: 'POST',
           body: JSON.stringify(serverRequest),
           headers: {

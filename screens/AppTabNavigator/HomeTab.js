@@ -18,7 +18,7 @@ class HomeTab extends Component {
     this.state = {
       locationText: '',
       result: '',
-      inProgress: false,
+      inProgress: true,
     }
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
@@ -39,7 +39,8 @@ class HomeTab extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({locationText: location});
+    this.setState({ locationText: location });
+    console.log(this.state.locationText);
     this.setState({ inProgress: false });
   };
 
@@ -90,7 +91,9 @@ class HomeTab extends Component {
           <Right><Icon name="camera" style={styles.icon} /></Right>
         </Header>
 
-        <MapComponent locationResult={this.state.locationText}/>
+        {this.state.inProgress ?
+          <Text>Loading</Text> : <MapComponent locationResult={this.state.locationText} />
+        }
 
         <SearchBar
           updateState={this.updateState}
@@ -98,10 +101,10 @@ class HomeTab extends Component {
         />
 
 
-        { this.state.inProgress ?
-          <Text>Loading</Text> :  <Feed location={this.state.locationText}/>
+        {this.state.inProgress ?
+          <Text>Loading</Text> : <Feed location={this.state.locationText} />
         }
-       
+
 
       </Container>
     );
