@@ -132,6 +132,8 @@ function getAllComments(ids, index, photoWithComments, res){
 		});
 	}
 }
+<<<<<<< HEAD
+=======
 
 // function removeAllComments(){
 // 	if(index === ids.length){
@@ -153,6 +155,7 @@ function parseLocation(locationString) {
 	//check to make sure lat and long are valid
 	return [lat, long];
 }
+>>>>>>> 99c387dc52147ca7d04c08967c1a83db15098d82
 
 //function to calculate if a given location is within a given range
 function global_dist(pos1, pos2, range){
