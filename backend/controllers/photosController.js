@@ -14,7 +14,7 @@ module.exports = {
 				};
 				db.Photo.create(photo)
 					.then(createdPhoto => {
-						console.log('photo in the DB!');
+						console.log('Photo in the DB!');
 						db.User
 							.findOneAndUpdate({email:req.body.email},{$push:{photos: createdPhoto.id}})
 							.then(updatedUser => res.json(updatedUser))
@@ -45,21 +45,31 @@ module.exports = {
 	},
 	getWithComments: function(req, res) {
 		let photoWithComments = {
+      user: '',
 			photo: null,
 			comments: []
-		};
-		db.Photo.findOne({id: req.body.id})
+    };
+
+    // console.log("Here's the ID: " + req.params.id)
+    db.Photo.findOne({_id: req.params.id})
 			.then(photo =>{
-				photoWithComments.photo = photo;
-				//get all of the photo's comments
-				getAllComments(photo.comments, 0, photoWithComments, res);
+        // console.log(photo);
+        photoWithComments.photo = photo;
+        // console.log(photoWithComments.photo);
+        //get all of the photo's comments
+        db.User.findOne({_id: photo.user[0]}).then(user => {
+          photoWithComments.user = user.email;
+          photoWithComments.comments = getAllComments(photo.comments, 0, photoWithComments, res);
+          // console.log(photoWithComments.comments.length);
+          res.json(photoWithComments);
+        })
 			}).catch(err => {
 				console.log(err);
 			});
 	},
 	findByLocation: function(req, res) {
 		if(req.body.location === ' ') {
-			console.log("recieved request for photos with no location given, returning empty array");
+			console.log("Received request for photos with no location given, returning empty array");
 			res.json([]);
 		} else {
 			process.stdout.write("Given location: ");
@@ -123,10 +133,14 @@ module.exports = {
 //and the response to be sent back to the server
 function getAllComments(ids, index, photoWithComments, res){
 	if(index === ids.length){
-		res.json(photoWithComments);
+    // console.log('in if');
+    // console.log(photoWithComments.photo.verified);
+    // res.json(photoWithComments);
+    return photoWithComments.comments;
 	} else{
 		db.Comment.findOne({id: ids[index]})
 		.then(comment =>{
+      // console.log('in else');
 			photoWithComments.comments.push(comment);
 			getAllComments(ids, index + 1, photoWithComments, res);
 		});

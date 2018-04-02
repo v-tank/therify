@@ -7,12 +7,6 @@ import { Feather as Icon } from "@expo/vector-icons";
 
 // create a component
 class ProfileTab extends Component {
-
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="user" style={styles.tabBarIcon} />
-    )
-  }
   render() {
     return (
       <Container style={{ flex: 1, backgroundColor: 'white' }}>
