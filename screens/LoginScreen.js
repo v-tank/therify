@@ -23,7 +23,7 @@ export default class LoginScreen extends Component {
 
         var serverRequest = { email: result.user.email };
 
-        fetch('http://10.0.1.59:8080/user/login', {
+        fetch('http://10.142.182.123:8080/user/login', {
           method: 'POST',
           body: JSON.stringify(serverRequest),
           headers: {
@@ -44,7 +44,7 @@ export default class LoginScreen extends Component {
       }
 
     //ONLY FOR DEVELOPMENT, SO APP CAN BE ACCESSED WITHOUT SERVER RESPONSE
-    this.props.navigation.navigate('Main');
+    //this.props.navigation.navigate('Main');
      
     } catch (e) {
       return { error: true };

@@ -18,11 +18,31 @@ class HomeTab extends Component {
     this.state = {
       locationText: '',
       result: '',
-      inProgress: false,
+      inProgress: true,
     }
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
   }
+
+  componentDidMount() {
+    this._getLocationAsync();
+  }
+
+  _getLocationAsync = async () => {
+    this.setState({ inProgress: true });
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+        location,
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationText: location });
+    console.log(this.state.locationText);
+    this.setState({ inProgress: false });
+  };
 
   _attemptGeocodeAsync = async () => {
     const { locationText, result } = this.state;
@@ -40,7 +60,7 @@ class HomeTab extends Component {
       // alert(`${JSON.stringify(result)}`);
       this.setState({ result });
       // this.setState({ locationText: '' });
-      console.log(result);
+      alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
     } catch (e) {
       console.log(e);
       // this.setState({ error: e.message });
@@ -71,14 +91,20 @@ class HomeTab extends Component {
           <Right><Icon name="camera" style={styles.icon} /></Right>
         </Header>
 
-        <MapComponent />
+        {this.state.inProgress ?
+          <Text>Loading</Text> : <MapComponent locationResult={this.state.locationText} />
+        }
 
         <SearchBar
           updateState={this.updateState}
           updateLocation={this._attemptGeocodeAsync}
         />
 
-        <Feed />
+
+        {this.state.inProgress ?
+          <Text>Loading</Text> : <Feed location={this.state.locationText} />
+        }
+
 
       </Container>
     );

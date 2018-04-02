@@ -5,25 +5,22 @@ import { MapView, Location, Permissions } from 'expo';
 class MapComponent extends Component {
   state = {
     locationResult: null,
-    location: { coords: { latitude: 37.78825, longitude: -122.4324 } },
+    location: {coords: {latitude: 0, longitude: 0}},
   };
 
   componentDidMount() {
-    this._getLocationAsync();
+
+    this.setState({ locationResult: this.props.locationResult });
+    console.log("locationResult: " + JSON.stringify(this.props.locationResult, null, 2));
+    this.setState({ location: this.props.locationResult });
   }
 
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location, });
-  };
+  parseLatLong(locationString) {
+    let location = {};
+    console.log(locationString);
+    location = JSON.parse(locationString);
+    this.setState({ location: location });
+  }
 
   render() {
     return (
