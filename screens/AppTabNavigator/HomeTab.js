@@ -69,7 +69,7 @@ class HomeTab extends Component {
       // console.log("result: " + JSON.stringify(result, null, 2));
       // console.log("latitude: " + JSON.stringify(result[0].latitude, null, 2));
       this.setState({ location: {coords: {latitude:result[0].latitude, longitude: result[0].longitude}}});
-      console.log(this.state.location);
+      // console.log(this.state.location);
 
       // this.setState({ locationText: '' });
       // alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
