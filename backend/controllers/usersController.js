@@ -25,6 +25,13 @@ module.exports = {
 			.catch(err => res.status(422).json(err));
 	},
 	getPhotos: function(req, res) {
-
+		//the request will have the user's email, so find the user with that email
+		db.User.findOne({email: req.body.email})
+			.then(user => {
+				db.Photos.find({user: user.id})
+					.then(userPhotos => {
+						res.json(userPhotos);
+					}).catch(err => console.log(err));
+			})
 	}
 };
