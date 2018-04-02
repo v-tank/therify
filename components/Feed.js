@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
-import images from './data.json';
 
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
@@ -24,7 +23,7 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://10.0.1.59:8080/photos/location', {
+    fetch('http://192.168.0.12:8080/photos/location', {
           method: 'POST',
           body: JSON.stringify(request),
           headers: {
@@ -51,9 +50,13 @@ export default class Feed extends Component {
     this.mounted = false;
   }
 
+  onImagePress = (id) => {
+    this.props.navigation.navigate('Detail', id);
+  }
+
   _renderItem = (data, i) => (
 
-    <TouchableWithoutFeedback key={i} onPress={() => alert(`${data._id} was pressed!`)}>
+    <TouchableWithoutFeedback key={data._id} onPress={() => this.onImagePress(data._id)}>
       <View style={styles.item}>
         <Image 
           source={{ uri: data.image}}
