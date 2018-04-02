@@ -34,7 +34,7 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://10.0.1.59:8080/photos/location', {
+    fetch('http://10.142.182.123:8080/photos/location', {
       method: 'POST',
       body: JSON.stringify(request),
       headers: {
