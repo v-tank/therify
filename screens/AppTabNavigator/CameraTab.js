@@ -25,11 +25,6 @@ const wbOrder = {
 
 // create a component
 export default class CameraTab extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="camera" style={styles.icon} />
-    )
-  }
 
   state = {
     flash: 'off',
@@ -44,6 +39,12 @@ export default class CameraTab extends Component {
     photos: [],
     permissionsGranted: false,
   };
+
+  static navigationOptions = {
+    header: {
+      visible: false,
+    }
+  }
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -135,20 +136,6 @@ export default class CameraTab extends Component {
         photoArray.push(base64);
         this.setState({photos: photoArray});
         Vibration.vibrate();
-        // AsyncStorage.getItem('photos').then(arrayString => {
-        //   var photosArray;
-        //   if(arrayString != null) { photosArray = JSON.parse(arrayString); }
-        //   else { photosArray = []; }
-        //   photosArray.push(base64);
-        //   AsyncStorage.setItem('photos', JSON.stringify(photosArray));
-        // });
-
-        // FileSystem.moveAsync({
-        //   from: data.uri,
-        //   to: `${FileSystem.documentDirectory}photos/${newPhotoId}`,
-        // }).then(() => {
-        //   Vibration.vibrate();
-        // });
       });
     }
   };
@@ -279,7 +266,7 @@ export default class CameraTab extends Component {
     );
   }
 
-  render() {
+  render() {    
     const cameraScreenContent = this.state.permissionsGranted
       ? this.renderCamera()
       : this.renderNoPermissions();
@@ -325,7 +312,7 @@ const styles = StyleSheet.create({
   },
   item: {
     margin: 4,
-    backgroundColor: 'indianred',
+    backgroundColor: '#e8195b',
     height: 35,
     width: 80,
     borderRadius: 5,
@@ -336,7 +323,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkseagreen',
   },
   galleryButton: {
-    backgroundColor: 'indianred',
+    backgroundColor: '#e8195b',
   },
   landmark: {
     width: landmarkSize,
