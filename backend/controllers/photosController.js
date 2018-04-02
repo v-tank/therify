@@ -33,29 +33,38 @@ module.exports = {
 		};
 		db.Photo.findOne({id: req.id})
 			.then(photo =>{
-				getAllComments(photo.comments,0,photoWithComments.comments)
+				photoWithComments.photo = photo;
+				//get all of the photo's comments
+				getAllComments(photo.comments, 0, photoWithComments, res);
+			}).catch(err => {
+				console.log(err);
 			});
-
 	},
 	remove: function(req, res) {
 		db.Photo.findOne({id:req.body.id}).then(photo =>{
-			photo.remove()
-		}).then(photo =>{
-			photo.comments.forEach(comment =>{
-				db.Comment.findOne({id:comment.id}).then(comment=>{
+			photo.remove();
+		}).then(photo => { //just in case it doesn't cascade delete...
+			photo.comments.forEach(comment => {
+				db.Comment.findOne({id:comment.id}).then(comment=> {
 					comment.remove();
-				})
-			})
+				}).catch(err => {
+					console.log(err);
+				});
+			});
+			//send the deleted photo back in case the client wants to do something with it
 			res.json(photo);
-		})
-
+		}).catch(err => {
+			console.log(err);
+		});
 	},
 	findByLocation: function(req, res) {
-		if(req.body.location == undefined) {
+		if(req.body.location === ' ') {
+			console.log("request for photos with no location given, returning empty array");
 			res.json([]);
 		} else {
 			process.stdout.write("Given location: ");
 			console.log(req.body.location);
+			// console.log(typeof(req.body.location));
 			//request has range and location
 			db.Photo.find().then(photos => {
 				var results = [];
@@ -68,11 +77,11 @@ module.exports = {
 				res.json(results);
 			}).catch(err => {
 				res.json(err);
-			})
+			});
 		}
 	},
-	findByLocationAndDate: function(req, res) {
-
+	findByLocationAndDate: function(req, res) { //THIS FUNCTION WILL NOT BE INCLUDED IN APP PROTOTYPE
+		this.findByLocation(req, res);
 	},
 	addComment: function(req, res) {
 
@@ -81,17 +90,23 @@ module.exports = {
 
 	}
 };
-function getAllComments(ids, index, comments){
+
+//helper function that recursively fills an array with the comments of a given photo.
+//takes an array of the comment ids, the index of the current comment in that array,
+//the object that holds the array to be filled with the comment objects, 
+//and the response to be sent back to the server
+function getAllComments(ids, index, photoWithComments, res){
 	if(index === ids.length){
-		return;
+		res.json(photoWithComments);
 	} else{
 		db.Comment.findOne({id: ids[index]})
 		.then(comment =>{
-			comments.push(comment);
-			getAllComments(ids,index+1,comments);
+			photoWithComments.comments.push(comment);
+			getAllComments(ids, index + 1, photoWithComments, res);
 		});
 	}
 }
+
 function removeAllComments(){
 	if(index === ids.length){
 		return;
