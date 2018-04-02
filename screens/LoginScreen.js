@@ -44,7 +44,7 @@ export default class LoginScreen extends Component {
       }
 
     //ONLY FOR DEVELOPMENT, SO APP CAN BE ACCESSED WITHOUT SERVER RESPONSE
-    //this.props.navigation.navigate('Main');
+    // this.props.navigation.navigate('Main');
      
     } catch (e) {
       return { error: true };

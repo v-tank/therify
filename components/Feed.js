@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
-import images from './data.json';
 
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
@@ -58,7 +57,7 @@ export default class Feed extends Component {
   }
 
   _renderItem = (data, i) => (
-    <TouchableWithoutFeedback key={i} onPress={() => alert(`${data._id} was pressed!`)}>
+    <TouchableWithoutFeedback key={data._id} onPress={() => this.onImagePress(data._id)}>
       <View style={styles.item}>
         <Image 
           source={{ uri: data.image}}

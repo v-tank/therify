@@ -1,10 +1,11 @@
 import React from 'react';
 import {AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
-  StyleSheet,View,TouchableOpacity,Text,ScrollView} from 'react-native';
+  StyleSheet,View,TouchableOpacity,Text,ScrollView,Dimensions} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
 const pictureSize = 150;
+const deviceWidth = Dimensions.get('window').width;
 
 export default class GalleryScreen extends React.Component {
   state = {
@@ -52,7 +53,6 @@ export default class GalleryScreen extends React.Component {
       },
     }).then(response => {          
       //TODO: notify that upload was successful, remove the uploaded photo from the UI
-      console.log(response);
     }).catch(error => console.log(error));
   }
 
@@ -60,7 +60,7 @@ export default class GalleryScreen extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.props.onPress}>
-          <Text>Back</Text>
+          <Text style={{color: 'white', fontSize: 18, alignSelf: 'center', justifyContent: 'center'}}>Back</Text>
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
@@ -71,11 +71,12 @@ export default class GalleryScreen extends React.Component {
                   style={styles.picture}
                   source={{uri: photoData.photo}}
                 />
-                <Button 
-                  style={styles.uploadButton} 
-                  title="Post Photo"
-                  onPress={()=>{ this.showUploadScreen(photoData); }}
-                > </Button>
+                <TouchableOpacity
+                  onPress={() => { this.showUploadScreen(photoData); }}
+                  style={styles.uploadButton}
+                >
+                  <Text style={styles.text}>Post Photo</Text>
+                </TouchableOpacity>
               </View>
             ))}
           </View>
@@ -88,36 +89,47 @@ export default class GalleryScreen extends React.Component {
     return(
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
-          <Text>Go To Gallery</Text>
+          <Text style={{ color: 'white', fontSize: 18, alignSelf: 'center', justifyContent: 'center'}}>Go To Gallery</Text>
         </TouchableOpacity>
+        
         <KeyboardAvoidingView behavior='padding' style={styles.keyboardAvoid}>
+
           <ScrollView contentComponentStyle={{ flex: 1 }}>
-            <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto.location.lat}>
-              <Image
-                key={this.state.currentPhoto.location.lon}
-                style={styles.picture}
-                source={{ uri: this.state.currentPhoto.photo }}
-              />
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 1}}>
+                <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto}>
+                  <Image
+                    key={this.state.currentPhoto}
+                    style={{flex: 2}}
+                    source={{ uri: this.state.currentPhoto }}
+                  />
+                </View>
+              </View>
+              <View style={{flex: 3}}>
+                <View style={styles.infoAreaView}>
+
+                  <TextInput
+                    ref="title"
+                    placeholder="Title"
+                    style={styles.titleTextArea}
+                    onChangeText={(text) => this.setState({currentPhotoTitle:text})}
+                  />
+
+                  <TextInput
+                    ref="summary"
+                    placeholder="Write a caption..."
+                    style={styles.summaryTextArea}
+                    onChangeText={(text) => this.setState({currentPhotoAbout:text})}
+                  />
+                </View>
+              </View>
             </View>
-            <View style={styles.infoAreaView}>
-              <TextInput
-                ref="title"
-                placeholder="Title"
-                style={styles.titleTextArea}
-                onChangeText={(text) => this.setState({currentPhotoTitle:text})}
-              />
-              <TextInput
-                ref="summary"
-                placeholder="About Photo"
-                style={styles.summaryTextArea}
-                onChangeText={(text) => this.setState({currentPhotoAbout:text})}
-              />
-              <Button 
-                title="Upload"
-                onPress={this.handleUpload}
-                style={styles.uploadPhotoButton}
-              />
-            </View>
+            <TouchableOpacity
+              onPress={this.handleUpload}
+              style={styles.uploadButton}
+            >
+              <Text style={styles.text}>Therify</Text>
+            </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
@@ -154,7 +166,7 @@ export default class GalleryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    backgroundColor: 'white'
   },
   pictures: {
     flex: 1,
@@ -162,12 +174,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   picture: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    top: 0,
-    resizeMode: 'contain',
+    width: pictureSize,
+    height: pictureSize
   },
   pictureWrapper: {
     width: pictureSize,
@@ -175,17 +183,20 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   uploadPictureWrapper: {
-    width: 300,
-    height: 200,
+    width: 75,
+    height: 75,
+    margin: 5,
   },
   backButton: {
     padding: 20,
     marginBottom: 4,
-    backgroundColor: 'indianred',
+    backgroundColor: '#e8195b',
   },
   uploadButton: {
-    marginBottom: 5,
-    backgroundColor: 'blue',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
+    borderRadius: 50, borderWidth: 2, borderColor: '#e8195b', margin: 10
   },
   titleAreaView:{
     
@@ -196,30 +207,29 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     flexDirection: 'row',
     flex: 1, 
-    backgroundColor: '#eeeeee', 
+    backgroundColor: '#fdfdfd', 
     borderWidth: 0.5,
     borderColor: '#d6d7da',
+    margin: 1
   },
   summaryTextArea:{
-    height: 70, 
-    fontSize: 15, 
+    height: 140, 
+    fontSize: 18,
     textAlign: 'center', 
     flexDirection: 'row',
     flex: 1, 
-    backgroundColor: '#eeeeee', 
+    backgroundColor: '#fdfdfd', 
     borderWidth: 0.5,
     borderColor: '#d6d7da',
-  },
-  uploadPhotoButton:{ 
-    flex: 1, 
-    fontSize: 20, 
-    backgroundColor: '#e8195b', 
-    paddingTop: 5, 
-    paddingBottom: 5, 
+    margin: 1
   },
   keyboardAvoid: {
     flex: 1,
     justifyContent: 'space-between',
     paddingBottom: 20,
   },
+  text: {
+    color: '#e8195b',
+    fontSize: 16
+  }
 });

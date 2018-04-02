@@ -25,11 +25,6 @@ const wbOrder = {
 
 // create a component
 export default class CameraTab extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="camera" style={styles.icon} />
-    )
-  }
 
   state = {
     flash: 'off',
@@ -45,6 +40,12 @@ export default class CameraTab extends Component {
     permissionsGranted: false,
     lokeshen : null,
   };
+
+  static navigationOptions = {
+    header: {
+      visible: false,
+    }
+  }
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -259,7 +260,7 @@ export default class CameraTab extends Component {
     );
   }
 
-  render() {
+  render() {    
     const cameraScreenContent = this.state.permissionsGranted
       ? this.renderCamera()
       : this.renderNoPermissions();
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
   },
   item: {
     margin: 4,
-    backgroundColor: 'indianred',
+    backgroundColor: '#e8195b',
     height: 35,
     width: 80,
     borderRadius: 5,
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkseagreen',
   },
   galleryButton: {
-    backgroundColor: 'indianred',
+    backgroundColor: '#e8195b',
   },
   landmark: {
     width: landmarkSize,
