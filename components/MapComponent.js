@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { MapView, Location, Permissions } from 'expo';
+import { MapView, Text, Location, Permissions } from 'expo';
+import { Marker } from 'react-navigation';
 
 class MapComponent extends Component {
   state = {
@@ -19,12 +20,16 @@ class MapComponent extends Component {
         provider={'google'}
         style={{ alignSelf: 'stretch', flex: 0.8 }}
         showsUserLocation={true}
-        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}>
-		
-	    {this.state.locationResult !== null ?
-	    <Marker coordinate={{this.state.location.coords.latitude, this.state.location.coords.longitude}} /> : <View>{
-	    }
-    	</MapView>
+        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}
+        >
+          {/*}
+          {
+            this.state.locationResult !== null 
+              ? <MapView.Marker coordinate={{latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude}} /> 
+              : <Text>Loading</Text>
+          }
+        */}
+        </MapView>
     );
   }
 }
