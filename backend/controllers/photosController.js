@@ -59,7 +59,7 @@ module.exports = {
 	},
 	findByLocation: function(req, res) {
 		if(req.body.location === ' ') {
-			console.log("request for photos with no location given, returning empty array");
+			console.log("recieved request for photos with no location given, returning empty array");
 			res.json([]);
 		} else {
 			process.stdout.write("Given location: ");

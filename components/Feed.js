@@ -13,6 +13,15 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
+    this.loadImages();
+  }
+
+  //this is here to enforce not updating state when the component is not mounted
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  loadImages() {
     this.mounted = true;
 
     var lat = '';
@@ -45,11 +54,6 @@ export default class Feed extends Component {
         this.setState({ images: feedImages });
       }
     }).catch(error => console.log(error));
-  }
-
-  //this is here to enforce not updating state when the component is not mounted
-  componentWillUnmount() {
-    this.mounted = false;
   }
 
   _renderItem = (data, i) => (
