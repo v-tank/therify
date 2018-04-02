@@ -23,7 +23,7 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://192.168.0.12:8080/photos/location', {
+    fetch('http://localhost:8080/photos/location', {
           method: 'POST',
           body: JSON.stringify(request),
           headers: {
@@ -51,7 +51,8 @@ export default class Feed extends Component {
   }
 
   onImagePress = (id) => {
-    this.props.navigation.navigate('Detail', id);
+    // alert(id);
+    this.props.navigation.navigate('Detail', {id: id});
   }
 
   _renderItem = (data, i) => (

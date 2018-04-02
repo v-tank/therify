@@ -42,7 +42,7 @@ export default class GalleryScreen extends React.Component {
       email: userEmail
     }
 
-    fetch('http://192.168.0.12:8080/photos', {
+    fetch('http://localhost:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {

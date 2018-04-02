@@ -5,19 +5,37 @@ import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'nati
 
 // create a component
 class DetailScreen extends Component {
-  render() {
 
-    const images = {
-      "1": require('../../assets/images/icon.png'),
-      "2": require('../../assets/images/icon.png'),
-      "3": require('../../assets/images/icon.png')
-    }
+  state = {
+    image: ''
+  }
+
+  componentDidMount() {
+    const imageID = this.props.navigation.state.params.id;
+    const imageURL = 'http://localhost:8080/photos/' + imageID;
+    console.log(imageURL);
+
+    fetch(imageURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      //console.log(Object.keys(response));
+      //the actual data of the response is stored in its json
+      console.log(response);
+      return response.json();
+    }).catch(error => console.log(error));
+    
+  }
+
+  render() {
 
     return (
       <Card>
         <CardItem>
           <Left>
-            <Thumbnail source ={require('../../assets/images/icon.png')} />
+            {/*<Thumbnail source ={require('../../assets/images/icon.png')} /> */}
             <Body>
               <Text>// User's Name Goes Here</Text>
               <Text note>// Date Goes Here</Text>
@@ -26,7 +44,7 @@ class DetailScreen extends Component {
         </CardItem>
 
         <CardItem cardBody>
-          <Image source={images[this.props.imageSource]} style={styles.mainImage}/>
+          {/*<Image source={images[this.props.imageSource]} style={styles.mainImage}/> */}
         </CardItem>
 
         <CardItem style={{height: 45}}>
