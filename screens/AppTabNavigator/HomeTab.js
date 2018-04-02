@@ -19,6 +19,7 @@ class HomeTab extends Component {
       locationText: '',
       result: '',
       inProgress: true,
+      location: '',
     }
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
@@ -39,12 +40,19 @@ class HomeTab extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationText: location });
-    console.log(this.state.locationText);
+    this.setState({ location: location });
     this.setState({ inProgress: false });
   };
 
   _attemptGeocodeAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+        location,
+      });
+    }
+
     const { locationText, result } = this.state;
     // alert(`Searching for ${locationText}`);
     // console.log(`updating location; searching for ${locationText}`);
@@ -58,9 +66,13 @@ class HomeTab extends Component {
       let result = await Location.geocodeAsync(this.state.locationText);
       // console.log("type of" +typeof(result));
       // alert(`${JSON.stringify(result)}`);
-      this.setState({ result });
+      // console.log("result: " + JSON.stringify(result, null, 2));
+      // console.log("latitude: " + JSON.stringify(result[0].latitude, null, 2));
+      this.setState({ location: {coords: {latitude:result[0].latitude, longitude: result[0].longitude}}});
+      // console.log(this.state.location);
+
       // this.setState({ locationText: '' });
-      alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
+      // alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
     } catch (e) {
       console.log(e);
       // this.setState({ error: e.message });
@@ -87,7 +99,7 @@ class HomeTab extends Component {
       <Container style={styles.container}>
 
         {this.state.inProgress ?
-          <Text>Loading</Text> : <MapComponent locationResult={this.state.locationText} />
+          <Text>Loading</Text> : <MapComponent locationResult={this.state.location} />
         }
 
         <SearchBar
@@ -95,9 +107,10 @@ class HomeTab extends Component {
           updateLocation={this._attemptGeocodeAsync}
         />
 
-        { this.state.inProgress ?
-          <Text>Loading</Text> :  <Feed location={this.state.locationText} navigation={this.props.navigation}/>
-        }
+
+      {this.state.inProgress ?
+        <Text>Loading</Text> : <Feed location={this.state.location} navigation={this.props.navigation}/>
+      }
 
 
       </Container>
