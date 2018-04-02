@@ -84,12 +84,6 @@ class HomeTab extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Header style={{ backgroundColor: '#e8195b', paddingTop: 30 }}>
-          <Left><Icon name="paper-plane" style={styles.icon} /></Left>
-          <Body><Image source={require('../../assets/images/text-logo.png')} /></Body>
-          <Right><Icon name="camera" style={styles.icon} /></Right>
-        </Header>
-
         <MapComponent locationResult={this.state.locationText}/>
 
         <SearchBar
@@ -99,7 +93,7 @@ class HomeTab extends Component {
 
 
         { this.state.inProgress ?
-          <Text>Loading</Text> :  <Feed location={this.state.locationText}/>
+          <Text>Loading</Text> :  <Feed location={this.state.locationText} navigation={this.props.navigation}/>
         }
        
 
