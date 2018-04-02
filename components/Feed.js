@@ -36,7 +36,7 @@ export default class Feed extends Component {
           var feedImages = [];
           //get the "image" property of every photo, which is the base64
           photoData.forEach(photo => {
-            feedImages.push(photo.image);
+            feedImages.push(photo);
           });
           console.log("Retrieved Images: " + feedImages.length);
           this.setState({ images: feedImages });
