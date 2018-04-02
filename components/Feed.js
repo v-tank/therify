@@ -33,36 +33,27 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://localhost:8080/photos/location', {
-          method: 'POST',
-          body: JSON.stringify(request),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then(response => {          
-          //console.log(Object.keys(response));
-          //the actual data of the response is stored in its json
-          return response.json();
-        }).then(photoData => {
-          var feedImages = [];
-          //get the "image" property of every photo, which is the base64
-          photoData.forEach(photo => {
-            feedImages.push(photo);
-          });
-          if(this.mounted) { //don't set state if the component has unmounted before the promises finish
-            this.setState({ images: feedImages });
-          }
-        }).catch(error => console.log(error));
-  }
 
-  //this is here to enforce not updating state when the component is not mounted
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  onImagePress = (id) => {
-    // alert(id);
-    this.props.navigation.navigate('Detail', {id: id});
+    fetch('http://10.142.182.123:8080/photos/location', {
+      method: 'POST',
+      body: JSON.stringify(request),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {          
+      //console.log(Object.keys(response));
+      //the actual data of the response is stored in its json
+      return response.json();
+    }).then(photoData => {
+      var feedImages = [];
+      //get the "image" property of every photo, which is the base64
+      photoData.forEach(photo => {
+        feedImages.push(photo);
+      });
+      if(this.mounted) { //don't set state if the component has unmounted before the promises finish
+        this.setState({ images: feedImages });
+      }
+    }).catch(error => console.log(error));
   }
 
   _renderItem = (data, i) => (
