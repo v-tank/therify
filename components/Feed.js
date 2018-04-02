@@ -45,7 +45,6 @@ export default class Feed extends Component {
       //console.log(Object.keys(response));
       //the actual data of the response is stored in its json
       return response.json();
-      console.log("In the feedjs");
     }).then(photoData => {
       var feedImages = [];
       //get the "image" property of every photo, which is the base64

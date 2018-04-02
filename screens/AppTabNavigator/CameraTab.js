@@ -123,10 +123,7 @@ export default class CameraTab extends Component {
         let photoArray = this.state.photos;
         photoArray.push({
           photo:base64,
-          location:{
-            lat:result.coords.latitude, 
-            lon:result.coords.longitude
-          }
+          location:`${result.coords.latitude} ${result.coords.longitude}`
         });
         this.setState({photos: photoArray});
       } finally {

@@ -38,12 +38,11 @@ export default class GalleryScreen extends React.Component {
     var photo = {
       image: this.state.currentPhoto.photo,
       fileType: 'jpg',
-      location: JSON.stringify(this.state.currentPhoto.location),
+      location: this.state.currentPhoto.location,
       email: userEmail,
       title: this.state.currentPhotoTitle,
       description: this.state.currentPhotoAbout
     }
-    console.log("Location galleryjs: "+photo.location);
 
     fetch('http://10.142.124.37:8080/photos', {
       method: 'POST',
