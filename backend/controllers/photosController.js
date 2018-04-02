@@ -26,20 +26,6 @@ module.exports = {
 					})
 			});
 	},
-	getWithComments: function(req, res) {
-		let photoWithComments = {
-			photo: null,
-			comments: []
-		};
-		db.Photo.findOne({id: req.id})
-			.then(photo =>{
-				photoWithComments.photo = photo;
-				//get all of the photo's comments
-				getAllComments(photo.comments, 0, photoWithComments, res);
-			}).catch(err => {
-				console.log(err);
-			});
-	},
 	remove: function(req, res) {
 		db.Photo.findOne({id:req.body.id}).then(photo =>{
 			photo.remove();
@@ -56,6 +42,20 @@ module.exports = {
 		}).catch(err => {
 			console.log(err);
 		});
+	},
+	getWithComments: function(req, res) {
+		let photoWithComments = {
+			photo: null,
+			comments: []
+		};
+		db.Photo.findOne({id: req.body.id})
+			.then(photo =>{
+				photoWithComments.photo = photo;
+				//get all of the photo's comments
+				getAllComments(photo.comments, 0, photoWithComments, res);
+			}).catch(err => {
+				console.log(err);
+			});
 	},
 	findByLocation: function(req, res) {
 		if(req.body.location === ' ') {
@@ -84,10 +84,36 @@ module.exports = {
 		this.findByLocation(req, res);
 	},
 	addComment: function(req, res) {
-
+		//get the ID of the user who made the comment
+		db.User.findOne({email: req.body.email})
+			.then(user => {
+				var comment = {
+					body: req.body.body,
+					user: user.id
+				};
+				//create the comment
+				db.Comment.create(comment)
+					.then(newComment => {
+						//add the comment to the photo
+						db.Photo.findOneAndUpdate(
+							{ id: req.body.photoID },
+							{ $push: {comments: newComment.id} },
+							{ new: true } //it returns the updated photo, instead of its original state
+						).then(photoWithAddedComment => {
+							res.json(newComment);
+							//could choose to return the update photo instead?
+						}).catch(err => {
+							console.log(err);
+						})
+					});
+			});
+		
 	},
 	removeComment: function(req, res) {
-
+		db.Comment.findOne({id: req.body.id})
+			.then(comment => {
+				comment.remove(); //should cascade delete from its photo's comment list
+			});
 	}
 };
 
