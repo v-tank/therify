@@ -13,9 +13,19 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
+    this.loadImages();
+  }
+
+  //this is here to enforce not updating state when the component is not mounted
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  loadImages() {
     this.mounted = true;
 
-    var lat, long = '';
+    var lat = '';
+    var long = '';
     if(this.props.location != '') {
       lat = this.props.location.coords.latitude;
       long = this.props.location.coords.longitude;
@@ -24,32 +34,27 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://10.142.124.37:8080/photos/location', {
-          method: 'POST',
-          body: JSON.stringify(request),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then(response => {          
-          //console.log(Object.keys(response));
-          //the actual data of the response is stored in its json
-          return response.json();
-        }).then(photoData => {
-          var feedImages = [];
-          //get the "image" property of every photo, which is the base64
-            console.log("this and that in feedjs"+ photoData);
-          photoData.forEach(photo => {
-            feedImages.push(photo);
-          });
-          if(this.mounted) { //don't set state if the component has unmounted before the promises finish
-            this.setState({ images: feedImages });
-          }
-        }).catch(error => console.log(error));
-  }
 
-  //this is here to enforce not updating state when the component is not mounted
-  componentWillUnmount() {
-    this.mounted = false;
+    fetch('http://10.0.1.59:8080/photos/location', {
+      method: 'POST',
+      body: JSON.stringify(request),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {          
+      //console.log(Object.keys(response));
+      //the actual data of the response is stored in its json
+      return response.json();
+    }).then(photoData => {
+      var feedImages = [];
+      //get the "image" property of every photo, which is the base64
+      photoData.forEach(photo => {
+        feedImages.push(photo);
+      });
+      if(this.mounted) { //don't set state if the component has unmounted before the promises finish
+        this.setState({ images: feedImages });
+      }
+    }).catch(error => console.log(error));
   }
 
   _renderItem = (data, i) => (
