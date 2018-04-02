@@ -24,7 +24,7 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    fetch('http://10.0.1.59:8080/photos/location', {
+    fetch('http://10.142.124.37:8080/photos/location', {
           method: 'POST',
           body: JSON.stringify(request),
           headers: {
@@ -37,6 +37,7 @@ export default class Feed extends Component {
         }).then(photoData => {
           var feedImages = [];
           //get the "image" property of every photo, which is the base64
+            console.log("this and that in feedjs"+ photoData);
           photoData.forEach(photo => {
             feedImages.push(photo);
           });
@@ -52,7 +53,6 @@ export default class Feed extends Component {
   }
 
   _renderItem = (data, i) => (
-
     <TouchableWithoutFeedback key={i} onPress={() => alert(`${data._id} was pressed!`)}>
       <View style={styles.item}>
         <Image 

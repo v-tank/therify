@@ -32,16 +32,16 @@ export default class GalleryScreen extends React.Component {
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
       return;
-     });
+    });
 
     var photo = {
-      image: this.state.currentPhoto,
+      image: this.state.currentPhoto.photo,
       fileType: 'jpg',
-      location: '37.8287656 -122.4860667',
+      location: JSON.stringify(this.state.currentPhoto.location),
       email: userEmail
     }
 
-    fetch('http://192.168.0.100:8080/photos', {
+    fetch('http://10.142.124.37:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
@@ -62,11 +62,11 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
             {this.props.photos.map(photoData => (
-              <View style={styles.pictureWrapper} key={photoData}>
+              <View style={styles.pictureWrapper} key={photoData.photo}>
                 <Image
-                  key={photoData}
+                  key={photoData.photo}
                   style={styles.picture}
-                  source={{uri: photoData}}
+                  source={{uri: photoData.photo}}
                 />
                 <Button 
                   style={styles.uploadButton} 
@@ -89,11 +89,11 @@ export default class GalleryScreen extends React.Component {
         </TouchableOpacity>
         <KeyboardAvoidingView behavior='padding' style={styles.keyboardAvoid}>
           <ScrollView contentComponentStyle={{ flex: 1 }}>
-            <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto}>
+            <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto.location.lat}>
               <Image
-                key={this.state.currentPhoto}
+                key={this.state.currentPhoto.location.lon}
                 style={styles.picture}
-                source={{ uri: this.state.currentPhoto }}
+                source={{ uri: this.state.currentPhoto.photo }}
               />
             </View>
             <View style={styles.infoAreaView}>
