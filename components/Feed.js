@@ -35,7 +35,7 @@ export default class Feed extends Component {
       range: 50000
     }
 
-    fetch('http://10.0.1.59:8080/photos/location', {
+    fetch('http://10.142.124.37:8080/photos/location', {
       method: 'POST',
       body: JSON.stringify(request),
       headers: {
@@ -45,6 +45,7 @@ export default class Feed extends Component {
       //console.log(Object.keys(response));
       //the actual data of the response is stored in its json
       return response.json();
+      console.log("In the feedjs");
     }).then(photoData => {
       var feedImages = [];
       //get the "image" property of every photo, which is the base64

@@ -31,33 +31,21 @@ export default class GalleryScreen extends React.Component {
   async uploadPhoto (photoUri) {
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
-<<<<<<< HEAD
       return;
     });
-=======
-      return; //cancels the upload if error
-     });
->>>>>>> 2cd6ba2027ea5dc28a9c7bf03360b6a185096565
 
     //TODO: Get the photo's actual location
     var photo = {
       image: this.state.currentPhoto.photo,
       fileType: 'jpg',
-<<<<<<< HEAD
       location: JSON.stringify(this.state.currentPhoto.location),
-      email: userEmail
-    }
-
-    fetch('http://10.142.124.37:8080/photos', {
-=======
-      location: '37.8287656 -122.4860667',
       email: userEmail,
       title: this.state.currentPhotoTitle,
       description: this.state.currentPhotoAbout
     }
+    console.log("Location galleryjs: "+photo.location);
 
-    fetch('http://10.0.1.59:8080/photos', {
->>>>>>> 2cd6ba2027ea5dc28a9c7bf03360b6a185096565
+    fetch('http://10.142.124.37:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
