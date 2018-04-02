@@ -133,17 +133,17 @@ function getAllComments(ids, index, photoWithComments, res){
 	}
 }
 
-function removeAllComments(){
-	if(index === ids.length){
-		return;
-	} else{
-		db.Comment.findOne({id: ids[index]})
-		.then(comment =>{
-			comments.push(comment);
-			getAllComments(ids,index+1,comments);
-		});
-	}
-}
+// function removeAllComments(){
+// 	if(index === ids.length){
+// 		return;
+// 	} else{
+// 		db.Comment.findOne({id: ids[index]})
+// 		.then(comment =>{
+// 			comments.push(comment);
+// 			getAllComments(ids,index+1,comments);
+// 		});
+// 	}
+// }
 
 function parseLocation(locationString) {
 	var location = locationString.split(" ");
