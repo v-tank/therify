@@ -9,17 +9,8 @@ class MapComponent extends Component {
   };
 
   componentDidMount() {
-
     this.setState({ locationResult: this.props.locationResult });
-    console.log("locationResult: " + JSON.stringify(this.props.locationResult, null, 2));
     this.setState({ location: this.props.locationResult });
-  }
-
-  parseLatLong(locationString) {
-    let location = {};
-    console.log(locationString);
-    location = JSON.parse(locationString);
-    this.setState({ location: location });
   }
 
   render() {
