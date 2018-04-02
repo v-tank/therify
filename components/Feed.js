@@ -39,6 +39,8 @@ export default class Feed extends Component {
           //get the "image" property of every photo, which is the base64
           photoData.forEach(photo => {
             feedImages.push(photo);
+            console.log(photo.title);
+            console.log(photo.description);
           });
           if(this.mounted) { //don't set state if the component has unmounted before the promises finish
             this.setState({ images: feedImages });

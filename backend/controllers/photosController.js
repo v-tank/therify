@@ -8,7 +8,9 @@ module.exports = {
 					image: req.body.image,
       				fileType: req.body.fileType,
       				location: req.body.location,
-      				user: user.id
+      				user: user.id,
+      				title: req.body.title,
+      				description: req.body.description
 				};
 				db.Photo.create(photo)
 					.then(createdPhoto => {
