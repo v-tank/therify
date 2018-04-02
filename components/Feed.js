@@ -13,6 +13,8 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
+
     var lat, long = '';
     if(this.props.location != '') {
       lat = this.props.location.coords.latitude;
@@ -36,16 +38,26 @@ export default class Feed extends Component {
           var feedImages = [];
           //get the "image" property of every photo, which is the base64
           photoData.forEach(photo => {
-            feedImages.push(photo.image);
+            feedImages.push(photo);
           });
-          console.log("Retrieved Images: " + feedImages.length);
-          this.setState({ images: feedImages });
+          if(feedImages.length > 0) {
+            console.log(Object.keys(photoData[0]));
+            console.log(photoData[0].image.length);
+          }
+          if(this.mounted) { //don't set state if the component has unmounted before the promises finish
+            this.setState({ images: feedImages });
+          }
         }).catch(error => console.log(error));
+  }
+
+  //this is here to enforce not updating state when the component is not mounted
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   _renderItem = (data, i) => (
 
-    <TouchableWithoutFeedback key={data.id} onPress={() => alert(`${data.id} was pressed!`)}>
+    <TouchableWithoutFeedback key={i} onPress={() => alert(`${data._id} was pressed!`)}>
       <View style={styles.item}>
         <Image 
           source={{ uri: data.image}}
