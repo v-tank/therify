@@ -40,10 +40,6 @@ export default class Feed extends Component {
           photoData.forEach(photo => {
             feedImages.push(photo);
           });
-          if(feedImages.length > 0) {
-            console.log(Object.keys(photoData[0]));
-            console.log(photoData[0].image.length);
-          }
           if(this.mounted) { //don't set state if the component has unmounted before the promises finish
             this.setState({ images: feedImages });
           }
