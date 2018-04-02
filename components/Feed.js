@@ -12,9 +12,19 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
+    this.loadImages();
+  }
+
+  //this is here to enforce not updating state when the component is not mounted
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  loadImages() {
     this.mounted = true;
 
-    var lat, long = '';
+    var lat = '';
+    var long = '';
     if(this.props.location != '') {
       lat = this.props.location.coords.latitude;
       long = this.props.location.coords.longitude;

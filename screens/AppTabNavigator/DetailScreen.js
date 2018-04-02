@@ -1,50 +1,54 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 
 // create a component
 class DetailScreen extends Component {
 
   state = {
-    image: ''
+    imageWithComments: '',
+    isLoading: true
   }
 
   componentDidMount() {
     const imageID = this.props.navigation.state.params.id;
     const imageURL = 'http://localhost:8080/photos/' + imageID;
-    console.log(imageURL);
+    // console.log(imageURL);
 
-    fetch(imageURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => {
-      //console.log(Object.keys(response));
-      //the actual data of the response is stored in its json
-      console.log(response);
-      return response.json();
-    }).catch(error => console.log(error));
+    fetch(imageURL).then((response) => response.json()).then((responseJson => {
+      // console.log("hello");
+      // console.log(Object.keys(responseJson));
+      // console.log(this.state.imageWithComments.photo.description);
+      this.setState({ imageWithComments: responseJson });
+      this.setState({isLoading: false})
+      // console.log(this.state.imageWithComments);
+    })).catch(error => console.log(error));
     
   }
 
   render() {
-
     return (
-      <Card>
+      <ScrollView>
+      {
+        this.state.isLoading ? <Text>Loading</Text> : 
+        
+        <Card>
         <CardItem>
           <Left>
-            {/*<Thumbnail source ={require('../../assets/images/icon.png')} /> */}
+            <Thumbnail source ={require('../../assets/images/icon.png')} />
             <Body>
-              <Text>// User's Name Goes Here</Text>
-              <Text note>// Date Goes Here</Text>
+              <Text style={styles.userName}>{this.state.imageWithComments.user}</Text>
+              <Text note>{this.state.imageWithComments.photo.date}</Text>
             </Body>
           </Left>
         </CardItem>
 
         <CardItem cardBody>
-          {/*<Image source={images[this.props.imageSource]} style={styles.mainImage}/> */}
+          <Image 
+            source={{uri: this.state.imageWithComments.photo.image}} 
+            style={styles.mainImage}
+          />
         </CardItem>
 
         <CardItem style={{height: 45}}>
@@ -65,13 +69,17 @@ class DetailScreen extends Component {
         <CardItem>
           <Body>
             <Text>
-              <Text style={styles.userName}>username </Text>
-              // The image description can go here.
+              <Text>{this.state.imageWithComments.photo.title} </Text>
+                {this.state.imageWithComments.photo.description}
             </Text>
           </Body>
         </CardItem>
       </Card>
-    );
+
+      }
+
+      </ScrollView>
+    )
   }
 }
 
