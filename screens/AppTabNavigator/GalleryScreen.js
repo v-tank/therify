@@ -32,20 +32,20 @@ export default class GalleryScreen extends React.Component {
   async uploadPhoto (photoUri) {
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
-      return;
-    });
+      return; //cancels the upload if error
+     });
 
     //TODO: Get the photo's actual location
     var photo = {
-      image: this.state.currentPhoto.photo,
+      image: this.state.currentPhoto,
       fileType: 'jpg',
-      location: this.state.currentPhoto.location,
+      location: '37.8287656 -122.4860667',
       email: userEmail,
       title: this.state.currentPhotoTitle,
       description: this.state.currentPhotoAbout
     }
 
-    fetch('http://10.142.124.37:8080/photos', {
+    fetch('http://localhost:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
@@ -65,11 +65,11 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
             {this.props.photos.map(photoData => (
-              <View style={styles.pictureWrapper} key={photoData.photo}>
+              <View style={styles.pictureWrapper} key={photoData}>
                 <Image
-                  key={photoData.photo}
+                  key={photoData}
                   style={styles.picture}
-                  source={{uri: photoData.photo}}
+                  source={{uri: photoData}}
                 />
                 <TouchableOpacity
                   onPress={() => { this.showUploadScreen(photoData); }}

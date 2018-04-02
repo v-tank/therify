@@ -1,6 +1,6 @@
 
 import {Feather as Icon } from "@expo/vector-icons";
-import { Location,Constants, Camera, FileSystem, Permissions } from 'expo';
+import { Constants, Camera, FileSystem, Permissions } from 'expo';
 import React ,{Component} from 'react';
 import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, } from 'react-native';
 import GalleryScreen from './GalleryScreen';
@@ -38,7 +38,6 @@ export default class CameraTab extends Component {
     showGallery: false,
     photos: [],
     permissionsGranted: false,
-    lokeshen : null,
   };
 
   static navigationOptions = {
@@ -60,6 +59,11 @@ export default class CameraTab extends Component {
     // });
   }
 
+  getRatios = async () => {
+    const ratios = await this.camera.getSupportedRatios();
+    return ratios;
+  };
+
   toggleView() {
     this.setState({
       showGallery: !this.state.showGallery,
@@ -75,6 +79,12 @@ export default class CameraTab extends Component {
   toggleFlash() {
     this.setState({
       flash: flashModeOrder[this.state.flash],
+    });
+  }
+
+  setRatio(ratio) {
+    this.setState({
+      ratio,
     });
   }
 
@@ -107,30 +117,26 @@ export default class CameraTab extends Component {
       depth,
     });
   }
-  
+
+  getPhotoId(uri){
+    //grabs the filename of the image
+    let myArr = uri.split('/'); 
+    return myArr[myArr.length-1];
+  }
+
   takePicture = async function() {
-    //HM changed this function to complete things only iff it gets the location!
-    //TODO: Discuss with the group on Monday Apr 2,2018
-    var base64= null;
     if (this.camera) {
       this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
-        base64 = 'data:image/jpg;base64,' + data.base64;
-      });
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') { return; }
-      try {
-        let result = await Location.getCurrentPositionAsync({ enableHighAccuracy: true, });
-        this.setState({ location: result });
+        // console.log("Data data" +JSON.stringify(data.uri,null,2));
+        let newPhotoId = this.getPhotoId(data.uri);
+        
+        var base64 = 'data:image/jpg;base64,' + data.base64;
+
         let photoArray = this.state.photos;
-        photoArray.push({
-          photo:base64,
-          location:`${result.coords.latitude} ${result.coords.longitude}`
-        });
+        photoArray.push(base64);
         this.setState({photos: photoArray});
-      } finally {
-        //Finally vibrate
         Vibration.vibrate();
-      }
+      });
     }
   };
 

@@ -20,6 +20,11 @@ export default class Feed extends Component {
     this.mounted = false;
   }
 
+  onImagePress = (id) => {
+    // alert(id);
+    this.props.navigation.navigate('Detail', { id: id });
+  }
+
   loadImages() {
     this.mounted = true;
 
@@ -34,7 +39,7 @@ export default class Feed extends Component {
       range: 50000
     }
 
-    fetch('http://10.142.124.37:8080/photos/location', {
+    fetch('http://localhost:8080/photos/location', {
       method: 'POST',
       body: JSON.stringify(request),
       headers: {
@@ -57,6 +62,7 @@ export default class Feed extends Component {
   }
 
   _renderItem = (data, i) => (
+
     <TouchableWithoutFeedback key={data._id} onPress={() => this.onImagePress(data._id)}>
       <View style={styles.item}>
         <Image 

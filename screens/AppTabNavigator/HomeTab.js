@@ -68,7 +68,7 @@ class HomeTab extends Component {
       // alert(`${JSON.stringify(result)}`);
       // console.log("result: " + JSON.stringify(result, null, 2));
       // console.log("latitude: " + JSON.stringify(result[0].latitude, null, 2));
-      this.setState({ location: {coords: {latitude:result[0].latitude, longitude: result[0].longitude}}});
+      this.setState({ location: { coords: { latitude: result[0].latitude, longitude: result[0].longitude } } });
       // console.log(this.state.location);
 
       // this.setState({ locationText: '' });
@@ -108,9 +108,9 @@ class HomeTab extends Component {
         />
 
 
-      {this.state.inProgress ?
-        <Text>Loading</Text> : <Feed location={this.state.location} navigation={this.props.navigation}/>
-      }
+        {this.state.inProgress ?
+          <Text>Loading</Text> : <Feed location={this.state.location} navigation={this.props.navigation} />
+        }
 
 
       </Container>

@@ -147,6 +147,7 @@ function getAllComments(ids, index, photoWithComments, res){
 	}
 }
 
+
 // function removeAllComments(){
 // 	if(index === ids.length){
 // 		return;
