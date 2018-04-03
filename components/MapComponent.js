@@ -19,7 +19,7 @@ class MapComponent extends Component {
         provider={'google'}
         style={{ alignSelf: 'stretch', flex: 0.8 }}
         showsUserLocation={true}
-        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}>
+        region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.09, longitudeDelta: 0.09 }}>
 		
         {this.state.locationResult !== null ?
         <MapView.Marker coordinate={this.state.location.coords} /> : <View />
