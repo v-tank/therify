@@ -16,7 +16,7 @@ class DetailScreen extends Component {
 
   componentDidMount() {
     const imageID = this.props.navigation.state.params.id;
-    const imageURL = 'http://192.168.0.110:8080/photos/' + imageID;
+    const imageURL = 'http://10.142.182.94:8080/photos/' + imageID;
     // console.log(imageURL);
 
     fetch(imageURL).then((response) => response.json()).then((responseJson => {

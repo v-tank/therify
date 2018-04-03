@@ -14,6 +14,7 @@ export default class GalleryScreen extends React.Component {
     currentPhoto: null,
     currentPhotoTitle: null,
     currentPhotoAbout: null,
+    
   };
   _mounted = false;
 
@@ -46,7 +47,7 @@ export default class GalleryScreen extends React.Component {
       date: this.state.currentPhoto.date
     }
 
-    fetch('http://192.168.0.110:8080/photos', {
+    fetch('http://10.142.182.94:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
