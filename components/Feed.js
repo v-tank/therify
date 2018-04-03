@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
+import SocketIOClient from 'socket.io-client';
 
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
 
 export default class Feed extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      images: []
+    }
 
-  state = {
-    images: []
+    // this.determineUser = this.determineUser.bind(this);
+    // this.onReceivedMessage = this.onReceivedMessage.bind(this);
+    // this.onSend = this.onSend.bind(this);
+    // this._storeMessages = this._storeMessages.bind(this);
+    this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
+
+    this.socket = SocketIOClient('http://192.168.0.110:8080');
+    this.socket.on('feedPhoto', this.onReceivedPhoto);
+    
+    //comes after because it uses socket
+    this.loadImages = this.loadImages.bind(this);
+
+    this.loadImages();
   }
 
   componentDidMount() {
-    this.loadImages();
+    // this.loadImages();
   }
 
   //this is here to enforce not updating state when the component is not mounted
@@ -36,29 +53,49 @@ export default class Feed extends Component {
     }
     var request = {
       location: `${lat} ${long}`,
-      range: 50000
+      range: 5000
     }
+    console.log("request");
+    this.socket.emit('feedRequested', request);
 
-    fetch('http://172.20.10.3:8080/photos/location', {
-      method: 'POST',
-      body: JSON.stringify(request),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => {          
-      //console.log(Object.keys(response));
-      //the actual data of the response is stored in its json
-      return response.json();
-    }).then(photoData => {
-      var feedImages = [];
-      //get the "image" property of every photo, which is the base64
-      photoData.forEach(photo => {
-        feedImages.push(photo);
-      });
-      if(this.mounted) { //don't set state if the component has unmounted before the promises finish
-        this.setState({ images: feedImages });
-      }
-    }).catch(error => console.log(error));
+    // this.mounted = true;
+
+    // var lat = '';
+    // var long = '';
+    // if(this.props.location != '') {
+    //   lat = this.props.location.coords.latitude;
+    //   long = this.props.location.coords.longitude;
+    // }
+    // var request = {
+    //   location: `${lat} ${long}`,
+    //   range: 50000
+    // }
+    // fetch('http://10.0.1.59:8080/photos/location', {
+    //   method: 'POST',
+    //   body: JSON.stringify(request),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // }).then(response => {          
+    //   //console.log(Object.keys(response));
+    //   //the actual data of the response is stored in its json
+    //   return response.json();
+    // }).then(photoData => {
+    //   var feedImages = [];
+    //   //get the "image" property of every photo, which is the base64
+    //   photoData.forEach(photo => {
+    //     feedImages.push(photo);
+    //   });
+    //   if(this.mounted) { //don't set state if the component has unmounted before the promises finish
+    //     this.setState({ images: feedImages });
+    //   }
+    // }).catch(error => console.log(error));
+  }
+
+  onReceivedPhoto(photo) {
+    var images = this.state.images;
+    images.push(photo);
+    this.setState({images});
   }
 
   _renderItem = (data, i) => (

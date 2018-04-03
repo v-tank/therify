@@ -42,10 +42,11 @@ export default class GalleryScreen extends React.Component {
       location: this.state.currentPhoto.location,
       email: userEmail,
       title: this.state.currentPhotoTitle,
-      description: this.state.currentPhotoAbout
+      description: this.state.currentPhotoAbout,
+      date: this.state.currentPhoto.date
     }
 
-    fetch('http://172.20.10.3:8080/photos', {
+    fetch('http://192.168.0.110:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
@@ -150,15 +151,10 @@ export default class GalleryScreen extends React.Component {
   };
 
   showUploadScreen(photoData) {
-    try{ 
-      this.setState({
-        currentPhoto: photoData,
-      })
-    }finally{
-      this.setState({
-        showUploadPage: true,
-      });
-    }
+    this.setState({
+      currentPhoto: photoData,
+      showUploadPage: true,
+    });
   }
 
   render() {
@@ -183,8 +179,6 @@ const styles = StyleSheet.create({
     height: pictureSize
   },
   pictureWrapper: {
-    width: pictureSize,
-    height: pictureSize,
     margin: 5,
   },
   uploadPictureWrapper: {
