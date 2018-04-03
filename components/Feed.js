@@ -39,7 +39,7 @@ export default class Feed extends Component {
       range: 50000
     }
 
-    fetch('http://localhost:8080/photos/location', {
+    fetch('http://10.0.1.59:8080/photos/location', {
       method: 'POST',
       body: JSON.stringify(request),
       headers: {
