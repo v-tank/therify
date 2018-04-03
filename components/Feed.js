@@ -19,7 +19,7 @@ export default class Feed extends Component {
     // this._storeMessages = this._storeMessages.bind(this);
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://192.168.0.110:8080');
+    this.socket = SocketIOClient('http://10.142.96.82:8080');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
