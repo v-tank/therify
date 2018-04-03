@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import CardComponent from '../../components/CardComponent';
 import MapComponent from '../../components/MapComponent';
-import { AsyncStorage, TextInput, FlatList, Button, Image } from 'react-native';
+import { TextInput, FlatList, Button, Image } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 import SearchBar from '../../components/SearchBar';
 import Feed from '../../components/Feed';
@@ -55,31 +55,20 @@ class HomeTab extends Component {
     }
 
     const { locationText, result } = this.state;
-    // alert(`Searching for ${locationText}`);
-    // console.log(`updating location; searching for ${locationText}`);
-    this.setState({ inProgress: true });
+    
 
     try {
-      // console.log("trying");
-      // console.log(typeof(this.state.locationText));
-      // let result = await Location.geocodeAsync("Golden Gate");
-
       let result = await Location.geocodeAsync(this.state.locationText);
-      // console.log("type of" +typeof(result));
-      // alert(`${JSON.stringify(result)}`);
-      // console.log("result: " + JSON.stringify(result, null, 2));
-      // console.log("latitude: " + JSON.stringify(result[0].latitude, null, 2));
-      this.setState({ location: { coords: { latitude: result[0].latitude, longitude: result[0].longitude } } });
-      // console.log(this.state.location);
-
-      // this.setState({ locationText: '' });
-      // alert(`Searched for: ${locationText}; Returned result is: ${JSON.stringify(result)}`);
+      if(result != undefined) {
+        this.setState({ inProgress: true });
+        this.setState({ location: { coords: { latitude: result[0].latitude, longitude: result[0].longitude } } });
+      }
     } catch (e) {
       console.log(e);
-      // this.setState({ error: e.message });
     } finally {
-      // console.log("finally");
-      // this.setState({ inProgress: false });
+      //remove old pins from map
+      this.setState({pinLocations: []});
+      this.setState({ inProgress: false });
     }
   }
 

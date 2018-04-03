@@ -53,12 +53,10 @@ module.exports = {
 		        // console.log(photoWithComments.photo);
 		        //get all of the photo's comments
 		        db.User.findOne({_id: photo.user}).then(user => {
-          photoWithComments.user = user.email;
-          // console.log(photo.comments.length);
-
-
+          			photoWithComments.user = user.email;
+          			// console.log(photo.comments.length);
 					// console.log(photoWithComments.comments.length);
-          var result = getAllComments(photo.comments, 0, photoWithComments, res);
+          			getAllComments(photo.comments, 0, photoWithComments, res);
 				})
 			}).catch(err => {
 				console.log(err);
