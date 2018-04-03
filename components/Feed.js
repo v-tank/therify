@@ -19,7 +19,7 @@ export default class Feed extends Component {
     // this._storeMessages = this._storeMessages.bind(this);
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://10.0.1.59:8080');
+    this.socket = SocketIOClient('http://10.142.85.95:8080');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
@@ -55,7 +55,6 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 50000
     }
-    console.log("request");
     this.socket.emit('feedRequested', request);
   }
 

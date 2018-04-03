@@ -90,7 +90,7 @@ class HomeTab extends Component {
         latitude: parseFloat(locationArray[0]),
         longitude: parseFloat(locationArray[1]),
       },
-      id: photoData.id,
+      id: photoData._id,
       title: photoData.title,
       description: photoData.description
     };
