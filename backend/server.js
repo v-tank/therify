@@ -45,7 +45,7 @@ server.listen(PORT, function() {
 
 websocket.on('connection', (socket) => {
     socket.on('feedRequested', (locationRequest) => onFeedRequested(locationRequest, socket));
-    socket.on('photoRequested', (photoID) => onPhotoRequested(photoID, socket));
+    socket.on('profileRequested', (profileRequest) => onProfileRequested(profileRequest, socket));
 });
 
 //socket.io listeners
@@ -66,13 +66,19 @@ function onFeedRequested(locationRequest, socket) {
 	});
 }
 
-function onPhotoRequested(photoID, socket) {
-	db.Photo.findOne({id: photoID}).then(photo => {
-		if(photo != null) {
-			console.log("Trying to send single photo");
-			socket.emit('feedPhoto', photo);
-		}
-	})
+function onProfileRequested(profileRequest, socket) {
+	db.User.findOne({email: profileRequest.email})
+		.then(user => {
+			user.photos.forEach(photoID => {
+				db.Photo.findOne({_id: photoID})
+					.then(photo => {
+						if(photo != null) {
+							console.log("sending profile photo for " + profileRequest.email);
+							socket.emit('authoredPhoto', photo);
+						}
+					})
+			})
+		});
 }
 
 //====================================================================
