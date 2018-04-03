@@ -179,9 +179,9 @@ function global_dist(pos1, pos2, range){
         return degrees * (pi/180);
     }
 	const earth_rad = 6371;
-    let ch_lat = Math.abs(f_lat - st_lat);
+    let ch_lat = f_lat-st_lat;
     ch_lat = degrees_to_radians(ch_lat);
-    let ch_long = Math.abs(f_long- st_long);
+    let ch_long = f_long-st_long;
     ch_long = degrees_to_radians(ch_long);
 	
 	const a = Math.pow(Math.sin(ch_lat/2),2) + 
