@@ -129,14 +129,16 @@ export default class CameraTab extends Component {
       } finally {
         var base64= null;
         if (this.camera) {
-          let thisDate = new Date(Date.now());
+          let myDate = new Date(Date.now());
+          let time = myDate.toLocaleString();
           this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
             base64 = 'data:image/jpg;base64,' + data.base64;
             let photoArray = this.state.photos;
+            console.log(time);
             photoArray.push({
               photo:base64,
               location: `${result.coords.latitude} ${result.coords.longitude}`,
-              date : thisDate,
+              date: time,
             });
             this.setState({photos: photoArray});
           });
@@ -146,14 +148,15 @@ export default class CameraTab extends Component {
     }else if (status !== 'granted') { 
       var base64= null;
       if(this.camera){
-        let thisDate = new Date(Date.now());
+        let myDate = new Date(Date.now());
+        let time = myDate.toLocaleString();
         this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
           base64 = 'data:image/jpg;base64,' + data.base64;
           let photoArray = this.state.photos;
           photoArray.push({
             photo:base64,
             location: "no location data available",
-            date: thisDate,
+            date: time,
           });
           this.setState({photos: photoArray});
         });
