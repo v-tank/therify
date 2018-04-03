@@ -57,7 +57,7 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <AppTabNavigator userEmail={this.state.userEmail}/>
+      <AppTabNavigator/>
     );
   }
 }

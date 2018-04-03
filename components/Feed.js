@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
 
@@ -10,7 +10,8 @@ export default class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      refreshing: false
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -24,8 +25,13 @@ export default class Feed extends Component {
     this.loadImages();
   }
 
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.loadImages(); //sets refreshing back to false
+  }
+
   componentDidMount() {
-    // this.loadImages();
+    this.mounted = true;
   }
 
   //this is here to enforce not updating state when the component is not mounted
@@ -39,8 +45,6 @@ export default class Feed extends Component {
   }
 
   loadImages() {
-    this.mounted = true;
-
     var lat = '';
     var long = '';
     if(this.props.location != '') {
@@ -52,15 +56,26 @@ export default class Feed extends Component {
       range: 5000
     }
     this.socket.emit('feedRequested', request);
+
+    if(this.mounted) {
+      this.setState({refreshing: false});
+    }
   }
 
   onReceivedPhoto(photo) {
+    var photoIsNew;
     var images = this.state.images;
-    images.push(photo);
-    this.setState({images});
+    photoIsNew = images.every(image => {
+      return image._id != photo._id
+    });
+    
+    if(photoIsNew) {
+      images.push(photo);
+      this.setState({images});
 
-    //give HomeTab access to the photo's location
-    this.props.addPinLocation(photo);
+      //give HomeTab access to the photo's location
+      this.props.addPinLocation(photo);
+    }
   }
 
   _renderItem = (data, i) => (
@@ -91,6 +106,12 @@ export default class Feed extends Component {
         renderItem={this._renderItem}
         data={this.state.images}
         itemsPerRow={3}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }
       />
     );
   }
