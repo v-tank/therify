@@ -20,7 +20,7 @@ class MapComponent extends Component {
 
   renderMapMarkers() {
     if(this.state.pinLocations.length === 0) {
-      return (<MapView.Marker coordinate={{latitude:37.871859, longitude: -122.270290}}/>);
+      return (<View/>);
     } else {
       console.log("rendering pins");
       var pinArray = [];

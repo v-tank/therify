@@ -58,7 +58,7 @@ function onFeedRequested(locationRequest, socket) {
 		photos.forEach(photo => {
 			var queryLocation = parseLocation(locationRequest.location);
 			if(global_dist(queryLocation, parseLocation(photo.location), locationRequest.range)) {
-				console.log("sending photo");
+				console.log("photo in range, sending photo");
 				socket.emit('feedPhoto', photo);
 			}
 		});
