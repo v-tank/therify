@@ -45,14 +45,14 @@ export default class GalleryScreen extends React.Component {
       date: this.state.currentPhotoIndex.date
     }
 
-    fetch('http://10.142.124.179:8080/photos', {
+    fetch('http://10.142.96.82:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
         'Content-Type': 'application/json',
       },
     }).then(response => {          
-      if(response.status ===200){
+      if(response.status === 200){
         Alert.alert( 'Photo Uploaded',);
         this.props.deletePhoto(this.state.currentPhotoIndex); 
       }

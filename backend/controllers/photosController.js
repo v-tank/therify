@@ -45,16 +45,17 @@ module.exports = {
       user: '',
 			photo: null,
 			comments: []
-    	};
+      };
 	    db.Photo.findOne({_id: req.params.id})
 			.then(photo =>{
-		        // console.log(photo);
-		        photoWithComments.photo = photo;
-		        // console.log(photoWithComments.photo);
-		        //get all of the photo's comments
-		        db.User.findOne({_id: photo.user}).then(user => {
-          			photoWithComments.user = user.email;
-          			// console.log(photo.comments.length);
+        // console.log(photo);
+        photoWithComments.photo = photo;
+        // console.log(photoWithComments.photo);
+        //get all of the photo's comments
+        db.User.findOne({_id: photo.user}).then(user => {
+          photoWithComments.user = user.email;
+          // console.log(photo.comments.length);
+        
 					// console.log(photoWithComments.comments.length);
           			getAllComments(photo.comments, 0, photoWithComments, res);
 				})
@@ -143,13 +144,26 @@ function getAllComments(ids, index, photoWithComments, res){
 	} else{
 		db.Comment.findOne({_id: ids[index]})
 		.then(comment =>{
-      // console.log('in else');
-      // console.log(`Comment: ${comment}`);
-      // console.log(`Index: ${index}`);
-      // console.log('-------');
-      
-      photoWithComments.comments.push(comment);
-      getAllComments(ids, index + 1, photoWithComments, res);
+      var commentWithUserName = {
+        "_id": comment._id,
+        "body": comment.body,
+        "user": comment.user,
+        "userName": ''
+      }
+      // console.log(`Before: ${JSON.stringify(commentWithUserName)}`);
+
+      db.User.findOne({_id: comment.user}).then(user => {
+        // console.log(user.email);
+        // var commentWithUserName = comment;
+        // console.log(commentWithUserName);
+        commentWithUserName["userName"] = user.email;
+        // console.log(`After: ${JSON.stringify(commentWithUserName)}`);
+        photoWithComments.comments.push(commentWithUserName);
+
+        // console.log(commentWithUserName);
+
+        getAllComments(ids, index + 1, photoWithComments, res);
+      })
 		});
 	}
 }
