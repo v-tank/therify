@@ -52,7 +52,7 @@ export default class GalleryScreen extends React.Component {
         'Content-Type': 'application/json',
       },
     }).then(response => {          
-      if(response.status ===200){
+      if(response.status === 200){
         Alert.alert( 'Photo Uploaded',);
         this.props.deletePhoto(this.state.currentPhotoIndex); 
       }

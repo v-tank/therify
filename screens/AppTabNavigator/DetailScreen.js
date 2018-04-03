@@ -1,7 +1,10 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
+
+const imageID = '';
+const imageURL = '';
 
 // create a component
 class DetailScreen extends Component {
@@ -15,38 +18,52 @@ class DetailScreen extends Component {
   }
 
   componentDidMount() {
-    const imageID = this.props.navigation.state.params.id;
-    const imageURL = 'http://10.142.85.95:8080/photos/' + imageID;
+    imageID = this.props.navigation.state.params.id;
+    imageURL = 'http://10.142.96.82:8080/photos/' + imageID;
     // console.log(imageURL);
+    this.fetchInfo(imageURL, imageID);
 
+  }
+
+  fetchInfo(imageURL, imageID) {
     fetch(imageURL).then((response) => response.json()).then((responseJson => {
       // console.log("hello");
       // console.log(Object.keys(responseJson));
+      // console.log(responseJson);
       // console.log(this.state.image.photo.description);
       this.setState({ image: responseJson.photo });
       this.setState({ comments: responseJson.comments });
       this.setState({ user: responseJson.user });
-      this.setState({isLoading: false})
+      this.setState({ isLoading: false });
+
+      // console.log(this.state.comments);
+      // console.log(responseJson);
       // console.log(this.state.comments[0].body);
       // console.log(this.state["comments"].length !== 0);
       // this.state["comments"].map(comment => { 
       //   console.log(comment.body);
       // });
     })).catch(error => console.log(error));
-    
   }
 
-  postComment() {
+  async postComment() {
+    Vibration.vibrate();
+    this.textInput.clear()
+    
+    var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
+      console.log(err);
+    })
+
     console.log('Posting comment');
     const imageID = this.state.image._id;
 
     var commentBody = {
-      email: this.state.user,
+      email: userEmail,
       body: this.state.comment,
       photoID: imageID
     }
 
-    var queryURL = 'http://10.142.85.95:8080/photos/comment/add/' + imageID;
+    var queryURL = 'http://10.142.96.82:8080/photos/comment/add/' + imageID;
     // console.log(queryURL);
     
     fetch(queryURL, {
@@ -60,7 +77,10 @@ class DetailScreen extends Component {
       var comments = this.state["comments"];
       comments.push(responseJson);
       // console.log(this.state.image["comments"]);
-      this.setState({comments});
+      console.log("fetching");
+      console.log(imageURL, imageID);
+      this.fetchInfo(imageURL, imageID);
+      // console.log(this.state.comments);
     })).catch(error => console.log(error));
   }
 
@@ -103,7 +123,7 @@ class DetailScreen extends Component {
 
           <CardItem style={{flex: 1, flexDirection: 'row'}}>
             <TextInput
-              ref="comment"
+              ref={input => { this.textInput = input }}
               placeholder="Add a comment..."
               multiline={true}
               numberOfLines={4}
@@ -121,13 +141,13 @@ class DetailScreen extends Component {
       }
 
       {
-        (this.state["comments"].length !== 0) ? 
+          (this.state["comments"].length !== 0) || this.state.refreshing ? 
 
           this.state["comments"].map((comment, i) => {
             return(
               <Card key={i}>
                 <CardItem>
-                  <Text style={styles.userName}>{this.state.user}</Text>
+                  <Text style={styles.userName}>{comment.userName}</Text>
                 </CardItem>
                 <CardItem>
                   <Text>{comment.body}</Text>
