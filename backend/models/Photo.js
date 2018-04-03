@@ -6,7 +6,7 @@ const photoSchema = new Schema({
 	fileType: { type: String, required: true },
 	location: { type: String, required: true },
 	date: { type: Date, default: Date.now },
-	user: { type: [Schema.Types.ObjectId], ref: "User" },
+	user: { type: Schema.Types.ObjectId, ref: "User" },
 	title: String,
 	description: String,
 	comments: { type: [Schema.Types.ObjectId], ref: "Comment" },

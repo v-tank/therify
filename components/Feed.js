@@ -53,7 +53,7 @@ export default class Feed extends Component {
     }
     var request = {
       location: `${lat} ${long}`,
-      range: 50000
+      range: 5000
     }
     this.socket.emit('feedRequested', request);
   }

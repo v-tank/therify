@@ -1,30 +1,67 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 
 // create a component
 class DetailScreen extends Component {
 
   state = {
-    imageWithComments: '',
-    isLoading: true
+    image: '',
+    comments: [],
+    user: '',
+    isLoading: true,
+    comment: ''
   }
 
   componentDidMount() {
     const imageID = this.props.navigation.state.params.id;
-    const imageURL = 'http://localhost:8080/photos/' + imageID;
+    const imageURL = 'http://192.168.0.110:8080/photos/' + imageID;
     // console.log(imageURL);
 
     fetch(imageURL).then((response) => response.json()).then((responseJson => {
       // console.log("hello");
       // console.log(Object.keys(responseJson));
-      // console.log(this.state.imageWithComments.photo.description);
-      this.setState({ imageWithComments: responseJson });
+      // console.log(this.state.image.photo.description);
+      this.setState({ image: responseJson.photo });
+      this.setState({ comments: responseJson.comments });
+      this.setState({ user: responseJson.user });
       this.setState({isLoading: false})
-      // console.log(this.state.imageWithComments);
+      // console.log(this.state.comments[0].body);
+      // console.log(this.state["comments"].length !== 0);
+      // this.state["comments"].map(comment => { 
+      //   console.log(comment.body);
+      // });
     })).catch(error => console.log(error));
     
+  }
+
+  postComment() {
+    console.log('Posting comment');
+    const imageID = this.state.image._id;
+
+    var commentBody = {
+      email: this.state.user,
+      body: this.state.comment,
+      photoID: imageID
+    }
+
+    var queryURL = 'http://172.20.10.3:8080/photos/comment/add/' + imageID;
+    // console.log(queryURL);
+    
+    fetch(queryURL, {
+      method: 'POST',
+      body: JSON.stringify(commentBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => response.json()).then((responseJson => {
+      //TODO: notify that upload was successful, remove the uploaded photo from the UI
+      var comments = this.state["comments"];
+      comments.push(responseJson);
+      // console.log(this.state.image["comments"]);
+      this.setState({comments});
+    })).catch(error => console.log(error));
   }
 
   render() {
@@ -34,48 +71,75 @@ class DetailScreen extends Component {
         this.state.isLoading ? <Text>Loading</Text> : 
         
         <Card>
-        <CardItem>
-          <Left>
-            <Thumbnail source ={require('../../assets/images/icon.png')} />
+          <CardItem>
+            <Left>
+              <Thumbnail source ={require('../../assets/images/icon.png')} />
+              <Body>
+                <Text style={styles.userName}>{this.state.user}</Text>
+                <Text note>{this.state.image.date}</Text>
+              </Body>
+            </Left>
+          </CardItem>
+
+          <CardItem cardBody>
+            <Image 
+              source={{uri: this.state.image.image}} 
+              style={styles.mainImage}
+            />
+          </CardItem>
+
+          <CardItem style={{height: 40}}>
+            <Text>{this.state.image.rating} Therified</Text>
+          </CardItem>
+
+          <CardItem>
             <Body>
-              <Text style={styles.userName}>{this.state.imageWithComments.user}</Text>
-              <Text note>{this.state.imageWithComments.photo.date}</Text>
+              <Text>
+                <Text style={styles.userName}>{this.state.image.title} </Text>
+                  {this.state.image.description}
+              </Text>
             </Body>
-          </Left>
-        </CardItem>
+          </CardItem>
 
-        <CardItem cardBody>
-          <Image 
-            source={{uri: this.state.imageWithComments.photo.image}} 
-            style={styles.mainImage}
-          />
-        </CardItem>
+          <CardItem style={{flex: 1, flexDirection: 'row'}}>
+            <TextInput
+              ref="comment"
+              placeholder="Add a comment..."
+              multiline={true}
+              numberOfLines={4}
+              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10, borderRadius: 20 }}
+              onChangeText={(text) => { this.setState({comment: text}) }}
+            />
+            <TouchableOpacity
+              onPress={this.postComment.bind(this)}
+            >
+              <Text style={{ color: '#e8195b' }}>Post</Text>
+            </TouchableOpacity>
+          </CardItem>
+        </Card>
 
-        <CardItem style={{height: 45}}>
-          <Left>
-            <Button transparent>
-              <Icon name="ios-heart-outline" style={styles.icon} />
-            </Button>
-            <Button transparent>
-              <Icon name="ios-chatbubbles-outline" style={styles.icon} />
-            </Button>
-          </Left>
-        </CardItem>
+      }
 
-        <CardItem style={{height: 20}}>
-          <Text>{this.props.therifies} Therified</Text>
-        </CardItem>
+      {
+        (this.state["comments"].length !== 0) ? 
 
-        <CardItem>
-          <Body>
-            <Text>
-              <Text>{this.state.imageWithComments.photo.title} </Text>
-                {this.state.imageWithComments.photo.description}
-            </Text>
-          </Body>
-        </CardItem>
-      </Card>
-
+          this.state["comments"].map((comment, i) => {
+            return(
+              <Card key={i}>
+                <CardItem>
+                  <Text style={styles.userName}>{this.state.user}</Text>
+                </CardItem>
+                <CardItem>
+                  <Text>{comment.body}</Text>
+                </CardItem>
+              </Card>
+            )
+          }) :
+          <Card>
+            <CardItem>
+              <Text>Be the first to comment!</Text>
+            </CardItem>
+          </Card>
       }
 
       </ScrollView>
