@@ -12,11 +12,7 @@ export default class Feed extends Component {
     this.state = {
       images: []
     }
-
-    // this.determineUser = this.determineUser.bind(this);
-    // this.onReceivedMessage = this.onReceivedMessage.bind(this);
-    // this.onSend = this.onSend.bind(this);
-    // this._storeMessages = this._storeMessages.bind(this);
+    
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
     this.socket = SocketIOClient('http://10.142.85.95:8080');

@@ -22,7 +22,6 @@ class MapComponent extends Component {
     if(this.state.pinLocations.length === 0) {
       return (<View/>);
     } else {
-      console.log("rendering pins");
       var pinArray = [];
       for(let i = 0; i < this.state.pinLocations.length; i++) {
         var pinLocation = this.state.pinLocations[i];
@@ -60,29 +59,7 @@ class MapComponent extends Component {
         showsUserLocation={true}
         region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.025, longitudeDelta: 0.025 }}
       >
-        {/*
-        <MapView.Marker
-          coordinate={
-            pinLocations[0]
-            ? pinLocations[0].coords
-            : {latitude: 31.240747, longitude: 120.167554}
-          }
-        />
-        */}
-        {
-          this.renderMapMarkers()
-         // pinLocations.length === 0
-          //   ? <View/>
-          //   : pinLocations.map(pinLocation => {
-          //       <MapView.Marker
-          //         key={pinLocation.id}
-          //         coordinate={pinLocation.coords}
-          //         title={pinLocation.title}
-          //         description={pinLocation.description} 
-          //       ></MapView.Marker>
-                
-          //     }) 
-        }
+        {this.renderMapMarkers()}
     	</MapView>
     );
   }
