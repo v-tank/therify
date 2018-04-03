@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
+import {Alert, AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
   StyleSheet,View,TouchableOpacity,Text,ScrollView,Dimensions} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
@@ -11,9 +11,9 @@ export default class GalleryScreen extends React.Component {
   state = {
     //photos: [],
     showUploadPage:false,
-    currentPhoto: null,
-    currentPhotoTitle: null,
-    currentPhotoAbout: null,
+    currentPhotoIndex: null,
+    currentPhotoIndexTitle: null,
+    currentPhotoIndexAbout: null,
   };
   _mounted = false;
 
@@ -35,25 +35,27 @@ export default class GalleryScreen extends React.Component {
       return;
     });
 
-    //TODO: Get the photo's actual location
     var photo = {
-      image: this.state.currentPhoto.photo,
+      image: this.props.photos[this.state.currentPhotoIndex].photo,
       fileType: 'jpg',
-      location: this.state.currentPhoto.location,
+      location: this.props.photos[this.state.currentPhotoIndex].location,
       email: userEmail,
-      title: this.state.currentPhotoTitle,
-      description: this.state.currentPhotoAbout,
-      date: this.state.currentPhoto.date
+      title: this.state.currentPhotoIndexTitle,
+      description: this.state.currentPhotoIndexAbout,
+      date: this.state.currentPhotoIndex.date
     }
 
-    fetch('http://10.142.85.95:8080/photos', {
+    fetch('http://10.142.124.179:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
         'Content-Type': 'application/json',
       },
     }).then(response => {          
-      //TODO: notify that upload was successful, remove the uploaded photo from the UI
+      if(response.status ===200){
+        Alert.alert( 'Photo Uploaded',);
+        this.props.deletePhoto(this.state.currentPhotoIndex); 
+      }
     }).catch(error => console.log(error));
   }
 
@@ -65,15 +67,15 @@ export default class GalleryScreen extends React.Component {
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
-            {this.props.photos.map(photoData => (
+            {this.props.photos.map( (photoData,index) => (
               <View style={styles.pictureWrapper} key={photoData.photo}>
                 <Image
                   key={photoData.photo}
                   style={styles.picture}
-                  source={{uri: photoData.photo}}
+                  source={{uri: this.props.photos[index].photo}}
                 />
                 <TouchableOpacity
-                  onPress={() => { this.showUploadScreen(photoData); }}
+                  onPress={() => { this.showUploadScreen(index); }}
                   style={styles.uploadButton}
                 >
                   <Text style={styles.text}>Post Photo</Text>
@@ -98,11 +100,11 @@ export default class GalleryScreen extends React.Component {
           <ScrollView contentComponentStyle={{ flex: 1 }}>
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
-                <View style={styles.uploadPictureWrapper} key={this.state.currentPhoto}>
+                <View style={styles.uploadPictureWrapper} key={this.state.currentPhotoIndex}>
                   <Image
-                    key={this.state.currentPhoto}
+                    key={this.state.currentPhotoIndex}
                     style={{flex: 2}}
-                    source={{ uri: this.state.currentPhoto.photo }}
+                    source={{ uri: this.props.photos[this.state.currentPhotoIndex].photo }}
                   />
                 </View>
               </View>
@@ -113,14 +115,14 @@ export default class GalleryScreen extends React.Component {
                     ref="title"
                     placeholder="Title"
                     style={styles.titleTextArea}
-                    onChangeText={(text) => this.setState({currentPhotoTitle:text})}
+                    onChangeText={(text) => this.setState({currentPhotoIndexTitle:text})}
                   />
 
                   <TextInput
                     ref="summary"
                     placeholder="Write a caption..."
                     style={styles.summaryTextArea}
-                    onChangeText={(text) => this.setState({currentPhotoAbout:text})}
+                    onChangeText={(text) => this.setState({currentPhotoIndexAbout:text})}
                   />
                 </View>
               </View>
@@ -150,9 +152,9 @@ export default class GalleryScreen extends React.Component {
     this.setState({showUploadPage:false });
   };
 
-  showUploadScreen(photoData) {
+  showUploadScreen(index) {
     this.setState({
-      currentPhoto: photoData,
+      currentPhotoIndex: index,
       showUploadPage: true,
     });
   }
