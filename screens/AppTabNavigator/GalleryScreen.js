@@ -32,14 +32,14 @@ export default class GalleryScreen extends React.Component {
   async uploadPhoto (photoUri) {
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
-      return; //cancels the upload if error
-     });
+      return;
+    });
 
     //TODO: Get the photo's actual location
     var photo = {
-      image: this.state.currentPhoto,
+      image: this.state.currentPhoto.photo,
       fileType: 'jpg',
-      location: '37.8287656 -122.4860667',
+      location: this.state.currentPhoto.location,
       email: userEmail,
       title: this.state.currentPhotoTitle,
       description: this.state.currentPhotoAbout
@@ -65,11 +65,11 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
             {this.props.photos.map(photoData => (
-              <View style={styles.pictureWrapper} key={photoData}>
+              <View style={styles.pictureWrapper} key={photoData.photo}>
                 <Image
-                  key={photoData}
+                  key={photoData.photo}
                   style={styles.picture}
-                  source={{uri: photoData}}
+                  source={{uri: photoData.photo}}
                 />
                 <TouchableOpacity
                   onPress={() => { this.showUploadScreen(photoData); }}
@@ -101,7 +101,7 @@ export default class GalleryScreen extends React.Component {
                   <Image
                     key={this.state.currentPhoto}
                     style={{flex: 2}}
-                    source={{ uri: this.state.currentPhoto }}
+                    source={{ uri: this.state.currentPhoto.photo }}
                   />
                 </View>
               </View>
@@ -150,11 +150,16 @@ export default class GalleryScreen extends React.Component {
   };
 
   showUploadScreen(photoData) {
-    this.setState({
-      showUploadPage: true,
-      currentPhoto: photoData,
-    });
-  };
+    try{ 
+      this.setState({
+        currentPhoto: photoData,
+      })
+    }finally{
+      this.setState({
+        showUploadPage: true,
+      });
+    }
+  }
 
   render() {
     const content = this.state.showUploadPage
