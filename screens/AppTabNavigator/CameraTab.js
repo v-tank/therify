@@ -166,8 +166,14 @@ export default class CameraTab extends Component {
   };
 
   renderGallery() {
-    return <GalleryScreen onPress={this.toggleView.bind(this)} photos={this.state.photos}/>;
+    return <GalleryScreen onPress={this.toggleView.bind(this)} deletePhoto={this.deletePhoto.bind(this)} photos={this.state.photos}/>;
   }
+
+  deletePhoto(index){
+    let photoArray = this.state.photos;
+    photoArray.splice(index, 1);
+    this.setState({photos: photoArray});
+  };
 
   renderNoPermissions(){
     return (

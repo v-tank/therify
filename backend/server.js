@@ -55,13 +55,14 @@ function onFeedRequested(locationRequest, socket) {
 
 	//get all the photos and then filter them by location
 	db.Photo.find().then(photos => {
+		var queryLocation = parseLocation(locationRequest.location);
 		photos.forEach(photo => {
-			var queryLocation = parseLocation(locationRequest.location);
 			if(global_dist(queryLocation, parseLocation(photo.location), locationRequest.range)) {
+				console.log("photo in range, sending photo");
 				socket.emit('feedPhoto', photo);
 			}
 		});
-	})
+	});
 }
 
 //====================================================================

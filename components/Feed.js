@@ -12,14 +12,10 @@ export default class Feed extends Component {
     this.state = {
       images: []
     }
-
-    // this.determineUser = this.determineUser.bind(this);
-    // this.onReceivedMessage = this.onReceivedMessage.bind(this);
-    // this.onSend = this.onSend.bind(this);
-    // this._storeMessages = this._storeMessages.bind(this);
+    
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://10.142.96.82:8080');
+    this.socket = SocketIOClient('http://10.142.85.95:8080');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
@@ -55,47 +51,16 @@ export default class Feed extends Component {
       location: `${lat} ${long}`,
       range: 5000
     }
-    console.log("request");
     this.socket.emit('feedRequested', request);
-
-    // this.mounted = true;
-
-    // var lat = '';
-    // var long = '';
-    // if(this.props.location != '') {
-    //   lat = this.props.location.coords.latitude;
-    //   long = this.props.location.coords.longitude;
-    // }
-    // var request = {
-    //   location: `${lat} ${long}`,
-    //   range: 50000
-    // }
-    // fetch('http://10.0.1.59:8080/photos/location', {
-    //   method: 'POST',
-    //   body: JSON.stringify(request),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // }).then(response => {          
-    //   //console.log(Object.keys(response));
-    //   //the actual data of the response is stored in its json
-    //   return response.json();
-    // }).then(photoData => {
-    //   var feedImages = [];
-    //   //get the "image" property of every photo, which is the base64
-    //   photoData.forEach(photo => {
-    //     feedImages.push(photo);
-    //   });
-    //   if(this.mounted) { //don't set state if the component has unmounted before the promises finish
-    //     this.setState({ images: feedImages });
-    //   }
-    // }).catch(error => console.log(error));
   }
 
   onReceivedPhoto(photo) {
     var images = this.state.images;
     images.push(photo);
     this.setState({images});
+
+    //give HomeTab access to the photo's location
+    this.props.addPinLocation(photo);
   }
 
   _renderItem = (data, i) => (

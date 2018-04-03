@@ -40,6 +40,7 @@ module.exports = {
 		});
 	},
 	getWithComments: function(req, res) {
+		console.log("Trying to get the chosen photo");
 		let photoWithComments = {
       user: '',
 			photo: null,
@@ -56,7 +57,7 @@ module.exports = {
           // console.log(photo.comments.length);
         
 					// console.log(photoWithComments.comments.length);
-          var result = getAllComments(photo.comments, 0, photoWithComments, res);
+          			getAllComments(photo.comments, 0, photoWithComments, res);
 				})
 			}).catch(err => {
 				console.log(err);
