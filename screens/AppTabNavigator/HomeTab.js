@@ -68,7 +68,7 @@ class HomeTab extends Component {
     } finally {
       //remove old pins from map
       this.setState({pinLocations: []});
-      this.setState({ inProgress: false });
+      this.setState({inProgress: false});
     }
   }
 

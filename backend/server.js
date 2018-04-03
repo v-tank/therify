@@ -45,6 +45,7 @@ server.listen(PORT, function() {
 
 websocket.on('connection', (socket) => {
     socket.on('feedRequested', (locationRequest) => onFeedRequested(locationRequest, socket));
+    socket.on('photoRequested', (photoID) => onPhotoRequested(photoID, socket));
 });
 
 //socket.io listeners
@@ -63,6 +64,15 @@ function onFeedRequested(locationRequest, socket) {
 			}
 		});
 	});
+}
+
+function onPhotoRequested(photoID, socket) {
+	db.Photo.findOne({id: photoID}).then(photo => {
+		if(photo != null) {
+			console.log("Trying to send single photo");
+			socket.emit('feedPhoto', photo);
+		}
+	})
 }
 
 //====================================================================
