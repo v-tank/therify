@@ -16,7 +16,7 @@ class DetailScreen extends Component {
 
   componentDidMount() {
     const imageID = this.props.navigation.state.params.id;
-    const imageURL = 'http://192.168.0.110:8080/photos/' + imageID;
+    const imageURL = 'http://10.142.85.95:8080/photos/' + imageID;
     // console.log(imageURL);
 
     fetch(imageURL).then((response) => response.json()).then((responseJson => {
@@ -46,7 +46,7 @@ class DetailScreen extends Component {
       photoID: imageID
     }
 
-    var queryURL = 'http://172.20.10.3:8080/photos/comment/add/' + imageID;
+    var queryURL = 'http://10.142.85.95:8080/photos/comment/add/' + imageID;
     // console.log(queryURL);
     
     fetch(queryURL, {
