@@ -151,9 +151,10 @@ export default class GalleryScreen extends React.Component {
 
   showUploadScreen(photoData) {
     this.setState({
-      showUploadPage: true,
       currentPhoto: photoData,
-    });
+    }).then(this.setState({
+      showUploadPage: true,
+    }));
   };
 
   render() {
