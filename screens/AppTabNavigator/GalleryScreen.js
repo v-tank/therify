@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
   StyleSheet,View,TouchableOpacity,Text,ScrollView,Dimensions} from 'react-native';
@@ -45,7 +46,7 @@ export default class GalleryScreen extends React.Component {
       description: this.state.currentPhotoAbout
     }
 
-    fetch('http://10.0.1.59:8080/photos', {
+    fetch('http://192.168.0.100:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
@@ -150,15 +151,10 @@ export default class GalleryScreen extends React.Component {
   };
 
   showUploadScreen(photoData) {
-    try{ 
-      this.setState({
-        currentPhoto: photoData,
-      })
-    }finally{
-      this.setState({
-        showUploadPage: true,
-      });
-    }
+    this.setState({
+      currentPhoto: photoData,
+      showUploadPage: true,
+    });
   }
 
   render() {
@@ -183,8 +179,6 @@ const styles = StyleSheet.create({
     height: pictureSize
   },
   pictureWrapper: {
-    width: pictureSize,
-    height: pictureSize,
     margin: 5,
   },
   uploadPictureWrapper: {
