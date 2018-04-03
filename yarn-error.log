@@ -1,5 +1,5 @@
 Arguments: 
-  D:\Programs\node\node.exe C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  D:\Programs\node\node.exe C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install socket.io-client
 
 PATH: 
   C:\Users\Nick\bin;D:\Programs\Git\mingw64\bin;D:\Programs\Git\usr\local\bin;D:\Programs\Git\usr\bin;D:\Programs\Git\usr\bin;D:\Programs\Git\mingw64\bin;D:\Programs\Git\usr\bin;C:\Users\Nick\bin;D:\Python3.3\Lib\site-packages\PyQt4;D:\Python3.3;C:\Java\jdk1.7.0\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\OpenSSH\bin;C:\Users\Nick\apache-maven-3.3.9-bin\apache-maven-3.3.9\bin;D:\Programs\graphviz\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\dotnet;D:\Programs\Git\cmd;D:\Programs\node;D:\Programs\MySQL;D:\Programs\MongoDB\Server\3.6\bin;C:\Program Files\Java\jdk1.8.0_60\bin;C:\Program Files (x86)\SSH Communications Security\SSH Secure Shell;C:\Users\Nick\AppData\Local\Microsoft\WindowsApps;C:\Users\Nick\AppData\Roaming\npm;D:\Programs\Heroku\bin;D:\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\3.6\bin;D:\Programs\Git\usr\bin\vendor_perl;D:\Programs\Git\usr\bin\core_perl
@@ -22,7 +22,9 @@ npm manifest:
       "native-base": "^2.3.10",
       "react": "16.2.0",
       "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
-      "react-navigation": "^1.5.8"
+      "react-native-grid-component": "^1.0.10",
+      "react-navigation": "^1.5.8",
+      "socket.io-client": "^2.1.0"
     }
   }
 
@@ -3502,6 +3504,12 @@ Lockfile:
       invariant "^2.2.2"
       prop-types "^15.5.10"
   
+  react-native-grid-component@^1.0.10:
+    version "1.0.10"
+    resolved "https://registry.yarnpkg.com/react-native-grid-component/-/react-native-grid-component-1.0.10.tgz#e8af09bc626c0b9f771593b37830c79904829f44"
+    dependencies:
+      prop-types "^15.5.10"
+  
   react-native-iphone-x-helper@^1.0.1:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
@@ -4690,4 +4698,10 @@ Lockfile:
       yargs-parser "^7.0.0"
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\Nick\Desktop\Bootcamp\Projects\therify\node_modules\boom\lib'
+  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add socket.io-client" instead.
+      at new MessageError (C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:186:110)
+      at Object.<anonymous> (C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:21987:13)
+      at Generator.next (<anonymous>)
+      at step (C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:98:30)
+      at C:\Users\Nick\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:109:13
+      at <anonymous>
