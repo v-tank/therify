@@ -18,11 +18,7 @@ module.exports = {
 						db.User
 							.findOneAndUpdate({email:req.body.email},{$push:{photos: createdPhoto.id}})
 							.then(updatedUser => res.json(updatedUser))
-							.catch(err => {
-								if(err) {
-									console.log("err adding photo ")
-								}
-							});
+							.catch(err => {console.log(err)});
 					})
 			});
 	},
@@ -45,24 +41,22 @@ module.exports = {
 	},
 	getWithComments: function(req, res) {
 		let photoWithComments = {
-      user: '',
+      		user: '',
 			photo: null,
 			comments: []
-    };
-
-    // console.log("Here's the ID: " + req.params.id)
-    db.Photo.findOne({_id: req.params.id})
+    	};
+	    db.Photo.findOne({_id: req.params.id})
 			.then(photo =>{
-        // console.log(photo);
-        photoWithComments.photo = photo;
-        // console.log(photoWithComments.photo);
-        //get all of the photo's comments
-        db.User.findOne({_id: photo.user[0]}).then(user => {
-          photoWithComments.user = user.email;
-          photoWithComments.comments = getAllComments(photo.comments, 0, photoWithComments, res);
-          // console.log(photoWithComments.comments.length);
-          res.json(photoWithComments);
-        })
+		        // console.log(photo);
+		        photoWithComments.photo = photo;
+		        // console.log(photoWithComments.photo);
+		        //get all of the photo's comments
+		        db.User.findOne({_id: photo.user[0]}).then(user => {
+					photoWithComments.user = user.email;
+					photoWithComments.comments = getAllComments(photo.comments, 0, photoWithComments, res);
+					// console.log(photoWithComments.comments.length);
+					res.json(photoWithComments);
+				})
 			}).catch(err => {
 				console.log(err);
 			});
@@ -78,8 +72,9 @@ module.exports = {
 			//request has range and location
 			db.Photo.find().then(photos => {
 				var results = [];
+				var requestLocation = parseLocation(req.body.location);
 				photos.forEach(photo => {
-					if(global_dist(parseLocation(req.body.location), parseLocation(photo.location), req.body.range)) {
+					if(global_dist(requestLocation, parseLocation(photo.location), req.body.range)) {
 						results.push(photo);
 					}
 				});

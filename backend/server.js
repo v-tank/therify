@@ -20,7 +20,7 @@ mongoose.Promise = Promise; //Set Mongo to use promises for asynch queries
 //connect to db
 mongoose.connect("mongodb://localhost/therify", {
   //useMongoClient: true //got a warning saying to remove this
-});
+}).then(response => console.log("Connected to server."));
 
 //start server
 app.listen(PORT, function() {
