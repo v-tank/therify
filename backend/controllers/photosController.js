@@ -40,6 +40,7 @@ module.exports = {
 		});
 	},
 	getWithComments: function(req, res) {
+		console.log("Trying to get the chosen photo");
 		let photoWithComments = {
       user: '',
 			photo: null,

@@ -20,6 +20,7 @@ class HomeTab extends Component {
       result: '',
       inProgress: true,
       location: '',
+      pinLocations: []
     }
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
@@ -78,14 +79,29 @@ class HomeTab extends Component {
       // this.setState({ error: e.message });
     } finally {
       // console.log("finally");
-      this.setState({ inProgress: false });
+      // this.setState({ inProgress: false });
     }
+  }
+
+  addPinLocation(photoData) {
+    var locationArray = photoData.location.split(" ");
+    var pinLocation = {
+      coords: {
+        latitude: parseFloat(locationArray[0]),
+        longitude: parseFloat(locationArray[1]),
+      },
+      id: photoData._id,
+      title: photoData.title,
+      description: photoData.description
+    };
+    var pinLocations = this.state.pinLocations;
+    pinLocations.push(pinLocation);
+    this.setState({pinLocations});
   }
 
   updateState = (text) => {
     this.setState({ locationText: text });
     // console.log(this.state.locationText);
-
   }
 
   static navigationOptions = {
@@ -98,8 +114,13 @@ class HomeTab extends Component {
     return (
       <Container style={styles.container}>
 
-        {this.state.inProgress ?
-          <Text>Loading</Text> : <MapComponent locationResult={this.state.location} />
+        {
+          this.state.inProgress 
+            ? <Text>Loading</Text> 
+            : <MapComponent 
+                locationResult={this.state.location}
+                pinLocations={this.state.pinLocations} 
+              />
         }
 
         <SearchBar
@@ -108,8 +129,14 @@ class HomeTab extends Component {
         />
 
 
-        {this.state.inProgress ?
-          <Text>Loading</Text> : <Feed location={this.state.location} navigation={this.props.navigation} />
+        {
+          this.state.inProgress 
+          ? <Text>Loading</Text> 
+          : <Feed 
+              location={this.state.location} 
+              navigation={this.props.navigation}
+              addPinLocation={this.addPinLocation.bind(this)} 
+            />
         }
 
 
