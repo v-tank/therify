@@ -15,7 +15,7 @@ export default class Feed extends Component {
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://10.142.85.95:8080');
+    this.socket = SocketIOClient('http://10.142.96.82:8080');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
