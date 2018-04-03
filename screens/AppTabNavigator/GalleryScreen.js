@@ -46,7 +46,7 @@ export default class GalleryScreen extends React.Component {
       description: this.state.currentPhotoAbout
     }
 
-    fetch('http://192.168.0.100:8080/photos', {
+    fetch('http://10.0.1.59:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {

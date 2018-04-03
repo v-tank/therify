@@ -61,7 +61,7 @@ function onFeedRequested(locationRequest, socket) {
 				socket.emit('feedPhoto', photo);
 			}
 		});
-	})
+	});
 }
 
 //====================================================================
