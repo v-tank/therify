@@ -12,7 +12,7 @@ const commentSchema = new Schema({
 			"Comment cannot be blank."
 		]
 	},
-	user: { type: [Schema.Types.ObjectId], ref: "User" }
+	user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
 const Comment = mongoose.model("Comment", commentSchema);

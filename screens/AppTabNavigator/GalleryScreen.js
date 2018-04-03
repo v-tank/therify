@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
   StyleSheet,View,TouchableOpacity,Text,ScrollView,Dimensions} from 'react-native';
@@ -44,7 +43,7 @@ export default class GalleryScreen extends React.Component {
       email: userEmail,
       title: this.state.currentPhotoTitle,
       description: this.state.currentPhotoAbout,
-      // date: this.state.currentPhoto.date
+      date: this.state.currentPhoto.date
     }
 
     fetch('http://192.168.0.110:8080/photos', {
