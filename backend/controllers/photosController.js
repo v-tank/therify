@@ -10,7 +10,8 @@ module.exports = {
       				location: req.body.location,
       				user: user.id,
       				title: req.body.title,
-      				description: req.body.description
+              description: req.body.description,
+              verified: req.body.verified
 				};
 				db.Photo.create(photo)
 					.then(createdPhoto => {
