@@ -16,7 +16,7 @@ var controllers = require("./controllers");
 
 mongoose.Promise = Promise; //Set Mongo to use promises for asynch queries
 //connect to database
-mongoose.connect("mongodb://localhost/therify").then(response => console.log("Connected to database."));
+mongoose.connect("mongodb://therify:Therify18@ds233739.mlab.com:33739/heroku_nmlsd1r4").then(response => console.log("Connected to database."));
 //====================================================================
 
 //set up express with routes and bodyparser
