@@ -9,6 +9,7 @@ import SocketIOClient from 'socket.io-client';
 
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
+var userEmail = '';
 
 // create a component
 class ProfileTab extends Component {
@@ -22,7 +23,7 @@ class ProfileTab extends Component {
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://10.142.85.95:8080');
+    this.socket = SocketIOClient('http://192.168.0.12:8080');
     this.socket.on('authoredPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
@@ -49,7 +50,7 @@ class ProfileTab extends Component {
   }
 
   async loadImages() {
-    var userEmail = await AsyncStorage.getItem("userEmail").catch(err => console.log(err));
+    userEmail = await AsyncStorage.getItem("userEmail").catch(err => console.log(err));
     var request = {
       email: userEmail
     }
@@ -98,41 +99,39 @@ class ProfileTab extends Component {
     return (
       <Container style={{ flex: 1, backgroundColor: 'white' }}>
         <Header style={{ backgroundColor: '#e8195b', paddingTop: 30 }}>
-          <Left><Icon name="user" style={styles.icon} /></Left>
+          
           <Body><Image source={require('../../assets/images/text-logo.png')} /></Body>
-          <Right><EntypoIcon name="back-in-time" style={styles.icon} /></Right>
+          
         </Header>
 
-        <Content>
-          <View style={{ padding: 10 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <View>
-                <Thumbnail source={require('../../assets/images/icon.png')} style={styles.profileImage} />
-              </View>
-              <View style={{ flex: 3 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text>24</Text>
-                    <Text style={{ fontSize: 10, color: 'grey' }}>posts</Text>
-                  </View>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text>101</Text>
-                    <Text style={{ fontSize: 10, color: 'grey' }}>followers</Text>
-                  </View>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text>14</Text>
-                    <Text style={{ fontSize: 10, color: 'grey' }}>following</Text>
-                  </View>
+        <View style={{ padding: 10 }}>
+          <View style={{ flexDirection: 'row' }}>
+            <View>
+              <Thumbnail source={require('../../assets/images/icon.png')} style={styles.profileImage} />
+            </View>
+            <View style={{ flex: 3 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <View style={{ alignItems: 'center' }}>
+                  <Text>24</Text>
+                  <Text style={{ fontSize: 10, color: 'grey' }}>posts</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <Text>101</Text>
+                  <Text style={{ fontSize: 10, color: 'grey' }}>followers</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <Text>14</Text>
+                  <Text style={{ fontSize: 10, color: 'grey' }}>following</Text>
                 </View>
               </View>
             </View>
-
-            <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-              <Text style={{ fontWeight: 'bold' }}>User's Name</Text>
-              <Text>Description can go here</Text>
-            </View>
           </View>
-        </Content>
+
+          <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+            <Text style={{ fontWeight: 'bold' }}>{userEmail}</Text>
+          </View>
+        </View>
+
 
         <Grid
           style={styles.list}
