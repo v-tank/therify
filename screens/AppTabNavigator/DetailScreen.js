@@ -19,7 +19,7 @@ class DetailScreen extends Component {
 
   componentDidMount() {
     imageID = this.props.navigation.state.params.id;
-    imageURL = 'http://10.142.85.95:8080/photos/' + imageID;
+    imageURL = 'http://192.168.0.12:8080/photos/' + imageID;
     // console.log(imageURL);
     this.fetchInfo(imageURL, imageID);
 
@@ -77,8 +77,8 @@ class DetailScreen extends Component {
       var comments = this.state["comments"];
       comments.push(responseJson);
       // console.log(this.state.image["comments"]);
-      console.log("fetching");
-      console.log(imageURL, imageID);
+      // console.log("fetching");
+      // console.log(imageURL, imageID);
       this.fetchInfo(imageURL, imageID);
       // console.log(this.state.comments);
     })).catch(error => console.log(error));
@@ -106,10 +106,14 @@ class DetailScreen extends Component {
               source={{uri: this.state.image.image}} 
               style={styles.mainImage}
             />
-          </CardItem>
 
-          <CardItem style={{height: 40}}>
-            <Text>{this.state.image.rating} Therified</Text>
+            {
+              this.state.image.verified ?
+                <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center' }} >
+                  <Text style={{ color: 'white', backgroundColor: 'transparent' }}>✓</Text>
+                </View> :
+                <View />
+            }
           </CardItem>
 
           <CardItem>
