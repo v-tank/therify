@@ -1,6 +1,5 @@
 import React from 'react';
-import {Alert, AsyncStorage,Button,TextInput,Image,KeyboardAvoidingView,
-  StyleSheet,View,TouchableOpacity,Text,ScrollView,Dimensions} from 'react-native';
+import { Alert, AsyncStorage, Button, TextInput, Image, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Text, ScrollView, Dimensions} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
@@ -42,10 +41,11 @@ export default class GalleryScreen extends React.Component {
       email: userEmail,
       title: this.state.currentPhotoIndexTitle,
       description: this.state.currentPhotoIndexAbout,
-      date: this.state.currentPhotoIndex.date
+      date: this.state.currentPhotoIndex.date,
+      verified: true
     }
 
-    fetch('http://10.142.85.95:8080/photos', {
+    fetch('http://192.168.0.12:8080/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   backButton: {
-    padding: 20,
+    padding: 30,
     marginBottom: 4,
     backgroundColor: '#e8195b',
   },
