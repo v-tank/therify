@@ -23,7 +23,7 @@ export default class LoginScreen extends Component {
 
         var serverRequest = { email: result.user.email };
 
-        fetch('http://10.142.85.95:8080/user/login', {
+        fetch('https://therifyserver.herokuapp.com/user/login', {
           method: 'POST',
           body: JSON.stringify(serverRequest),
           headers: {
