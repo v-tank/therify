@@ -3,6 +3,8 @@
 
 Welcome to the Therify app
 
+repo for backend: https://github.com/nwactor/therifybackend
+
 Our app was built by Group 3 at the UC Berkeley Extension Coding Boot Camp March 2018 consisting of: 
 Vaibhav Tank, Denis Wu, Nick Wactor, Yusuf Mekias, Hillari Malle, and Mike Thompson
 
