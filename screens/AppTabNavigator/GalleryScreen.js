@@ -45,7 +45,7 @@ export default class GalleryScreen extends React.Component {
       verified: true
     }
 
-    fetch('http://192.168.0.12:8080/photos', {
+    fetch('https://therifyserver.herokuapp.com/photos', {
       method: 'POST',
       body: JSON.stringify(photo),
       headers: {

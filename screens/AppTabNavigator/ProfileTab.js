@@ -23,7 +23,7 @@ class ProfileTab extends Component {
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
-    this.socket = SocketIOClient('http://192.168.0.12:8080');
+    this.socket = SocketIOClient('https://therifyserver.herokuapp.com');
     this.socket.on('authoredPhoto', this.onReceivedPhoto);
     
     //comes after because it uses socket
