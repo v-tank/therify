@@ -1,8 +1,5 @@
 # Therify
 
-![screenshot](assets/images/splash.png)
-![screenshot](assets/images/icon.png)
-
 Welcome to the Therify app
 
 repo for backend: https://github.com/nwactor/therifybackend
@@ -38,3 +35,7 @@ Requirements: You will need node.js installed in your terminal and Expo XDE, whi
 Keep reading if you'd like to run your own instance of the Therify server (you will have your own private photo and user database).
 
 1. visit the repository here: https://github.com/nwactor/therifybackend
+
+
+![screenshot](assets/images/splash.png)
+![screenshot](assets/images/icon.png)
