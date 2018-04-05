@@ -1,4 +1,4 @@
-//import liraries
+// import components
 import React, { Component } from 'react';
 import { AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
@@ -17,6 +17,7 @@ class DetailScreen extends Component {
     comment: ''
   }
 
+  // grabs the passed in image ID and calls a function to fetch the image data
   componentDidMount() {
     imageID = this.props.navigation.state.params.id;
     imageURL = 'https://therifyserver.herokuapp.com/photos/' + imageID;
@@ -25,27 +26,19 @@ class DetailScreen extends Component {
 
   }
 
+  // Function that takes in the image url and ID to make a request to the server for the image info
   fetchInfo(imageURL, imageID) {
     fetch(imageURL).then((response) => response.json()).then((responseJson => {
-      // console.log("hello");
-      // console.log(Object.keys(responseJson));
-      // console.log(responseJson);
-      // console.log(this.state.image.photo.description);
+
       this.setState({ image: responseJson.photo });
       this.setState({ comments: responseJson.comments });
       this.setState({ user: responseJson.user });
       this.setState({ isLoading: false });
 
-      // console.log(this.state.comments);
-      // console.log(responseJson);
-      // console.log(this.state.comments[0].body);
-      // console.log(this.state["comments"].length !== 0);
-      // this.state["comments"].map(comment => { 
-      //   console.log(comment.body);
-      // });
     })).catch(error => console.log(error));
   }
 
+  // Function that posts the comment on the photo using the currently logged in user's email address
   async postComment() {
     Vibration.vibrate();
     this.textInput.clear()
@@ -54,9 +47,9 @@ class DetailScreen extends Component {
       console.log(err);
     })
 
-    console.log('Posting comment');
     const imageID = this.state.image._id;
 
+    // Prepares the comment object to send to the database
     var commentBody = {
       email: userEmail,
       body: this.state.comment,
@@ -64,8 +57,8 @@ class DetailScreen extends Component {
     }
 
     var queryURL = 'https://therifyserver.herokuapp.com/photos/comment/add/' + imageID;
-    // console.log(queryURL);
     
+    // Makes a POST request to the server with the object created 
     fetch(queryURL, {
       method: 'POST',
       body: JSON.stringify(commentBody),
@@ -73,17 +66,14 @@ class DetailScreen extends Component {
         'Content-Type': 'application/json',
       },
     }).then((response) => response.json()).then((responseJson => {
-      //TODO: notify that upload was successful, remove the uploaded photo from the UI
+      // Adds the comment to the photo once the comment has been posted
       var comments = this.state["comments"];
       comments.push(responseJson);
-      // console.log(this.state.image["comments"]);
-      // console.log("fetching");
-      // console.log(imageURL, imageID);
       this.fetchInfo(imageURL, imageID);
-      // console.log(this.state.comments);
     })).catch(error => console.log(error));
   }
 
+  // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
     return (
       <ScrollView>
@@ -171,7 +161,7 @@ class DetailScreen extends Component {
   }
 }
 
-// define your styles
+// Creates the StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
