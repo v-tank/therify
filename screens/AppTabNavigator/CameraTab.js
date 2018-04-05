@@ -1,4 +1,4 @@
-
+// import components
 import {Feather as Icon } from "@expo/vector-icons";
 import { Location,Constants, Camera, FileSystem, Permissions } from 'expo';
 import React ,{Component} from 'react';
@@ -49,14 +49,6 @@ export default class CameraTab extends Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ permissionsGranted: status === 'granted' });
-  }
-
-  componentDidMount() {
-    // FileSystem.makeDirectoryAsync(
-    //   FileSystem.documentDirectory + 'photos'
-    // ).catch(e => {
-    //   console.log(e, 'Directory exists');
-    // });
   }
 
   toggleView() {
@@ -119,6 +111,7 @@ export default class CameraTab extends Component {
     return myArr[myArr.length-1];
   }
 
+  // function that extracts the current location, time, and converts an image to base64 upon capture
   takePicture = async function() {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if(status==='granted'){ 
@@ -142,10 +135,10 @@ export default class CameraTab extends Component {
             });
             this.setState({photos: photoArray});
           });
-          Vibration.vibrate();
+          Vibration.vibrate(); // Vibrate the phone when a picture is taken
         }
       }
-    }else if (status !== 'granted') { 
+    } else if (status !== 'granted') { 
       var base64= null;
       if(this.camera){
         let myDate = new Date(Date.now());
@@ -165,16 +158,19 @@ export default class CameraTab extends Component {
     }
   };
 
+  // Renders the gallery screen when the button is pressed
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} deletePhoto={this.deletePhoto.bind(this)} photos={this.state.photos}/>;
   }
 
+  // Deletes a photo from the gallery once it's been uploaded
   deletePhoto(index){
     let photoArray = this.state.photos;
     photoArray.splice(index, 1);
     this.setState({photos: photoArray});
   };
 
+  // Function to alert the user if the app does not have Camera permissions
   renderNoPermissions(){
     return (
       <View
@@ -191,6 +187,7 @@ export default class CameraTab extends Component {
     );
   }
 
+  // Renders the camera screen with all the buttons
   renderCamera() {
     return (
       <Camera
@@ -297,6 +294,7 @@ export default class CameraTab extends Component {
     );
   }
 
+  // Main function to render the camera or the gallery depending on the user's input
   render() {    
     const cameraScreenContent = this.state.permissionsGranted
       ? this.renderCamera()
@@ -308,6 +306,7 @@ export default class CameraTab extends Component {
   }
 };
 
+// Defines the StyleSheet
 const styles = StyleSheet.create({
   icon: {
     fontSize: 20
