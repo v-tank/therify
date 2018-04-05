@@ -1,8 +1,10 @@
+// import components
 import React, { Component } from 'react';
 import { RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
 
+// determine the image width depending on the width of the device
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
 
@@ -16,10 +18,11 @@ export default class Feed extends Component {
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
 
+    // Establishes connection with the server
     this.socket = SocketIOClient('https://therifyserver.herokuapp.com');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
     
-    //comes after because it uses socket
+    // Comes after because it uses socket
     this.loadImages = this.loadImages.bind(this);
 
     this.loadImages();
@@ -27,23 +30,24 @@ export default class Feed extends Component {
 
   _onRefresh() {
     this.setState({refreshing: true});
-    this.loadImages(); //sets refreshing back to false
+    this.loadImages(); // sets refreshing back to false
   }
 
   componentDidMount() {
     this.mounted = true;
   }
 
-  //this is here to enforce not updating state when the component is not mounted
+  // this is here to enforce not updating state when the component is not mounted
   componentWillUnmount() {
     this.mounted = false;
   }
 
   onImagePress = (id) => {
-    // alert(id);
+    // Go to the detailed page when an image is pressed; passes the id of the image clicked on to render the necessary info
     this.props.navigation.navigate('Detail', { id: id });
   }
 
+  // loads images based on the location in a 3 miles radius (5 km)
   loadImages() {
     var lat = '';
     var long = '';
@@ -62,6 +66,7 @@ export default class Feed extends Component {
     }
   }
 
+  // waits for received photos and adds pins based on the locations received
   onReceivedPhoto(photo) {
     var photoIsNew;
     var images = this.state.images;
@@ -78,6 +83,7 @@ export default class Feed extends Component {
     }
   }
 
+  // function to render each image using the data received
   _renderItem = (data, i) => (
 
     <TouchableWithoutFeedback key={data._id} onPress={() => this.onImagePress(data._id)}>
@@ -99,6 +105,7 @@ export default class Feed extends Component {
     </TouchableWithoutFeedback>
   );
 
+  // renders the grid with the pictures
   render() {
     return (
       <Grid
@@ -107,6 +114,7 @@ export default class Feed extends Component {
         data={this.state.images}
         itemsPerRow={3}
         refreshControl={
+          // adds pull-down-to-refresh functionality
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
@@ -117,6 +125,7 @@ export default class Feed extends Component {
   }
 }
 
+// Stylesheet
 const styles = StyleSheet.create({
   item: {
     flex: 1,

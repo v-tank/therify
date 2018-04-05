@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
-import CardComponent from '../../components/CardComponent';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button, Image } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
@@ -10,6 +9,7 @@ import SearchBar from '../../components/SearchBar';
 import Feed from '../../components/Feed';
 
 import { Permissions, Location } from 'expo';
+
 // create a component
 class HomeTab extends Component {
   constructor(props) {
@@ -26,10 +26,12 @@ class HomeTab extends Component {
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
   }
 
+  // Get the location when component mounts
   componentDidMount() {
     this._getLocationAsync();
   }
 
+  // Function to check for permissions and get the current location's lat and long
   _getLocationAsync = async () => {
     this.setState({ inProgress: true });
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -72,6 +74,7 @@ class HomeTab extends Component {
     }
   }
 
+  // add pins on map for each photo's location
   addPinLocation(photoData) {
     var locationArray = photoData.location.split(" ");
     var pinLocation = {
@@ -88,11 +91,13 @@ class HomeTab extends Component {
     this.setState({pinLocations});
   }
 
+  // updates the search text to be used in the Google Maps search
   updateState = (text) => {
     this.setState({ locationText: text });
     // console.log(this.state.locationText);
   }
 
+  // Defines the icon for the tab and the styles
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <Icon name="home" style={styles.tabBarIcon} />
@@ -102,7 +107,7 @@ class HomeTab extends Component {
   render() {
     return (
       <Container style={styles.container}>
-
+        {/* Loads map and the feed once data has been received */}
         {
           this.state.inProgress 
             ? <Text>Loading</Text> 
@@ -127,7 +132,6 @@ class HomeTab extends Component {
               addPinLocation={this.addPinLocation.bind(this)} 
             />
         }
-
 
       </Container>
     );
