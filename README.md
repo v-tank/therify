@@ -1,8 +1,4 @@
-# Therify
-
-Welcome to the Therify app
-
-repo for backend: https://github.com/nwactor/therifybackend
+# Welcome to Therify
 
 Our app was built by Group 3 at the UC Berkeley Extension Coding Boot Camp March 2018 consisting of: 
 Vaibhav Tank, Denis Wu, Nick Wactor, Yusuf Mekias, Hillari Malle, and Mike Thompson
@@ -16,13 +12,15 @@ React Native, Expo XDE, npm packages, AWS
 
 To use Therify, you will need to download the Expo client app for your smart phone. Once you have it installed, on Android you can check out Therify by visiting https://expo.io/@vtank/therify and scanning the QR code there with your Expo app. iOS users ~~are SOL~~ will need to clone this repo and run it locally through Expo XDE in order to use the app.
 
+Therify requires the user to login with a Google account.
+
 ## Install App Locally
 
 Requirements: You will need node.js installed in your terminal and Expo XDE, which can be found here: https://docs.expo.io/versions/latest/introduction/installation 
 
 1. Navigate to the directory where you would like to download Therify's files and run `git clone https://github.com/v-tank/therify.git`
 
-2. `npm install` `yarn add`
+2. `cd therify` `npm install` `yarn add`
 
 ### To Run:
 
@@ -34,8 +32,18 @@ Requirements: You will need node.js installed in your terminal and Expo XDE, whi
 
 Keep reading if you'd like to run your own instance of the Therify server (you will have your own private photo and user database).
 
-1. visit the repository here: https://github.com/nwactor/therifybackend
+1. Create a new directory separate from the Therify app and run `git clone https://github.com/nwactor/therifybackend.git`
+  (repository for backend code can be found here: https://github.com/nwactor/therifybackend)
 
+2. `cd therifybackend` `npm install`
+
+3.  Create a local mongoDB database called "therify"
+
+4. Navigate to line 19 of server.js (located in the project's root directory) and replace the string in `mongoose.connect("<string>")` with `mongodb://localhost/therify`
+
+5. Go into your Therify app directory, and change the connection IP addresses to your local IP address (search for the keyword 'heroku') in the following files: 
+
+6. `node start` in your therifybackend directory (the one that contains server.js)
 
 ![screenshot](assets/images/splash.png)
 ![screenshot](assets/images/icon.png)
