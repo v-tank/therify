@@ -1,4 +1,4 @@
-//import liraries
+// Import components
 import React, { Component } from 'react';
 import { AsyncStorage, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Expo from 'expo';
@@ -9,8 +9,10 @@ export default class LoginScreen extends Component {
     header: null
   }
 
+  // Function to use Google OAuth
   async signInWithGoogleAsync() {
     try {
+      // Object that uses the client IDs created for each platform
       const result = await Expo.Google.logInAsync({
         behavior: 'web',
         androidClientId: '1037327035065-ajdv9id43hfneomj9vn06m95nbv31399.apps.googleusercontent.com',
@@ -19,10 +21,10 @@ export default class LoginScreen extends Component {
       });
 
       if (result.type === 'success') {
-        //console.log(result.user);
-
+        // If the user logs in successfully, make a server request with their email
         var serverRequest = { email: result.user.email };
 
+        // Make a POST request to the database to create a new user if the email is not found in the database
         fetch('https://therifyserver.herokuapp.com/user/login', {
           method: 'POST',
           body: JSON.stringify(serverRequest),
@@ -30,14 +32,12 @@ export default class LoginScreen extends Component {
             'Content-Type': 'application/json',
           },
         }).then(response => {          
-          //set global logged-in variable
+          // set global logged-in variable
           AsyncStorage.setItem('userEmail', serverRequest.email);
 
-          //navigate to the main page
+          // navigate to the main page
           this.props.navigation.navigate('Main');
 
-          //return statement seems unecessary
-          //return result.accessToken;
         }).catch(error => console.log(error));
       } else {
         return { cancelled: true };
@@ -51,6 +51,7 @@ export default class LoginScreen extends Component {
     }
 }
 
+  // Render the background image and login button at start
   render() {
     return (
       <ImageBackground
@@ -74,6 +75,7 @@ export default class LoginScreen extends Component {
   }
 }
 
+// Creates the StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
