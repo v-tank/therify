@@ -1,23 +1,25 @@
+// Import components
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { MapView, Location, Permissions, Text } from 'expo';
 
 class MapComponent extends Component {
   state = {
-    // locationResult: null,
     location: {coords: {latitude: 0, longitude: 0}},
     pinLocations: this.props.pinLocations
   };
 
+  // set the state to get the lat and long for the searched location
   componentDidMount() {
-    // this.setState({ locationResult: this.props.locationResult });
     this.setState({ location: this.props.locationResult });
   }
 
+  // update the pin locations based on the location searched
   componentWillReceiveProps() {
     this.setState({pinLocations: this.props.pinLocations});
   }
 
+  // renders the markers for the photo locations
   renderMapMarkers() {
     if(this.state.pinLocations.length === 0) {
       return (<View/>);
@@ -26,6 +28,7 @@ class MapComponent extends Component {
       for(let i = 0; i < this.state.pinLocations.length; i++) {
         var pinLocation = this.state.pinLocations[i];
         pinArray.push((
+          // marker takes in the coordinates, title, and description for each one on the map
           <MapView.Marker
             key={pinLocation.id}
             coordinate={pinLocation.coords}
@@ -35,23 +38,11 @@ class MapComponent extends Component {
         ));
       }
       return pinArray;
-        // this.state.pinLocations.map(pinLocation => {
-        //   {console.log(pinLocation)}
-        //   return(
-        //     <MapView.Marker
-        //       key={pinLocation.id}
-        //       coordinate={pinLocation.coords}
-        //       title={pinLocation.title}
-        //       description={pinLocation.description} 
-        //     /> 
-        //   );
-        // })
     }
   }
 
+  // renders a Google maps component and zooms in on the current location at a defined zoom level; also renders the map markers
   render() {
-    // var pinLocations = this.state.pinLocations || [];
-    // console.log(pinLocations[pinLocations.length - 1]);
     return (
       <MapView
         provider={'google'}
@@ -65,4 +56,4 @@ class MapComponent extends Component {
   }
 }
 
-export default MapComponent;
+export default MapComponent; // Export the component to be used in the Home Tab
