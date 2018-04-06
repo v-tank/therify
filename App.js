@@ -1,3 +1,4 @@
+// Imports the necessary components for the app to run
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {StackNavigator} from 'react-navigation';
@@ -12,6 +13,7 @@ export default class App extends React.Component {
   }
 }
 
+// Defines the stack navigator that renders all the pages
 const AppStackNavigator = StackNavigator({
   Login: {
     screen: LoginScreen
