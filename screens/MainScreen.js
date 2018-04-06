@@ -1,3 +1,4 @@
+// Import components and screens
 import React, { Component } from 'react';
 import { AsyncStorage, View, Text, StyleSheet, Platform } from 'react-native';
 import { Feather as Icon } from "@expo/vector-icons";
@@ -7,6 +8,7 @@ import CameraTab from './AppTabNavigator/CameraTab';
 import ProfileTab from './AppTabNavigator/ProfileTab';
 import DetailScreen from './AppTabNavigator/DetailScreen';
 
+// Creates a stack navigator for the Home Tab
 const FeedStack = StackNavigator({
   Home: {
     screen: HomeTab,
@@ -39,19 +41,11 @@ class MainScreen extends Component {
     this.checkLoggedIn();
   }
 
+  // Checks for the logged in user
   checkLoggedIn() {
     AsyncStorage.getItem('userEmail')
       .then(userEmail => {
         this.setState({ userEmail });
-        // console.log("Stored Email:");
-        // console.log(userEmail);
-
-        //if user is not logged in, boot back to login page
-        //DISABLED FOR DEVELOPMENT
-        // if(userEmail === null) {
-        //   this.props.navigation.navigate('Login');
-        // }
-        //else, load the user's info...
       });
   }
 
@@ -75,6 +69,7 @@ const styles = StyleSheet.create({
 //make this component available to the app
 export default MainScreen;
 
+// Creates a tab navigator with the 3 necessary tabs
 const AppTabNavigator = TabNavigator({
   FeedStack: {
     screen: FeedStack,
