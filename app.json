@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "therify",
-    "description": "A very interesting project.",
+    "description": "Therify is a photo-sharing app that automatically gets the location as well as the time when the picture was taken. The main purpose of the app is to prevent the spreading of false news by 'therifying' each image on our platform.",
     "slug": "therify",
     "privacy": "public",
     "sdkVersion": "25.0.0",
