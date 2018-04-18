@@ -97,55 +97,20 @@ class ProfileTab extends Component {
 
   render() {
     return (
-      <Container style={{ flex: 1, backgroundColor: 'white' }}>
-        <Header style={{ backgroundColor: '#e8195b', paddingTop: 30 }}>
-          
-          <Body><Image source={require('../../assets/images/text-logo.png')} /></Body>
-          
-        </Header>
-
-        <View style={{ padding: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <View>
-              <Thumbnail source={require('../../assets/images/icon.png')} style={styles.profileImage} />
-            </View>
-            <View style={{ flex: 3 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                <View style={{ alignItems: 'center' }}>
-                  <Text>24</Text>
-                  <Text style={{ fontSize: 10, color: 'grey' }}>posts</Text>
-                </View>
-                <View style={{ alignItems: 'center' }}>
-                  <Text>101</Text>
-                  <Text style={{ fontSize: 10, color: 'grey' }}>followers</Text>
-                </View>
-                <View style={{ alignItems: 'center' }}>
-                  <Text>14</Text>
-                  <Text style={{ fontSize: 10, color: 'grey' }}>following</Text>
-                </View>
-              </View>
-            </View>
+    <Container style={{ flex: 1, backgroundColor: 'white'}}>
+        <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
+          <View>
+            <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
           </View>
 
           <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-            <Text style={{ fontWeight: 'bold' }}>{userEmail}</Text>
+            <Text style={{ fontWeight: "bold", color: 'white' }}>
+              (Username will go here)
+            </Text>
           </View>
         </View>
 
-
-        <Grid
-          style={styles.list}
-          renderItem={this._renderItem}
-          data={this.state.images}
-          itemsPerRow={3}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh.bind(this)}
-            />
-          }
-        />
-
+        <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
       </Container>
     );
   }
