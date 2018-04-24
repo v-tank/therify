@@ -1,12 +1,23 @@
 {
+  "name": "therify",
+  "version": "0.0.0",
+  "description": "Starter",
+  "author": null,
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "scripts": {
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
   "dependencies": {
     "expo": "^25.0.0",
     "native-base": "^2.3.10",
     "npm": "^5.8.0",
     "react": "16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-elements": "^0.19.1",
     "react-native-grid-component": "^1.0.10",
     "react-navigation": "^1.5.8",
     "socket.io-client": "^2.1.0"

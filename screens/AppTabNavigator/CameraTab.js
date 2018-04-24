@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   item: {
     margin: 4,
-    backgroundColor: '#e8195b',
+    backgroundColor: '#ea2564',
     height: 35,
     width: 80,
     borderRadius: 5,
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkseagreen',
   },
   galleryButton: {
-    backgroundColor: '#e8195b',
+    backgroundColor: '#ea2564',
   },
   landmark: {
     width: landmarkSize,

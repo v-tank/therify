@@ -5,7 +5,7 @@ import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button, Image } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
-import SearchBar from '../../components/SearchBar';
+import Searchbar from '../../components/SearchBar';
 import Feed from '../../components/Feed';
 
 import { Permissions, Location } from 'expo';
@@ -110,22 +110,25 @@ class HomeTab extends Component {
         {/* Loads map and the feed once data has been received */}
         {
           this.state.inProgress 
-            ? <Text>Loading</Text> 
+            ? <Text>Loading...</Text> 
             : <MapComponent 
                 locationResult={this.state.location}
                 pinLocations={this.state.pinLocations} 
               />
         }
 
-        <SearchBar
-          updateState={this.updateState}
-          updateLocation={this._attemptGeocodeAsync}
-        />
-
-
+        {
+          this.state.inProgress
+            ? <Text></Text> 
+            : <Searchbar
+                updateState={this.updateState}
+                updateLocation={this._attemptGeocodeAsync}
+              />
+        }
+        
         {
           this.state.inProgress 
-          ? <Text>Loading</Text> 
+          ? <Text></Text> 
           : <Feed 
               location={this.state.location} 
               navigation={this.props.navigation}
@@ -153,7 +156,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   tabBarIcon: {
-    color: '#e8195b',
+    color: '#ea2564',
     fontSize: 20
   }
 });
