@@ -63,7 +63,7 @@ export default class GalleryScreen extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.props.onPress}>
-          <Text style={{color: 'white', fontSize: 18, alignSelf: 'center', justifyContent: 'center'}}>Back</Text>
+          <Text style={{color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Back</Text>
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
@@ -92,7 +92,7 @@ export default class GalleryScreen extends React.Component {
     return(
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
-          <Text style={{ color: 'white', fontSize: 18, alignSelf: 'center', justifyContent: 'center'}}>Go To Gallery</Text>
+          <Text style={{ color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Go To Gallery</Text>
         </TouchableOpacity>
         
         <KeyboardAvoidingView behavior='padding' style={styles.keyboardAvoid}>
@@ -115,12 +115,17 @@ export default class GalleryScreen extends React.Component {
                     ref="title"
                     placeholder="Title"
                     style={styles.titleTextArea}
+                    underlineColorAndroid="#ffffff"
+                    maxLength={22}
                     onChangeText={(text) => this.setState({currentPhotoIndexTitle:text})}
                   />
 
                   <TextInput
                     ref="summary"
                     placeholder="Write a caption..."
+                    multiline={true}
+                    numberOfLines={4}
+                    maxLength={200}
                     style={styles.summaryTextArea}
                     onChangeText={(text) => this.setState({currentPhotoIndexAbout:text})}
                   />
@@ -189,15 +194,15 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   backButton: {
-    padding: 30,
+    padding: 20,
     marginBottom: 4,
-    backgroundColor: '#e8195b',
+    backgroundColor: '#ea2564',
   },
   uploadButton: {
     alignItems: 'center',
     backgroundColor: 'transparent',
     paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
-    borderRadius: 50, borderWidth: 2, borderColor: '#e8195b', margin: 10
+    borderRadius: 50, borderWidth: 2, borderColor: '#ea2564', margin: 10
   },
   titleAreaView:{
     
@@ -230,7 +235,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   text: {
-    color: '#e8195b',
+    color: '#ea2564',
     fontSize: 16
   }
 });

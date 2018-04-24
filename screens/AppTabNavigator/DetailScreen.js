@@ -75,89 +75,75 @@ class DetailScreen extends Component {
 
   // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
-    return (
-      <ScrollView>
-      {
-        this.state.isLoading ? <Text>Loading</Text> : 
-        
-        <Card>
-          <CardItem>
-            <Left>
-              <Thumbnail source ={require('../../assets/images/icon.png')} />
+    return <ScrollView>
+        {this.state.isLoading ? <Text>Loading</Text> : <Card>
+            <CardItem>
+              <Left>
+                <Thumbnail source={require("../../assets/images/icon.png")} />
+                <Body>
+                  <Text style={styles.userName}>{this.state.user}</Text>
+                  <Text note>{this.state.image.date}</Text>
+                </Body>
+              </Left>
+            </CardItem>
+
+            <CardItem cardBody>
+              <Image source={{ uri: this.state.image.image }} style={styles.mainImage} />
+
+              {this.state.image.verified ? <View style={{ position: "absolute", right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: "#5BBA47", justifyContent: "center", alignItems: "center" }}>
+                  <Text
+                    style={{
+                      color: "white",
+                      backgroundColor: "transparent"
+                    }}
+                  >
+                    ✓
+                  </Text>
+                </View> : <View />}
+            </CardItem>
+
+            <CardItem>
               <Body>
-                <Text style={styles.userName}>{this.state.user}</Text>
-                <Text note>{this.state.image.date}</Text>
-              </Body>
-            </Left>
-          </CardItem>
-
-          <CardItem cardBody>
-            <Image 
-              source={{uri: this.state.image.image}} 
-              style={styles.mainImage}
-            />
-
-            {
-              this.state.image.verified ?
-                <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center' }} >
-                  <Text style={{ color: 'white', backgroundColor: 'transparent' }}>✓</Text>
-                </View> :
-                <View />
-            }
-          </CardItem>
-
-          <CardItem>
-            <Body>
-              <Text>
-                <Text style={styles.userName}>{this.state.image.title} </Text>
+                <Text>
+                  <Text style={styles.userName}>
+                    {this.state.image.title}{" "}
+                  </Text>
                   {this.state.image.description}
-              </Text>
-            </Body>
-          </CardItem>
+                </Text>
+              </Body>
+            </CardItem>
 
-          <CardItem style={{flex: 1, flexDirection: 'row'}}>
-            <TextInput
-              ref={input => { this.textInput = input }}
-              placeholder="Add a comment..."
-              multiline={true}
-              numberOfLines={4}
-              style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10, borderRadius: 20 }}
-              onChangeText={(text) => { this.setState({comment: text}) }}
-            />
-            <TouchableOpacity
-              onPress={this.postComment.bind(this)}
-            >
-              <Text style={{ color: '#e8195b' }}>Post</Text>
-            </TouchableOpacity>
-          </CardItem>
-        </Card>
+            <CardItem style={{ flex: 1, flexDirection: "row" }}>
+              <TextInput ref={input => {
+                  this.textInput = input;
+                }} placeholder="Add a comment..." multiline={true} numberOfLines={4} style={{ height: 30, fontSize: 15, textAlign: "center", flex: 5, backgroundColor: "#eeeeee", marginRight: 10, borderRadius: 20 }} onChangeText={text => {
+                  this.setState({ comment: text });
+                }} />
+              <TouchableOpacity onPress={this.postComment.bind(this)}>
+                <Text style={{ color: "#ea2564" }}>Post</Text>
+              </TouchableOpacity>
+            </CardItem>
+          </Card>}
 
-      }
-
-      {
-          (this.state["comments"].length !== 0) || this.state.refreshing ? 
-
-          this.state["comments"].map((comment, i) => {
-            return(
-              <Card key={i}>
-                <CardItem>
-                  <Text style={styles.userName}>{comment.userName}</Text>
-                </CardItem>
-                <CardItem>
-                  <Text>{comment.body}</Text>
-                </CardItem>
-              </Card>
-            )
-          }) :
-          <Card>
+        {this.state["comments"].length !== 0 || this.state.refreshing ? this.state["comments"].map(
+            (comment, i) => {
+              return (
+                <Card key={i}>
+                  <CardItem>
+                    <Text style={styles.userName}>{comment.userName}</Text>
+                  </CardItem>
+                  <CardItem>
+                    <Text>{comment.body}</Text>
+                  </CardItem>
+                </Card>
+              );
+            }
+          ) : <Card>
             <CardItem>
               <Text>Be the first to comment!</Text>
             </CardItem>
-          </Card>
-      }
-
-      </ScrollView>
-    )
+          </Card>}
+      </ScrollView>;
   }
 }
 
