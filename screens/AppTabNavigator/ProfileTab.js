@@ -98,7 +98,7 @@ class ProfileTab extends Component {
   render() {
     return (
     <Container style={{ flex: 1, backgroundColor: 'white'}}>
-        <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
+        <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10, flexDirection: 'row' }}>
           <View>
             <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
           </View>
