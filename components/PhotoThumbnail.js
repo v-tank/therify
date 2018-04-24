@@ -9,15 +9,15 @@ export default class PhotoThumbnail extends Component {
 		highlighted: this.props.highlighted
 	};
 
-	componentWillReceiveProps(nextProps) {
-    	this.setState({highlighted: nextProps.highlighted}, function() {
-    		console.log(this.state.highlighted);
-    	});
-  	}
+	// componentWillReceiveProps(nextProps) {
+ //    	this.setState({highlighted: nextProps.highlighted}, function() {
+ //    		console.log(this.state.highlighted);
+ //    	});
+ //  	}
 
-  	componentWillUpdate() {
-  		console.log("anything???");
-  	}
+ //  	componentWillUpdate() {
+ //  		console.log("anything???");
+ //  	}
 
 	render() {
 		return (
