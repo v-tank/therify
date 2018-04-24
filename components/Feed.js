@@ -51,12 +51,12 @@ export default class Feed extends Component {
     } else { //focus on photo
       this.props.focusOnPhoto(id);
       //update UI to show photo focus
-      var images = this.state.renderedImages;
-      for(let i = 0; i < images.length; i++) {
-        if(images[i].key == this.props.focusedPhoto) {
-          images[i].style = styles.focused;
-        }
-      }
+      // var images = this.state.renderedImages;
+      // for(let i = 0; i < images.length; i++) {
+      //   if(images[i].key == this.props.focusedPhoto) {
+      //     images[i].style = styles.focused;
+      //   }
+      // }
     }
   }
 
@@ -129,7 +129,7 @@ export default class Feed extends Component {
     );
 
     //store a reference to the rendered item so that it can be updated later
-    this.setState({renderedImages: this.state.renderedImages.push(feedItem)});
+    //this.setState({renderedImages: this.state.renderedImages.push(feedItem)});
 
     return feedItem;
   }
