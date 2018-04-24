@@ -34,6 +34,7 @@ class MapComponent extends Component {
             coordinate={pinLocation.coords}
             title={pinLocation.title}
             description={pinLocation.description} 
+            pinColor={(this.props.focusedPhoto == pinLocation.id) ? 'blue' : 'red' }
           /> 
         ));
       }

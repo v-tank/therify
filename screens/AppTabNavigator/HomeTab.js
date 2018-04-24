@@ -104,8 +104,15 @@ class HomeTab extends Component {
     this.setState({pinLocations});
   }
 
-  focusOnPhoto(id) {
-    this.setState({focusedPhoto: id});
+  // Update the currently focused photo, and go to the detail page when it is pressed again
+  clickOnPhoto(id) {
+    if(this.state.focusedPhoto != id) {
+      this.setState({focusedPhoto: id}/*, () => {
+        console.log(this.state.focusedPhoto);
+      }*/);
+    } else {
+      this.props.navigation.navigate('Detail', { id: id });
+    }
   }
 
   render() {
@@ -119,7 +126,7 @@ class HomeTab extends Component {
                 locationResult={this.state.location}
                 pinLocations={this.state.pinLocations}
                 focusedPhoto={this.state.focusedPhoto}
-                focusOnPhoto={this.focusOnPhoto.bind(this)} 
+                clickOnPhoto={this.clickOnPhoto.bind(this)}
               />
         }
 
@@ -139,7 +146,7 @@ class HomeTab extends Component {
               navigation={this.props.navigation}
               focusedPhoto={this.state.focusedPhoto}
               addPinLocation={this.addPinLocation.bind(this)}
-              focusOnPhoto={this.focusOnPhoto.bind(this)} 
+              clickOnPhoto={this.clickOnPhoto.bind(this)}
             />
         }
 
