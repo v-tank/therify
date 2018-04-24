@@ -127,7 +127,7 @@ class DetailScreen extends Component {
             <TouchableOpacity
               onPress={this.postComment.bind(this)}
             >
-              <Text style={{ color: '#e8195b' }}>Post</Text>
+              <Text style={{ color: '#ea2564' }}>Post</Text>
             </TouchableOpacity>
           </CardItem>
         </Card>
