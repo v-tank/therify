@@ -13,6 +13,7 @@ export default class Feed extends Component {
     super(props);
     this.state = {
       images: [],
+      renderedImages: [],
       refreshing: false
     }
     
@@ -42,12 +43,24 @@ export default class Feed extends Component {
     this.mounted = false;
   }
 
+  // Go to the detail page when an image is pressed; passes the id of the image clicked on to render the necessary info
   onImagePress = (id) => {
-    // Go to the detailed page when an image is pressed; passes the id of the image clicked on to render the necessary info
-    this.props.navigation.navigate('Detail', { id: id });
+    console.log(this.props.focusedPhoto)
+    if(this.props.focusedPhoto == id) { //go to details page
+      this.props.navigation.navigate('Detail', { id: id });
+    } else { //focus on photo
+      this.props.focusOnPhoto(id);
+      //update UI to show photo focus
+      // var images = this.state.renderedImages;
+      // for(let i = 0; i < images.length; i++) {
+      //   if(images[i].key == this.props.focusedPhoto) {
+      //     images[i].style = styles.focused;
+      //   }
+      // }
+    }
   }
 
-  // loads images based on the location in a 3 miles radius (5 km)
+  // load images within a 500 meter radius of device
   loadImages() {
     var lat = '';
     var long = '';
@@ -55,9 +68,17 @@ export default class Feed extends Component {
       lat = this.props.location.coords.latitude;
       long = this.props.location.coords.longitude;
     }
+
+    //store the id's of the images the client already has, so that the server
+    //knows to not send them again
+    var alreadyLoaded = this.state.images.map(image => {
+      return image._id;
+    });
+
     var request = {
       location: `${lat} ${long}`,
-      range: 500
+      range: 500,
+      alreadyLoaded: alreadyLoaded 
     }
     this.socket.emit('feedRequested', request);
 
@@ -84,26 +105,36 @@ export default class Feed extends Component {
   }
 
   // function to render each image using the data received
-  _renderItem = (data, i) => (
+  _renderItem = (data, i) => {
+    var feedItem = (
+      <TouchableWithoutFeedback 
+        key={data._id} 
+        onPress={() => this.onImagePress(data._id)}>
+        <View style={styles.item}>
+          <Image 
+            source={{ uri: data.image}}
+            style={styles.image}
+          />
 
-    <TouchableWithoutFeedback key={data._id} onPress={() => this.onImagePress(data._id)}>
-      <View style={styles.item}>
-        <Image 
-          source={{ uri: data.image}}
-          style={styles.image}
-        />
+          { 
+            data.verified ? 
+            <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center'}} >
+              <Text style={{ color: 'white' , backgroundColor: 'transparent'}}>✓</Text> 
+            </View> :
+            <View />
+          }
+          
+        </View>
+      </TouchableWithoutFeedback>
+    );
 
-        { 
-          data.verified ? 
-          <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center'}} >
-            <Text style={{ color: 'white' , backgroundColor: 'transparent'}}>✓</Text> 
-          </View> :
-          <View />
-        }
-        
-      </View>
-    </TouchableWithoutFeedback>
-  );
+    //store a reference to the rendered item so that it can be updated later
+    //this.setState({renderedImages: this.state.renderedImages.push(feedItem)});
+
+    return feedItem;
+  }
+
+  
 
   // renders the grid with the pictures
   render() {
@@ -140,5 +171,8 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     height: imageWidth,
+  },
+  focused: {
+    borderColor: 'blue'
   }
 });

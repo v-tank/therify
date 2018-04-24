@@ -20,10 +20,18 @@ class HomeTab extends Component {
       result: '',
       inProgress: true,
       location: '',
-      pinLocations: []
+      pinLocations: [],
+      focusedPhoto: ''
     }
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
+  }
+
+  // Defines the icon for the tab and the styles
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name="home" style={styles.tabBarIcon} />
+    )
   }
 
   // Get the location when component mounts
@@ -47,6 +55,7 @@ class HomeTab extends Component {
     this.setState({ inProgress: false });
   };
 
+  //gets the device's position and removes map pins from the previous location
   _attemptGeocodeAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -57,7 +66,6 @@ class HomeTab extends Component {
     }
 
     const { locationText, result } = this.state;
-    
 
     try {
       let result = await Location.geocodeAsync(this.state.locationText);
@@ -72,9 +80,14 @@ class HomeTab extends Component {
       this.setState({pinLocations: []});
       this.setState({inProgress: false});
     }
+  };
+
+  // updates the search text to be used in the Google Maps search
+  updateState = (text) => {
+    this.setState({ locationText: text });
   }
 
-  // add pins on map for each photo's location
+  // update state with a new map pin
   addPinLocation(photoData) {
     var locationArray = photoData.location.split(" ");
     var pinLocation = {
@@ -91,17 +104,8 @@ class HomeTab extends Component {
     this.setState({pinLocations});
   }
 
-  // updates the search text to be used in the Google Maps search
-  updateState = (text) => {
-    this.setState({ locationText: text });
-    // console.log(this.state.locationText);
-  }
-
-  // Defines the icon for the tab and the styles
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="home" style={styles.tabBarIcon} />
-    )
+  focusOnPhoto(id) {
+    this.setState({focusedPhoto: id});
   }
 
   render() {
@@ -113,7 +117,9 @@ class HomeTab extends Component {
             ? <Text>Loading...</Text> 
             : <MapComponent 
                 locationResult={this.state.location}
-                pinLocations={this.state.pinLocations} 
+                pinLocations={this.state.pinLocations}
+                focusedPhoto={this.state.focusedPhoto}
+                focusOnPhoto={this.focusOnPhoto.bind(this)} 
               />
         }
 
@@ -125,14 +131,15 @@ class HomeTab extends Component {
           />
         }
 
-
         {
           this.state.inProgress 
           ? <Text></Text> 
           : <Feed 
               location={this.state.location} 
               navigation={this.props.navigation}
-              addPinLocation={this.addPinLocation.bind(this)} 
+              focusedPhoto={this.state.focusedPhoto}
+              addPinLocation={this.addPinLocation.bind(this)}
+              focusOnPhoto={this.focusOnPhoto.bind(this)} 
             />
         }
 
