@@ -313,15 +313,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: "#000"
   },
   navigation: {
-    flex: 1,
+    flex: 1
   },
   gallery: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   flipButton: {
     flex: 0.3,
@@ -330,39 +330,39 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 20,
     borderRadius: 8,
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 1,
     padding: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   flipText: {
-    color: 'white',
-    fontSize: 15,
+    color: "white",
+    fontSize: 15
   },
   item: {
     margin: 4,
-    backgroundColor: '#e8195b',
+    backgroundColor: "#ea2564",
     height: 35,
     width: 80,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   picButton: {
-    backgroundColor: 'darkseagreen',
+    backgroundColor: "darkseagreen"
   },
   galleryButton: {
-    backgroundColor: '#e8195b',
+    backgroundColor: "#ea2564"
   },
   landmark: {
     width: landmarkSize,
     height: landmarkSize,
-    position: 'absolute',
-    backgroundColor: 'red',
+    position: "absolute",
+    backgroundColor: "red"
   },
   row: {
-    flexDirection: 'row',
-  },
+    flexDirection: "row"
+  }
 });
 

@@ -13,7 +13,16 @@ const FeedStack = StackNavigator({
   Home: {
     screen: HomeTab,
     navigationOptions: {
-      title: "Home"
+      title: "In the Vicinity",
+      headerTitleStyle: {
+        color: 'white',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1
+      },
+      headerStyle: {
+        backgroundColor: '#ea2564',
+      }
     }
   },
   Detail: {
@@ -29,7 +38,16 @@ const ProfileStack = StackNavigator({
   Profile: {
     screen: ProfileTab,
     navigationOptions: {
-      title: "Profile"
+      title: "Your Profile",
+      headerTitleStyle: {
+        color: 'white',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1
+      },
+      headerStyle: {
+        backgroundColor: '#ea2564',
+      }
     }
   }
 });
@@ -119,7 +137,7 @@ const AppTabNavigator = TabNavigator(
           }
         })
       },
-      activeTintColor: "#e8195b",
+      activeTintColor: "#ea2564",
       inactiveTintColor: "#d1cece",
       showLabel: false,
       showIcon: true
