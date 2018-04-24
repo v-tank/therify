@@ -1,7 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-<<<<<<< HEAD
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button, Image } from 'react-native';
@@ -10,11 +9,6 @@ import Searchbar from '../../components/SearchBar';
 import Feed from '../../components/Feed';
 
 import { Permissions, Location } from 'expo';
-=======
-import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
-import CardComponent from '../../components/CardComponent';
-import MapViewScreen from '../../MapView';
->>>>>>> c8bfe70da121e09e0e52d3d6ec555feffb885230
 
 // create a component
 class HomeTab extends Component {
@@ -113,7 +107,6 @@ class HomeTab extends Component {
   render() {
     return (
       <Container style={styles.container}>
-<<<<<<< HEAD
         {/* Loads map and the feed once data has been received */}
         {
           this.state.inProgress 
@@ -143,21 +136,6 @@ class HomeTab extends Component {
             />
         }
 
-=======
-        <Header style={{backgroundColor: '#e8195b'}}>
-          <Left><Icon name="ios-send-outline" style={{ paddingLeft: 10 }} /></Left>
-          <Body><Text>Therify</Text></Body>
-          <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
-        </Header>
-
-        <Content>
-          <CardComponent 
-          imageSource="1"
-          therifies="301"/>
-        </Content>
-
-        <MapViewScreen/>
->>>>>>> c8bfe70da121e09e0e52d3d6ec555feffb885230
       </Container>
     );
   }
