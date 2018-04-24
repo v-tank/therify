@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   emptyContainer: {
-    flex: 3
+    flex: 1.25
   },
   text: {
     color: '#ffffff',

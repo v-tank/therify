@@ -1,8 +1,12 @@
 node_modules/**/*
 .expo/**/*
 backend/node_modules/*
+<<<<<<< HEAD
 *.swp
 *DS_Store
 *.log
 yarn-error.log
 assets/.DS_Store
+=======
+yarn-error.log
+>>>>>>> c8bfe70da121e09e0e52d3d6ec555feffb885230

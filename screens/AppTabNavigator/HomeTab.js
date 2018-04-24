@@ -1,14 +1,20 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+<<<<<<< HEAD
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button, Image } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
-import SearchBar from '../../components/SearchBar';
+import Searchbar from '../../components/SearchBar';
 import Feed from '../../components/Feed';
 
 import { Permissions, Location } from 'expo';
+=======
+import { Container, Content, Icon, Header, Left, Right, Body } from 'native-base';
+import CardComponent from '../../components/CardComponent';
+import MapViewScreen from '../../MapView';
+>>>>>>> c8bfe70da121e09e0e52d3d6ec555feffb885230
 
 // create a component
 class HomeTab extends Component {
@@ -107,25 +113,29 @@ class HomeTab extends Component {
   render() {
     return (
       <Container style={styles.container}>
+<<<<<<< HEAD
         {/* Loads map and the feed once data has been received */}
         {
           this.state.inProgress 
-            ? <Text>Loading</Text> 
+            ? <Text>Loading...</Text> 
             : <MapComponent 
                 locationResult={this.state.location}
                 pinLocations={this.state.pinLocations} 
               />
         }
 
-        <SearchBar
-          updateState={this.updateState}
-          updateLocation={this._attemptGeocodeAsync}
-        />
-
-
+        {
+          this.state.inProgress
+            ? <Text></Text> 
+            : <Searchbar
+                updateState={this.updateState}
+                updateLocation={this._attemptGeocodeAsync}
+              />
+        }
+        
         {
           this.state.inProgress 
-          ? <Text>Loading</Text> 
+          ? <Text></Text> 
           : <Feed 
               location={this.state.location} 
               navigation={this.props.navigation}
@@ -133,6 +143,21 @@ class HomeTab extends Component {
             />
         }
 
+=======
+        <Header style={{backgroundColor: '#e8195b'}}>
+          <Left><Icon name="ios-send-outline" style={{ paddingLeft: 10 }} /></Left>
+          <Body><Text>Therify</Text></Body>
+          <Right><Icon name="ios-camera-outline" style={{paddingLeft: 10}} /></Right>
+        </Header>
+
+        <Content>
+          <CardComponent 
+          imageSource="1"
+          therifies="301"/>
+        </Content>
+
+        <MapViewScreen/>
+>>>>>>> c8bfe70da121e09e0e52d3d6ec555feffb885230
       </Container>
     );
   }
@@ -153,7 +178,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   tabBarIcon: {
-    color: '#e8195b',
+    color: '#ea2564',
     fontSize: 20
   }
 });

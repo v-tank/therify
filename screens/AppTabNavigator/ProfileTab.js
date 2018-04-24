@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   tabBarIcon: {
-    color: '#e8195b',
+    color: '#ea2564',
     fontSize: 20
   },
   item: {

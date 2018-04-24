@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { Permissions, Location } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
+import { SearchBar} from 'react-native-elements'
 
 // create a component
-class SearchBar extends Component {
+class Searchbar extends Component {
 
   // updates the state as the user types in the location
   handleTextInputChange = (text) => {
@@ -20,17 +21,19 @@ class SearchBar extends Component {
   // Renders the search bar's text input and search icon
   render() {
     return (
-      <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-around', alignItems: 'center' }}>
-        <TextInput
+      <View style={{flexDirection: 'column', alignItems: 'stretch' }}>
+        
+        <SearchBar
+          noIcon
           ref="search"
           placeholder="Search"
-          style={{ height: 30, fontSize: 15, textAlign: 'center', flex: 5, backgroundColor: '#eeeeee', marginRight: 10 }}
+          style={{ alignSelf: 'stretch', fontSize: 50, textAlign: 'center'}}
           onChangeText={(text) => { this.handleTextInputChange(text) }}
         />
 
         <Icon name="search"
           onPress={this.handleSubmit}
-          style={{ flex: 1, fontSize: 20, backgroundColor: '#e8195b', color: 'white', paddingLeft: 30, paddingTop: 5, paddingBottom: 5 }}
+          style={{ fontSize: 30, backgroundColor: '#ea2564', textAlign: 'center', color: 'white', paddingTop: 5, paddingBottom: 5 }}
         />
       </View>
     );
@@ -48,4 +51,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default SearchBar;
+export default Searchbar;
