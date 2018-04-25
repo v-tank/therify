@@ -103,20 +103,20 @@ class ProfileTab extends Component {
   render() {
     return (
     <Container style={{ flex: 1, backgroundColor: 'white'}}>
-        <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10, flexDirection: 'row' }}>
-          <View>
-            <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
-          </View>
-
-          <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-            <Text style={{ fontWeight: "bold", color: 'white' }}>
-              {this.state.username}
-            </Text>
-          </View>
+      <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
+        <View>
+          <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
         </View>
 
-        <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
-      </Container>
+        <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+          <Text style={{ fontWeight: "bold", color: 'white' }}>
+            {this.state.username}
+          </Text>
+        </View>
+      </View>
+
+      <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
+    </Container>
     );
   }
 }
