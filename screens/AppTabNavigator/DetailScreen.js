@@ -1,6 +1,6 @@
 // import components
 import React, { Component } from 'react';
-import { AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
+import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 
 const imageID = '';
@@ -74,8 +74,13 @@ class DetailScreen extends Component {
 
   // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
-    return <ScrollView>
-        {this.state.isLoading ? <Text>Loading...</Text> : <Card>
+    return (
+      <ScrollView>
+        {this.state.isLoading ? 
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size="large" color="#ea2564" />
+          </View> : 
+          <Card>
             <CardItem>
               <Left>
                 <Thumbnail source={require("../../assets/images/icon.png")} />
@@ -153,7 +158,8 @@ class DetailScreen extends Component {
             }
           </Card>
         }
-      </ScrollView>;
+      </ScrollView>
+    );
   }
 }
 
@@ -162,7 +168,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+  },
+  activityIndicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
   },
   mainImage: {
     height: 400,
