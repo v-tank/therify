@@ -68,14 +68,15 @@ export default class CameraTab extends Component {
           let time = myDate.toLocaleString();
           
           this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
-            
+            Vibration.vibrate(); // Vibrate the phone when a picture is taken
+
             base64 = 'data:image/jpg;base64,' + data.base64;
             
             let photoArray = this.state.photos;
             
             //create thumbnail
             ImageManipulator.manipulate(
-              data.uri, [{width: 256, height: 256}], {format: 'jpg', base64: true}
+              data.uri, [{resize: {height: 150}}], {format: 'jpg', base64: true}
             ).then(thumbnail => {
               photoArray.push({
                 photo: base64,
@@ -84,7 +85,6 @@ export default class CameraTab extends Component {
                 date: time,
               });
               this.setState({photos: photoArray});
-              Vibration.vibrate(); // Vibrate the phone when a picture is taken
             }).catch(err => {
               console.log(err);
             });
