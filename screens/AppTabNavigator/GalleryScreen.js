@@ -8,7 +8,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default class GalleryScreen extends React.Component {
   state = {
-    //photos: [],
+    // photos: [],
     showUploadPage:false,
     currentPhotoIndex: null,
     currentPhotoIndexTitle: null,
@@ -18,10 +18,6 @@ export default class GalleryScreen extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-    //NEEDED??
-    // FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'photos').then(photos => {
-    //   if (this._mounted) { this.setState( { photos, }, ); }
-    // });
   }
 
   componentWillUnmount() {
@@ -36,6 +32,7 @@ export default class GalleryScreen extends React.Component {
 
     var photo = {
       image: this.props.photos[this.state.currentPhotoIndex].photo,
+      thumbnail: this.props.photos[this.state.currentPhotoIndex].thumbnail,
       fileType: 'jpg',
       location: this.props.photos[this.state.currentPhotoIndex].location,
       email: userEmail,
@@ -54,7 +51,8 @@ export default class GalleryScreen extends React.Component {
     }).then(response => {          
       if(response.status === 200){
         Alert.alert( 'Photo Uploaded',);
-        this.props.deletePhoto(this.state.currentPhotoIndex); 
+        this.props.deletePhoto(this.state.currentPhotoIndex);
+        this.showGalleryScreen();
       }
     }).catch(error => console.log(error));
   }
@@ -72,7 +70,7 @@ export default class GalleryScreen extends React.Component {
                 <Image
                   key={photoData.photo}
                   style={styles.picture}
-                  source={{uri: this.props.photos[index].photo}}
+                  source={{uri: this.props.photos[index].thumbnail}}
                 />
                 <TouchableOpacity
                   onPress={() => { this.showUploadScreen(index); }}
@@ -152,7 +150,6 @@ export default class GalleryScreen extends React.Component {
     this.uploadPhoto().then( function(err,something){
       if(err){ console.log("error");}
     });
-    this.showGalleryScreen();
   }
 
   showGalleryScreen(){

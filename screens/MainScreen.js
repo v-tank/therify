@@ -13,7 +13,7 @@ const FeedStack = StackNavigator({
   Home: {
     screen: HomeTab,
     navigationOptions: {
-      title: "In the Vicinity",
+      title: "Map",
       headerTitleStyle: {
         color: 'white',
         textAlign: 'center',
@@ -47,7 +47,7 @@ const ProfileStack = StackNavigator({
   Profile: {
     screen: ProfileTab,
     navigationOptions: {
-      title: "Your Profile",
+      title: "Your Photos",
       headerTitleStyle: {
         color: 'white',
         textAlign: 'center',

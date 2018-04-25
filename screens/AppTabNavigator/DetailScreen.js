@@ -23,7 +23,6 @@ class DetailScreen extends Component {
     imageURL = 'https://therifyserver.herokuapp.com/photos/' + imageID;
     // console.log(imageURL);
     this.fetchInfo(imageURL, imageID);
-
   }
 
   // Function that takes in the image url and ID to make a request to the server for the image info

@@ -15,12 +15,14 @@ export default class Feed extends Component {
       refreshing: false
     }
     
-    this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
+    this.onReceivedThumbnail = this.onReceivedThumbnail.bind(this);
+    this.onReceivedLarge = this.onReceivedLarge.bind(this);
 
     // Establishes connection with the server
     this.socket = SocketIOClient('https://therifyserver.herokuapp.com');
-    this.socket.on('feedPhoto', this.onReceivedPhoto);
-    
+    this.socket.on('thumbnailData', this.onReceivedThumbnail);
+    this.socket.on('largeData', this.onReceivedLarge);
+
     // Comes after because it uses socket
     this.loadImages = this.loadImages.bind(this);
 
@@ -69,7 +71,7 @@ export default class Feed extends Component {
   }
 
   // waits for received photos and adds pins based on the locations received
-  onReceivedPhoto(photo) {
+  onReceivedThumbnail(photo) {
     var photoIsNew;
     var images = this.state.images;
     photoIsNew = images.every(image => {
@@ -83,6 +85,16 @@ export default class Feed extends Component {
       //give HomeTab access to the photo's location
       this.props.addPinLocation(photo);
     }
+  }
+
+  //download full photo in background
+  onReceivedLarge(photo) {
+    var images = this.state.images;
+    images.forEach(image => {
+      if(image._id == photo._id) {
+        image.image = photo.image;
+      }
+    })
   }
 
   // componentWillUpdate() {
