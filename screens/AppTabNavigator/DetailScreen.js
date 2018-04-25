@@ -75,7 +75,7 @@ class DetailScreen extends Component {
   // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
     return <ScrollView>
-        {this.state.isLoading ? <Text>Loading</Text> : <Card>
+        {this.state.isLoading ? <Text>Loading...</Text> : <Card>
             <CardItem>
               <Left>
                 <Thumbnail source={require("../../assets/images/icon.png")} />
@@ -103,10 +103,11 @@ class DetailScreen extends Component {
 
             <CardItem>
               <Body>
+                
+                <Text style={styles.userName}>
+                  {this.state.image.title}{" "}
+                </Text>
                 <Text>
-                  <Text style={styles.userName}>
-                    {this.state.image.title}{" "}
-                  </Text>
                   {this.state.image.description}
                 </Text>
               </Body>
@@ -115,7 +116,7 @@ class DetailScreen extends Component {
             <CardItem style={{ flex: 1, flexDirection: "row" }}>
               <TextInput ref={input => {
                   this.textInput = input;
-                }} placeholder="Add a comment..." multiline={true} numberOfLines={4} style={{ height: 30, fontSize: 15, textAlign: "center", flex: 5, backgroundColor: "#eeeeee", marginRight: 10, borderRadius: 20 }} onChangeText={text => {
+          }} placeholder="Add a comment..." underlineColorAndroid={"#eeeeee"} multiline={true} numberOfLines={4} style={{ height: 30, fontSize: 15, textAlign: "center", flex: 5, backgroundColor: "#eeeeee", marginRight: 10, borderRadius: 20 }} onChangeText={text => {
                   this.setState({ comment: text });
                 }} />
               <TouchableOpacity onPress={this.postComment.bind(this)}>
@@ -124,24 +125,27 @@ class DetailScreen extends Component {
             </CardItem>
           </Card>}
 
-        {this.state["comments"].length !== 0 || this.state.refreshing ? this.state["comments"].map(
-            (comment, i) => {
-              return (
-                <Card key={i}>
-                  <CardItem>
-                    <Text style={styles.userName}>{comment.userName}</Text>
-                  </CardItem>
-                  <CardItem>
-                    <Text>{comment.body}</Text>
-                  </CardItem>
-                </Card>
-              );
+        {this.state.isLoading ? <Text></Text> : <Card>
+          {this.state["comments"].length !== 0 || this.state.refreshing ? this.state["comments"].map(
+              (comment, i) => {
+                return (
+                  <Card key={i}>
+                    <CardItem>
+                      <Text style={styles.userName}>{comment.userName}</Text>
+                    </CardItem>
+                    <CardItem>
+                      <Text>{comment.body}</Text>
+                    </CardItem>
+                  </Card>
+                );
+              }
+            ) : 
+              <CardItem>
+                <Text>Be the first to comment!</Text>
+              </CardItem>
             }
-          ) : <Card>
-            <CardItem>
-              <Text>Be the first to comment!</Text>
-            </CardItem>
-          </Card>}
+          </Card>
+        }
       </ScrollView>;
   }
 }
