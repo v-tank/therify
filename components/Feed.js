@@ -16,11 +16,13 @@ export default class Feed extends Component {
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
+    this.stopLoading = this.stopLoading.bind(this);
 
     // Establishes connection with the server
     this.socket = SocketIOClient('https://therifyserver.herokuapp.com');
     this.socket.on('feedPhoto', this.onReceivedPhoto);
-    
+    this.socket.on('noPhotosFound', this.stopLoading);
+
     // Comes after because it uses socket
     this.loadImages = this.loadImages.bind(this);
 
@@ -66,6 +68,11 @@ export default class Feed extends Component {
     if(this.mounted) {
       this.setState({refreshing: false});
     }
+  }
+
+  //when the server says there are no photos for the user, stop the loading animation
+  stopLoading() {
+
   }
 
   // waits for received photos and adds pins based on the locations received
