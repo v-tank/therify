@@ -41,6 +41,10 @@ class HomeTab extends Component {
     this.checkNewUser();
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   async checkNewUser() {
     var newUser = await AsyncStorage.getItem('newUser').catch(err => {
       console.log(err);
@@ -209,13 +213,6 @@ class HomeTab extends Component {
                     >
                       <Text style={styles.text}>Set Username</Text>
                     </TouchableOpacity>
-
-                    {/* <TouchableHighlight
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}>
-                      <Text>Hide Modal</Text>
-                    </TouchableHighlight> */}
                   </View>
                 </View>
               </View>
