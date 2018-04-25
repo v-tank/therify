@@ -29,7 +29,16 @@ const FeedStack = StackNavigator({
     screen: DetailScreen,
     path: "/photo/:id",
     navigationOptions: {
-      title: "Detail"
+      title: "Detail",
+      headerTitleStyle: {
+        color: 'white',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1
+      },
+      headerStyle: {
+        backgroundColor: '#ea2564',
+      }
     }
   }
 });
