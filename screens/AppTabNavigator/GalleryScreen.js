@@ -51,8 +51,8 @@ export default class GalleryScreen extends React.Component {
     }).then(response => {          
       if(response.status === 200){
         Alert.alert( 'Photo Uploaded',);
-        this.props.deletePhoto(this.state.currentPhotoIndex);
         this.showGalleryScreen();
+        this.props.deletePhoto(this.state.currentPhotoIndex);
       }
     }).catch(error => console.log(error));
   }
