@@ -31,7 +31,21 @@ export default class LoginScreen extends Component {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then(response => {          
+        }).then(response => {
+          var stringified = JSON.stringify(response);
+          var parsed = JSON.parse(stringified);
+          parsed = parsed["_bodyText"];
+          parsed = JSON.parse(parsed);
+          
+          if (parsed.newUser) {
+            parsed = parsed["newUser"];
+            // console.log("New user: " + parsed);
+            AsyncStorage.setItem('newUser', 'true');
+          }
+          else {
+            AsyncStorage.setItem('newUser', 'false');
+          }
+
           // set global logged-in variable
           AsyncStorage.setItem('userEmail', serverRequest.email);
 
