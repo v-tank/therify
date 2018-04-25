@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { AsyncStorage, View, Text, StyleSheet, Modal, TouchableHighlight } from 'react-native';
+import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Modal, TouchableHighlight } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import MapComponent from '../../components/MapComponent';
 import { TextInput, FlatList, Button, Image, TouchableOpacity } from 'react-native';
@@ -163,7 +163,9 @@ class HomeTab extends Component {
         {/* Loads map and the feed once data has been received */}
         {
           this.state.inProgress 
-            ? <Text>Loading...</Text> 
+            ? <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator size="large" color="#ea2564" />
+              </View>
             : <MapComponent 
                 locationResult={this.state.location}
                 pinLocations={this.state.pinLocations}
@@ -237,6 +239,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   },
   list: {
     justifyContent: 'center',
