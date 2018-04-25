@@ -78,7 +78,7 @@ export default class CameraTab extends Component {
               data.uri, [{width: 256, height: 256}], {format: 'jpg', base64: true}
             ).then(thumbnail => {
               photoArray.push({
-                photo:base64,
+                photo: base64,
                 thumbnail: 'data:image/jpg;base64,' + thumbnail.base64,
                 location: `${result.coords.latitude} ${result.coords.longitude}`,
                 date: time,
