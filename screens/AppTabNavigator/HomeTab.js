@@ -1,19 +1,18 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { AsyncStorage, View, Text, StyleSheet, Modal, TouchableHighlight } from 'react-native';
 import { Container, Content, Header, Left, Right, Body } from 'native-base';
 import MapComponent from '../../components/MapComponent';
-import { TextInput, FlatList, Button, Image } from 'react-native';
+import { TextInput, FlatList, Button, Image, TouchableOpacity } from 'react-native';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 import Searchbar from "../../components/SearchBar";
 import Feed from '../../components/Feed';
-
 import { Permissions, Location } from 'expo';
 
 // create a component
 class HomeTab extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       locationText: '',
@@ -21,8 +20,10 @@ class HomeTab extends Component {
       inProgress: true,
       location: '',
       pinLocations: [],
-      focusedPhoto: ''
-    }
+      focusedPhoto: '',
+      modalVisible: false,
+      username: ''
+    };
 
     this._attemptGeocodeAsync = this._attemptGeocodeAsync.bind(this);
   }
@@ -32,21 +33,51 @@ class HomeTab extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Icon name="home" style={styles.tabBarIcon} />
     )
-  }
+  };
 
   // Get the location when component mounts
   componentDidMount() {
     this._getLocationAsync();
+    this.checkNewUser();
+  }
+
+  async checkNewUser() {
+    var newUser = await AsyncStorage.getItem('newUser').catch(err => {
+      console.log(err);
+    })
+    if (newUser === "true") {
+      this.setState({modalVisible: true});
+    }
+  }
+
+  async submitUsername() {
+    var usersEmail = await AsyncStorage.getItem('userEmail').catch(err => {
+      console.log(err);
+    })
+
+    var usernameObj = { email: usersEmail, username: this.state.username };
+    fetch('http://192.168.0.12:8080/user/setUsername', {
+      method: 'POST',
+      body: JSON.stringify(usernameObj),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      // console.log(response);
+      console.log("Username was set successfully!");
+      AsyncStorage.setItem('username', this.state.username);
+      this.setModalVisible(!this.state.modalVisible);
+    }).catch(error => console.log(error));
   }
 
   // Function to check for permissions and get the current location's lat and long
   _getLocationAsync = async () => {
     this.setState({ inProgress: true });
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
+        locationResult: "Permission to access location was denied",
+        location
       });
     }
 
@@ -58,10 +89,10 @@ class HomeTab extends Component {
   //gets the device's position and removes map pins from the previous location
   _attemptGeocodeAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
+        locationResult: "Permission to access location was denied",
+        location
       });
     }
 
@@ -69,23 +100,30 @@ class HomeTab extends Component {
 
     try {
       let result = await Location.geocodeAsync(this.state.locationText);
-      if(result != undefined) {
+      if (result != undefined) {
         this.setState({ inProgress: true });
-        this.setState({ location: { coords: { latitude: result[0].latitude, longitude: result[0].longitude } } });
+        this.setState({
+          location: {
+            coords: {
+              latitude: result[0].latitude,
+              longitude: result[0].longitude
+            }
+          }
+        });
       }
     } catch (e) {
       console.log(e);
     } finally {
       //remove old pins from map
-      this.setState({pinLocations: []});
-      this.setState({inProgress: false});
+      this.setState({ pinLocations: [] });
+      this.setState({ inProgress: false });
     }
   };
 
   // updates the search text to be used in the Google Maps search
-  updateState = (text) => {
+  updateState = text => {
     this.setState({ locationText: text });
-  }
+  };
 
   // update state with a new map pin
   addPinLocation(photoData) {
@@ -93,7 +131,7 @@ class HomeTab extends Component {
     var pinLocation = {
       coords: {
         latitude: parseFloat(locationArray[0]),
-        longitude: parseFloat(locationArray[1]),
+        longitude: parseFloat(locationArray[1])
       },
       id: photoData._id,
       title: photoData.title,
@@ -101,7 +139,7 @@ class HomeTab extends Component {
     };
     var pinLocations = this.state.pinLocations;
     pinLocations.push(pinLocation);
-    this.setState({pinLocations});
+    this.setState({ pinLocations });
   }
 
   // Update the currently focused photo, and go to the detail page when it is pressed again
@@ -138,18 +176,60 @@ class HomeTab extends Component {
           />
         }
 
-        {
-          this.state.inProgress 
-          ? <Text></Text> 
-          : <Feed 
-              location={this.state.location} 
+        {this.state.inProgress ? (
+          <Text />
+        ) : (
+          <Container>
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {
+                alert('Modal has been closed.');
+              }}>
+                <View style={{
+                  marginTop: 22, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <View>
+                  <Text style={{fontSize: 32, textAlign: 'center', flex: 1, marginTop: 50}}>Welcome to Therify!</Text>
+                  
+                  <View style={{flex: 2}}>
+                    <Text style={{fontSize: 26, textAlign: 'center'}}>Create a Username</Text>
+
+                    <TextInput
+                      placeholder="johnsmith"
+                      style={{ height: 30, fontSize: 15, textAlign: "center", backgroundColor: "#eeeeee", borderRadius: 20, marginTop: 20 }} 
+                      onChangeText={text => {
+                        this.setState({ username: text });
+                      }}
+                    />
+                    
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={this.submitUsername.bind(this)}
+                    >
+                      <Text style={styles.text}>Set Username</Text>
+                    </TouchableOpacity>
+
+                    {/* <TouchableHighlight
+                      onPress={() => {
+                        this.setModalVisible(!this.state.modalVisible);
+                      }}>
+                      <Text>Hide Modal</Text>
+                    </TouchableHighlight> */}
+                  </View>
+                </View>
+              </View>
+            </Modal>
+
+            <Feed
+              location={this.state.location}
               navigation={this.props.navigation}
               focusedPhoto={this.state.focusedPhoto}
               addPinLocation={this.addPinLocation.bind(this)}
               clickOnPhoto={this.clickOnPhoto.bind(this)}
             />
-        }
-
+          </Container>
+        )}
       </Container>
     );
   }
@@ -172,6 +252,17 @@ const styles = StyleSheet.create({
   tabBarIcon: {
     color: '#ea2564',
     fontSize: 20
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
+    borderRadius: 50, borderWidth: 2, borderColor: '#ea2564',
+    margin: 20
+  },
+  text: {
+    color: '#ea2564',
+    fontSize: 18,
   }
 });
 
