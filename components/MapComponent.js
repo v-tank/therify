@@ -47,6 +47,7 @@ class MapComponent extends Component {
     return (
       <MapView
         provider={'google'}
+        showsMyLocationButton={true}
         style={{ alignSelf: 'stretch', flex: 0.8 }}
         showsUserLocation={true}
         region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 }}
