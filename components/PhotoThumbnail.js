@@ -25,7 +25,7 @@ export default class PhotoThumbnail extends Component {
 		        onPress={() => this.props.clickOnPhoto(this.props.data._id)}>
 		        <View style={this.state.highlighted ? styles.focused : styles.item}>
 		        	<Image 
-		            	source={{uri: this.props.data.thumbnail}}
+		            	source={{uri: this.props.data.image}}
 		            	style={styles.image}
 		        	/>
 
