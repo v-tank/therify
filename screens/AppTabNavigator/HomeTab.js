@@ -56,7 +56,7 @@ class HomeTab extends Component {
     })
 
     var usernameObj = { email: usersEmail, username: this.state.username };
-    fetch('http://192.168.0.12:8080/user/setUsername', {
+    fetch('https://therifyserver.herokuapp.com/user/setUsername', {
       method: 'POST',
       body: JSON.stringify(usernameObj),
       headers: {
