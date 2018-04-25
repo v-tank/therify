@@ -143,37 +143,39 @@ class HomeTab extends Component {
     this.setState({ pinLocations });
   }
 
-  focusOnPhoto(id) {
-    this.setState({ focusedPhoto: id });
-  }
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+  // Update the currently focused photo, and go to the detail page when it is pressed again
+  clickOnPhoto(id) {
+    if(this.state.focusedPhoto != id) {
+      this.setState({focusedPhoto: id}/*, () => {
+        console.log(this.state.focusedPhoto);
+      }*/);
+    } else {
+      this.props.navigation.navigate('Detail', { id: id });
+    }
   }
 
   render() {
     return (
       <Container style={styles.container}>
         {/* Loads map and the feed once data has been received */}
-        {this.state.inProgress ? (
-          <Text>Loading...</Text>
-        ) : (
-          <MapComponent
-            locationResult={this.state.location}
-            pinLocations={this.state.pinLocations}
-            focusedPhoto={this.state.focusedPhoto}
-            focusOnPhoto={this.focusOnPhoto.bind(this)}
-          />
-        )}
+        {
+          this.state.inProgress 
+            ? <Text>Loading...</Text> 
+            : <MapComponent 
+                locationResult={this.state.location}
+                pinLocations={this.state.pinLocations}
+                focusedPhoto={this.state.focusedPhoto}
+                clickOnPhoto={this.clickOnPhoto.bind(this)}
+              />
+        }
 
-        {this.state.inProgress ? (
-          <Text />
-        ) : (
+        {
+          this.state.inProgress ? <Text></Text> :
           <Searchbar
             updateState={this.updateState}
             updateLocation={this._attemptGeocodeAsync}
           />
-        )}
+        }
 
         {this.state.inProgress ? (
           <Text />
@@ -225,7 +227,7 @@ class HomeTab extends Component {
               navigation={this.props.navigation}
               focusedPhoto={this.state.focusedPhoto}
               addPinLocation={this.addPinLocation.bind(this)}
-              focusOnPhoto={this.focusOnPhoto.bind(this)}
+              clickOnPhoto={this.clickOnPhoto.bind(this)}
             />
           </Container>
         )}

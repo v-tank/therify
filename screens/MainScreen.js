@@ -29,7 +29,16 @@ const FeedStack = StackNavigator({
     screen: DetailScreen,
     path: "/photo/:id",
     navigationOptions: {
-      title: "Detail"
+      title: "Detail",
+      headerTitleStyle: {
+        color: 'white',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1
+      },
+      headerStyle: {
+        backgroundColor: '#ea2564',
+      }
     }
   }
 });
@@ -100,7 +109,7 @@ const AppTabNavigator = TabNavigator(
       navigationOptions: {
         tabBarLabel: "Home",
         tabBarIcon: ({ tintColor, focused }) => (
-          <Icon name={"home"} size={26} style={{ color: tintColor }} />
+          <Icon name={"home"} size={24} style={{ color: tintColor }} />
         )
       }
     },
@@ -110,7 +119,7 @@ const AppTabNavigator = TabNavigator(
       navigationOptions: {
         tabBarLabel: "Camera",
         tabBarIcon: ({ tintColor, focused }) => (
-          <Icon name={"camera"} size={26} style={{ color: tintColor }} />
+          <Icon name={"camera"} size={24} style={{ color: tintColor }} />
         )
       }
     },
@@ -120,7 +129,7 @@ const AppTabNavigator = TabNavigator(
       navigationOptions: {
         tabBarLabel: "Profile",
         tabBarIcon: ({ tintColor, focused }) => (
-          <Icon name={"user"} size={26} style={{ color: tintColor }} />
+          <Icon name={"user"} size={24} style={{ color: tintColor }} />
         )
       }
     }

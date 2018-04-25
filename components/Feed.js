@@ -1,19 +1,17 @@
 // import components
 import React, { Component } from 'react';
 import { RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import PhotoThumbnail from './PhotoThumbnail.js';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
 
-// determine the image width depending on the width of the device
-const deviceWidth = Dimensions.get('window').width;
-const imageWidth = (deviceWidth - 6) / 3;
 
 export default class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
       images: [],
-      renderedImages: [],
+      focusedPhoto: this.props.focusedPhoto,
       refreshing: false
     }
     
@@ -41,23 +39,6 @@ export default class Feed extends Component {
   // this is here to enforce not updating state when the component is not mounted
   componentWillUnmount() {
     this.mounted = false;
-  }
-
-  // Go to the detail page when an image is pressed; passes the id of the image clicked on to render the necessary info
-  onImagePress = (id) => {
-    console.log(this.props.focusedPhoto)
-    if(this.props.focusedPhoto == id) { //go to details page
-      this.props.navigation.navigate('Detail', { id: id });
-    } else { //focus on photo
-      this.props.focusOnPhoto(id);
-      //update UI to show photo focus
-      // var images = this.state.renderedImages;
-      // for(let i = 0; i < images.length; i++) {
-      //   if(images[i].key == this.props.focusedPhoto) {
-      //     images[i].style = styles.focused;
-      //   }
-      // }
-    }
   }
 
   // load images within a 500 meter radius of device
@@ -104,37 +85,27 @@ export default class Feed extends Component {
     }
   }
 
+  // componentWillUpdate() {
+  //   console.log(this.state.focusedPhoto);
+  // }
+
+  componentWillReceiveProps(nextProps) {
+     this.setState({focusedPhoto: nextProps.focusedPhoto}, function() {
+       // console.log(this.state.focusedPhoto);
+     });
+   }
+
   // function to render each image using the data received
   _renderItem = (data, i) => {
-    var feedItem = (
-      <TouchableWithoutFeedback 
-        key={data._id} 
-        onPress={() => this.onImagePress(data._id)}>
-        <View style={styles.item}>
-          <Image 
-            source={{ uri: data.image}}
-            style={styles.image}
-          />
-
-          { 
-            data.verified ? 
-            <View style={{ position: 'absolute', right: 5, bottom: 5, width: 20, height: 20, borderRadius: 10, backgroundColor: '#5BBA47', justifyContent: 'center', alignItems: 'center'}} >
-              <Text style={{ color: 'white' , backgroundColor: 'transparent'}}>✓</Text> 
-            </View> :
-            <View />
-          }
-          
-        </View>
-      </TouchableWithoutFeedback>
+    return (
+      <PhotoThumbnail
+        key={data._id}
+        data={data}
+        clickOnPhoto={this.props.clickOnPhoto}
+        highlighted={(this.state.focusedPhoto === data._id) ? true : false}
+      />
     );
-
-    //store a reference to the rendered item so that it can be updated later
-    //this.setState({renderedImages: this.state.renderedImages.push(feedItem)});
-
-    return feedItem;
   }
-
-  
 
   // renders the grid with the pictures
   render() {
@@ -158,21 +129,7 @@ export default class Feed extends Component {
 
 // Stylesheet
 const styles = StyleSheet.create({
-  item: {
-    flex: 1,
-    height: imageWidth,
-    margin: 1,
-    borderWidth: 1,
-    borderColor: '#cccccc'
-  },
   list: {
-    flex: 1,
-  },
-  image: {
-    flex: 1,
-    height: imageWidth,
-  },
-  focused: {
-    borderColor: 'blue'
+    flex: 1
   }
 });

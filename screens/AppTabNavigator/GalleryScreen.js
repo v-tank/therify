@@ -114,8 +114,9 @@ export default class GalleryScreen extends React.Component {
                   <TextInput
                     ref="title"
                     placeholder="Title"
+                    maxLength={22}
                     style={styles.titleTextArea}
-                    underlineColorAndroid="#ffffff"
+                    underlineColorAndroid={"#ffffff"}
                     maxLength={22}
                     onChangeText={(text) => this.setState({currentPhotoIndexTitle:text})}
                   />
@@ -123,6 +124,7 @@ export default class GalleryScreen extends React.Component {
                   <TextInput
                     ref="summary"
                     placeholder="Write a caption..."
+                    underlineColorAndroid={"#ffffff"}
                     multiline={true}
                     numberOfLines={4}
                     maxLength={200}
@@ -195,7 +197,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 20,
-    marginBottom: 4,
     backgroundColor: '#ea2564',
   },
   uploadButton: {
