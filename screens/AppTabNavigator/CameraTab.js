@@ -1,6 +1,6 @@
 // import components
 import {Feather as Icon } from "@expo/vector-icons";
-import { Location,Constants, Camera, FileSystem, Permissions } from 'expo';
+import { Location, Constants, Camera, Permissions, ImageManipulator } from 'expo';
 import React ,{Component} from 'react';
 import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, } from 'react-native';
 import GalleryScreen from './GalleryScreen';
@@ -45,6 +45,75 @@ export default class CameraTab extends Component {
       visible: false,
     }
   }
+
+  getPhotoId(uri){
+    //grabs the filename of the image
+    let myArr = uri.split('/'); 
+    return myArr[myArr.length-1];
+  }
+
+  // function that extracts the current location, time, and converts an image to base64 upon capture
+  takePicture = async function() {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if(status==='granted'){ 
+      try {
+        var result = await Location.getCurrentPositionAsync({ enableHighAccuracy: true, });
+      }catch(err){
+        console.log("Take Pic Error Location: "+error);
+      } finally {
+        var base64= null;
+        if (this.camera) {
+          let myDate = new Date(Date.now());
+          let time = myDate.toLocaleString();
+          
+          this.camera.takePictureAsync({quality: 1, base64: true}).then(async function(data) {
+            //format full-sized image
+            base64 = 'data:image/jpg;base64,' + data.base64;
+            //create thumbnail
+            var thumbnail = await ImageManipulator.manipulate(
+              base64, [{width: 256, height: 256}], {format: 'jpg', base64: true}
+            ).catch(err => {
+              console.log(err);
+            })
+
+            let photoArray = this.state.photos;
+            
+            //add the taken photo to the in-memory array of photos
+            photoArray.push({
+              photo: base64,
+              thumbnail: thumbnail,
+              location: `${result.coords.latitude} ${result.coords.longitude}`,
+              date: time
+            });
+            this.setState({photos: photoArray});
+          });
+          Vibration.vibrate(); // Vibrate the phone when a picture is taken
+        }
+      }
+    } else if (status !== 'granted') { 
+      var base64 = null;
+      if(this.camera){
+        let myDate = new Date(Date.now());
+        let time = myDate.toLocaleString();
+        
+        this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
+          //get full-sized image
+          base64 = 'data:image/jpg;base64,' + data.base64;
+
+          //add the taken photo to the in-memory array of photos
+          let photoArray = this.state.photos;
+          
+          photoArray.push({
+            photo: base64,
+            location: "no location data available",
+            date: time,
+          });
+          this.setState({photos: photoArray});
+        });
+        Vibration.vibrate();
+      }
+    }
+  };
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -104,59 +173,6 @@ export default class CameraTab extends Component {
       depth,
     });
   }
-
-  getPhotoId(uri){
-    //grabs the filename of the image
-    let myArr = uri.split('/'); 
-    return myArr[myArr.length-1];
-  }
-
-  // function that extracts the current location, time, and converts an image to base64 upon capture
-  takePicture = async function() {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if(status==='granted'){ 
-      try {
-        var result = await Location.getCurrentPositionAsync({ enableHighAccuracy: true, });
-      }catch(err){
-        console.log("Take Pic Error Location: "+error);
-      } finally {
-        var base64= null;
-        if (this.camera) {
-          let myDate = new Date(Date.now());
-          let time = myDate.toLocaleString();
-          this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
-            base64 = 'data:image/jpg;base64,' + data.base64;
-            let photoArray = this.state.photos;
-            console.log(time);
-            photoArray.push({
-              photo:base64,
-              location: `${result.coords.latitude} ${result.coords.longitude}`,
-              date: time,
-            });
-            this.setState({photos: photoArray});
-          });
-          Vibration.vibrate(); // Vibrate the phone when a picture is taken
-        }
-      }
-    } else if (status !== 'granted') { 
-      var base64= null;
-      if(this.camera){
-        let myDate = new Date(Date.now());
-        let time = myDate.toLocaleString();
-        this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
-          base64 = 'data:image/jpg;base64,' + data.base64;
-          let photoArray = this.state.photos;
-          photoArray.push({
-            photo:base64,
-            location: "no location data available",
-            date: time,
-          });
-          this.setState({photos: photoArray});
-        });
-        Vibration.vibrate();
-      }
-    }
-  };
 
   // Renders the gallery screen when the button is pressed
   renderGallery() {

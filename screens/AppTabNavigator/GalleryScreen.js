@@ -36,6 +36,7 @@ export default class GalleryScreen extends React.Component {
 
     var photo = {
       image: this.props.photos[this.state.currentPhotoIndex].photo,
+      thumbnail: this.props.photos[this.state.currentPhotoIndex].thumbnail,
       fileType: 'jpg',
       location: this.props.photos[this.state.currentPhotoIndex].location,
       email: userEmail,
