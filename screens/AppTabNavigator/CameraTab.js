@@ -62,49 +62,45 @@ export default class CameraTab extends Component {
         console.log("Take Pic Error Location: "+error);
       } finally {
         var base64= null;
+        
         if (this.camera) {
           let myDate = new Date(Date.now());
           let time = myDate.toLocaleString();
           
-          this.camera.takePictureAsync({quality: 1, base64: true}).then(async function(data) {
-            //format full-sized image
+          this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
+            
             base64 = 'data:image/jpg;base64,' + data.base64;
-            //create thumbnail
-            var thumbnail = await ImageManipulator.manipulate(
-              base64, [{width: 256, height: 256}], {format: 'jpg', base64: true}
-            ).catch(err => {
-              console.log(err);
-            })
-
+            
             let photoArray = this.state.photos;
             
-            //add the taken photo to the in-memory array of photos
-            photoArray.push({
-              photo: base64,
-              thumbnail: thumbnail,
-              location: `${result.coords.latitude} ${result.coords.longitude}`,
-              date: time
+            //create thumbnail
+            ImageManipulator.manipulate(
+              data.uri, [{width: 256, height: 256}], {format: 'jpg', base64: true}
+            ).then(thumbnail => {
+              photoArray.push({
+                photo:base64,
+                thumbnail: 'data:image/jpg;base64,' + thumbnail.base64,
+                location: `${result.coords.latitude} ${result.coords.longitude}`,
+                date: time,
+              });
+              this.setState({photos: photoArray});
+              Vibration.vibrate(); // Vibrate the phone when a picture is taken
+            }).catch(err => {
+              console.log(err);
             });
-            this.setState({photos: photoArray});
           });
-          Vibration.vibrate(); // Vibrate the phone when a picture is taken
         }
       }
     } else if (status !== 'granted') { 
-      var base64 = null;
+      var base64= null;
       if(this.camera){
         let myDate = new Date(Date.now());
         let time = myDate.toLocaleString();
-        
         this.camera.takePictureAsync({quality: 1, base64: true}).then(data => {
-          //get full-sized image
           base64 = 'data:image/jpg;base64,' + data.base64;
-
-          //add the taken photo to the in-memory array of photos
           let photoArray = this.state.photos;
-          
           photoArray.push({
-            photo: base64,
+            photo:base64,
             location: "no location data available",
             date: time,
           });
