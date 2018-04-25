@@ -1,6 +1,6 @@
 // import components
 import {Feather as Icon } from "@expo/vector-icons";
-import { Location, Constants, Camera, Permissions, ImageManipulator } from 'expo';
+import { Location, Constants, Camera, Permissions, /*ImageManipulator*/ } from 'expo';
 import React ,{Component} from 'react';
 import { AsyncStorage, StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, } from 'react-native';
 import GalleryScreen from './GalleryScreen';
@@ -74,20 +74,28 @@ export default class CameraTab extends Component {
             
             let photoArray = this.state.photos;
             
-            //create thumbnail
-            ImageManipulator.manipulate(
-              data.uri, [{resize: {height: 150}}], {format: 'jpg', base64: true}
-            ).then(thumbnail => {
-              photoArray.push({
-                photo: base64,
-                thumbnail: 'data:image/jpg;base64,' + thumbnail.base64,
-                location: `${result.coords.latitude} ${result.coords.longitude}`,
-                date: time,
-              });
-              this.setState({photos: photoArray});
-            }).catch(err => {
-              console.log(err);
+            photoArray.push({
+              photo: base64,
+              location: `${result.coords.latitude} ${result.coords.longitude}`,
+              date: time,
             });
+            
+            this.setState({photos: photoArray});
+
+            //create thumbnail
+            // ImageManipulator.manipulate(
+            //   data.uri, [{resize: {height: 100}}], {format: 'jpg', base64: true}
+            // ).then(thumbnail => {
+            //   photoArray.push({
+            //     photo: base64,
+            //     thumbnail: 'data:image/jpg;base64,' + thumbnail.base64,
+            //     location: `${result.coords.latitude} ${result.coords.longitude}`,
+            //     date: time,
+            //   });
+            //   this.setState({photos: photoArray});
+            // }).catch(err => {
+            //   console.log(err);
+            // });
           });
         }
       }
