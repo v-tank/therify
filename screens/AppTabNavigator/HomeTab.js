@@ -7,7 +7,6 @@ import { TextInput, FlatList, Button, Image, TouchableOpacity } from 'react-nati
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 import Searchbar from "../../components/SearchBar";
 import Feed from '../../components/Feed';
-// import Modal from "react-native-modal";
 import { Permissions, Location } from 'expo';
 
 // create a component

@@ -56,7 +56,7 @@ class DetailScreen extends Component {
       photoID: imageID
     }
 
-    var queryURL = "http://192.168.0.12:8080/photos/comment/add/" + imageID;
+    var queryURL = 'https://therifyserver.herokuapp.com/photos/comment/add/' + imageID;
     
     // Makes a POST request to the server with the object created 
     fetch(queryURL, {
