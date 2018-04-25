@@ -29,7 +29,7 @@ class DetailScreen extends Component {
   // Function that takes in the image url and ID to make a request to the server for the image info
   fetchInfo(imageURL, imageID) {
     fetch(imageURL).then((response) => response.json()).then((responseJson => {
-
+      
       this.setState({ image: responseJson.photo });
       this.setState({ comments: responseJson.comments });
       this.setState({ user: responseJson.user });
@@ -115,11 +115,18 @@ class DetailScreen extends Component {
             </CardItem>
 
             <CardItem style={{ flex: 1, flexDirection: "row" }}>
-              <TextInput ref={input => {
+              <TextInput 
+                ref={input => {
                   this.textInput = input;
-          }} placeholder="Add a comment..." underlineColorAndroid={"#eeeeee"} multiline={true} numberOfLines={4} style={{ height: 30, fontSize: 15, textAlign: "center", flex: 5, backgroundColor: "#eeeeee", marginRight: 10, borderRadius: 20 }} onChangeText={text => {
+                }} 
+                placeholder="Add a comment..."
+                underlineColorAndroid={"#eeeeee"}
+                multiline={true} 
+                numberOfLines={4} 
+                style={{ height: 30, fontSize: 15, textAlign: "center", flex: 5, backgroundColor: "#eeeeee", marginRight: 10, borderRadius: 20 }} onChangeText={text => {
                   this.setState({ comment: text });
-                }} />
+                }} 
+              />
               <TouchableOpacity onPress={this.postComment.bind(this)}>
                 <Text style={{ color: "#ea2564" }}>Post</Text>
               </TouchableOpacity>

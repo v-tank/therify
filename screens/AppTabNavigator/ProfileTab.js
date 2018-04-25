@@ -10,6 +10,7 @@ import SocketIOClient from 'socket.io-client';
 const deviceWidth = Dimensions.get('window').width;
 const imageWidth = (deviceWidth - 6) / 3;
 var userEmail = '';
+var username = '';
 
 // create a component
 class ProfileTab extends Component {
@@ -18,7 +19,8 @@ class ProfileTab extends Component {
     
     this.state = {
       images: [],
-      refreshing: false
+      refreshing: false,
+      username: ''
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -59,6 +61,9 @@ class ProfileTab extends Component {
     if(this.mounted) {
       this.setState({refreshing: false});
     }
+
+    username = await AsyncStorage.getItem("username").catch(err => console.log(err));
+    this.setState({username});
   }
 
   onReceivedPhoto(photo) {
@@ -105,7 +110,7 @@ class ProfileTab extends Component {
 
           <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
             <Text style={{ fontWeight: "bold", color: 'white' }}>
-              (Username will go here)
+              {this.state.username}
             </Text>
           </View>
         </View>
