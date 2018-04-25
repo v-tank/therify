@@ -70,7 +70,7 @@ export default class GalleryScreen extends React.Component {
                 <Image
                   key={photoData.photo}
                   style={styles.picture}
-                  source={{uri: this.props.photos[index].thumbnail}}
+                  source={{uri: this.props.photos[index].photo}}
                 />
                 <TouchableOpacity
                   onPress={() => { this.showUploadScreen(index); }}
