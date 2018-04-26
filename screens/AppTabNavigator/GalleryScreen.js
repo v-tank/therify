@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AsyncStorage, Button, TextInput, Image, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Text, ScrollView, Dimensions} from 'react-native';
+import { ActivityIndicator, Alert, AsyncStorage, Button, TextInput, Image, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Text, ScrollView, Dimensions} from 'react-native';
 import { FileSystem, } from 'expo';
 import { Feather, FontAwesome as Icon } from "@expo/vector-icons";
 
@@ -13,6 +13,7 @@ export default class GalleryScreen extends React.Component {
     currentPhotoIndex: null,
     currentPhotoIndexTitle: null,
     currentPhotoIndexAbout: null,
+    animating: false,
   };
   _mounted = false;
 
@@ -25,6 +26,7 @@ export default class GalleryScreen extends React.Component {
   }
 
   async uploadPhoto (photoUri) {
+    this.setState({ animating: true })
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
       return;
@@ -38,7 +40,7 @@ export default class GalleryScreen extends React.Component {
       email: userEmail,
       title: this.state.currentPhotoIndexTitle,
       description: this.state.currentPhotoIndexAbout,
-      date: this.state.currentPhotoIndex.date,
+      date: this.props.photos[this.state.currentPhotoIndex].date,
       verified: true
     }
 
@@ -50,6 +52,8 @@ export default class GalleryScreen extends React.Component {
       },
     }).then(response => {          
       if(response.status === 200){
+        this.setState({ animating: false });
+
         Alert.alert( 'Photo Uploaded',);
         this.showGalleryScreen();
         this.props.deletePhoto(this.state.currentPhotoIndex);
@@ -87,6 +91,8 @@ export default class GalleryScreen extends React.Component {
   };
 
   renderUploadScreen(){
+    const animating = this.state.animating;
+
     return(
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
@@ -138,6 +144,13 @@ export default class GalleryScreen extends React.Component {
             >
               <Text style={styles.text}>Therify</Text>
             </TouchableOpacity>
+
+            <ActivityIndicator
+              animating={animating}
+              color='#bc2b78'
+              size="large"
+              style={styles.activityIndicator} />
+              
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
