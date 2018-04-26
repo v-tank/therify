@@ -153,6 +153,7 @@ class HomeTab extends Component {
         console.log(this.state.focusedPhoto);
       }*/);
     } else {
+      
       this.props.navigation.navigate('Detail', { id: id });
     }
   }
