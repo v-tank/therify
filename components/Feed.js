@@ -1,6 +1,6 @@
 // import components
 import React, { Component } from 'react';
-import { ActivityIndicator, RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { ActivityIndicator, RefreshControl, StyleSheet, FlatList, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import PhotoThumbnail from './PhotoThumbnail.js';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
@@ -136,10 +136,19 @@ export default class Feed extends Component {
           : 
 
           (noPhotosHere) ?
-
-            <Text 
-              style={styles.noPhotosText}
-            >Nothing to show here.</Text>
+          
+          <FlatList
+            data={[{key: 'Nothing to show here.'}]}
+            refreshControl={
+              // adds pull-down-to-refresh functionality
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+            renderItem={({item}) => <Text style={styles.noPhotosText}>{item.key}</Text>}
+          >
+          </FlatList>
 
             :
 
@@ -179,5 +188,6 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 20,
     textAlign: 'center',
+    marginTop: 50
   }
 });
