@@ -85,15 +85,11 @@ class DetailScreen extends Component {
       headers: { 'Content-Type': 'application/json', },
     }).then(response => {
       console.log("Photo deleted, id: "+this.state.image._id);
+      //REDIRECT TO ANOTHER PAGE
     }).catch(error => console.log(error));
   }
 
-  printUser(){
-    console.log("User pic owner "+this.state.user);
-    console.log("Current user "+ this.state.currentUsername);
-  }
-
-  // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
+// Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
     return (
       <ScrollView>
@@ -148,12 +144,7 @@ class DetailScreen extends Component {
                   <Text style={styles.text}>Delete</Text>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity
-                  onPress={()=>{this.printUser();}}
-                  stype={styles.text}
-                >
-                  <Text style={styles.text}>Nothing here</Text>
-                </TouchableOpacity> 
+                <TouchableOpacity/>
               )
             }
 
