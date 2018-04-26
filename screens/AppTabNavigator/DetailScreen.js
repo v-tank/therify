@@ -1,6 +1,5 @@
-// import components
 import React, { Component } from 'react';
-import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
+import {Alert,ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 
 const imageID = '';
@@ -14,11 +13,13 @@ class DetailScreen extends Component {
     comments: [],
     user: '',
     isLoading: true,
-    comment: ''
+    comment: '',
+    currentUsername: '',
   }
 
   // grabs the passed in image ID and calls a function to fetch the image data
   componentDidMount() {
+    this.getCurrentUsername();
     imageID = this.props.navigation.state.params.id;
     imageURL = 'https://therifyserver.herokuapp.com/photos/' + imageID;
     // console.log(imageURL);
@@ -72,7 +73,23 @@ class DetailScreen extends Component {
     })).catch(error => console.log(error));
   }
 
-  // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
+  async getCurrentUsername(){
+    this.setState({currentUsername:await AsyncStorage.getItem("username").catch(err => console.log(err))});
+  }
+
+  //Delete a photo
+  deletePhoto(){
+    queryURL = 'https://therifyserver.herokuapp.com/photos/' + this.state.image._id;
+    fetch(queryURL, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', },
+    }).then(response => {
+      Alert.alert( 'Photo Deleted',);
+      this.props.navigation.navigate('Home');
+    }).catch(error => console.log(error));
+  }
+
+// Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
   render() {
     return (
       <ScrollView>
@@ -117,6 +134,19 @@ class DetailScreen extends Component {
                 </Text>
               </Body>
             </CardItem>
+ 
+            {
+              this.state.currentUsername==this.state.user ? (
+                <TouchableOpacity
+                  onPress={() => { this.deletePhoto(); }}
+                  style={styles.deleteButton}
+                >
+                  <Text style={styles.text}>Delete</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity/>
+              )
+            }
 
             <CardItem style={{ flex: 1, flexDirection: "row" }}>
               <TextInput 
@@ -184,7 +214,13 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: '900',
-  }
+  },
+  deleteButton: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10,
+    borderRadius: 50, borderWidth: 2, borderColor: '#ea2564', margin: 10
+  },
 });
 
 //make this component available to the app
