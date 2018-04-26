@@ -117,7 +117,7 @@ class ProfileTab extends Component {
     const animating = this.state.animating;
     const noPhotosHere = this.state.noPhotosHere;
     return (
-    <Container style={{ flex: 1, backgroundColor: 'white'}}>
+    <Container style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
         <View>
           <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
@@ -130,6 +130,7 @@ class ProfileTab extends Component {
         </View>
       </View>
       
+      <View style={styles.bottomView}>
       { animating ?
         <ActivityIndicator
           animating={animating}
@@ -142,12 +143,7 @@ class ProfileTab extends Component {
         (noPhotosHere) ?
 
           <Text 
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }
+            style={styles.noPhotosText}
           >Nothing to show here.</Text>
 
           :
@@ -165,6 +161,7 @@ class ProfileTab extends Component {
             } 
           />
       }
+      </View>
     </Container>
     );
   }
@@ -176,7 +173,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
   },
   profileImage: {
     width: 75,
@@ -200,10 +196,20 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    backgroundColor: 'red',
   },
   image: {
     flex: 1,
     height: imageWidth,
+  },
+  noPhotosText: {
+    color: '#999',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  bottomView: {
+    flex: 1,
+    justifyContent: 'center'
   }
 });
 
