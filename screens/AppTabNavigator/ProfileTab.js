@@ -22,13 +22,16 @@ class ProfileTab extends Component {
       refreshing: false,
       username: '',
       animating: false,
+      noPhotosHere: false
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
+    this.stopLoading = this.stopLoading.bind(this);
 
     this.socket = SocketIOClient('https://therifyserver.herokuapp.com');
     this.socket.on('authoredPhoto', this.onReceivedPhoto);
-    
+    this.socket.on('noPhotosFound', this.stopLoading);
+
     //comes after because it uses socket
     this.loadImages = this.loadImages.bind(this);
 
@@ -68,8 +71,15 @@ class ProfileTab extends Component {
     this.setState({username});
   }
 
+  //when the server says there are no photos for the user, stop the loading animation
+  stopLoading() {
+    this.setState({ animating: false });
+    this.setState({ noPhotosHere: true });
+  }
+
   onReceivedPhoto(photo) {
-    this.setState({ animating: false })
+    this.setState({ animating: false });
+    this.setState({ noPhotosHere: false });
     var photoIsNew;
     var images = this.state.images;
     photoIsNew = images.every(image => {
@@ -105,7 +115,7 @@ class ProfileTab extends Component {
 
   render() {
     const animating = this.state.animating;
-
+    const noPhotosHere = this.state.noPhotosHere;
     return (
     <Container style={{ flex: 1, backgroundColor: 'white'}}>
       <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
@@ -128,7 +138,32 @@ class ProfileTab extends Component {
           style={styles.activityIndicator} />
 
         : 
-        <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
+        
+        (noPhotosHere) ?
+
+          <Text 
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+          >Nothing to show here.</Text>
+
+          :
+
+          <Grid 
+            style={styles.list} 
+            renderItem={this._renderItem} 
+            data={this.state.images} 
+            itemsPerRow={3} 
+            refreshControl={
+              <RefreshControl 
+                refreshing={this.state.refreshing} 
+                onRefresh={this._onRefresh.bind(this)} 
+              />
+            } 
+          />
       }
     </Container>
     );

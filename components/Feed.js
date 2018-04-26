@@ -14,7 +14,7 @@ export default class Feed extends Component {
       focusedPhoto: this.props.focusedPhoto,
       refreshing: false,
       animating: false, //for the animation that plays when photos are loading
-      noPhotosHere:false //for the case when there are no photos in the user's location
+      noPhotosHere: false //for the case when there are no photos in the user's location
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -137,8 +137,10 @@ export default class Feed extends Component {
 
           (noPhotosHere) ?
 
-            <Text refreshControl={
-              <RefreshControl
+            <Text 
+              style={styles.noPhotosText}
+              refreshControl={
+                <RefreshControl
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh.bind(this)}
                 />
@@ -176,5 +178,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 80
+  },
+  noPhotosText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
