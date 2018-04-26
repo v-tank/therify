@@ -15,6 +15,7 @@ class DetailScreen extends Component {
     isLoading: true,
     comment: '',
     currentUsername: '',
+    isdeleting:false,
   }
 
   // grabs the passed in image ID and calls a function to fetch the image data
@@ -78,15 +79,25 @@ class DetailScreen extends Component {
   }
 
   //Delete a photo
+  isdeleting=false;
   deletePhoto(){
-    queryURL = 'https://therifyserver.herokuapp.com/photos/' + this.state.image._id;
-    fetch(queryURL, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', },
-    }).then(response => {
-      Alert.alert( 'Photo Deleted',);
-      this.props.navigation.navigate('Home');
-    }).catch(error => console.log(error));
+    if(!this.isdeleting){
+      this.isdeleting=true;
+      queryURL = 'https://therifyserver.herokuapp.com/photos/' + this.state.image._id;
+      fetch(queryURL, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', },
+      }).then(response => {
+        Alert.alert( 'Photo Deleted',);
+        this.props.navigation.navigate('Home');
+        this.isdeleting=false;
+      }).catch(error => {
+        console.log(error)
+        this.isdeleting=false;
+      });
+    }else{
+      console.log("\nDeletion is already happening\n");
+    }
   }
 
 // Renders the view with the image and associated info along with the comments. Also adds the 'Therified' stamp based on the info fetched from the database
