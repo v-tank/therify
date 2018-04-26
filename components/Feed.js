@@ -139,12 +139,6 @@ export default class Feed extends Component {
 
             <Text 
               style={styles.noPhotosText}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh.bind(this)}
-                />
-              }
             >Nothing to show here.</Text>
 
             :
@@ -171,7 +165,9 @@ export default class Feed extends Component {
 // Stylesheet
 const styles = StyleSheet.create({
   list: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
+
   },
   activityIndicator: {
     flex: 1,
@@ -180,8 +176,8 @@ const styles = StyleSheet.create({
     height: 80
   },
   noPhotosText: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    color: '#999',
+    fontSize: 20,
+    textAlign: 'center',
   }
 });
