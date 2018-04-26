@@ -76,7 +76,7 @@ export default class GalleryScreen extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.props.onPress}>
-          <Text style={{color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Back</Text>
+          <Text style={{color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Back to Camera</Text>
         </TouchableOpacity>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
           <View style={styles.pictures}>
@@ -107,7 +107,7 @@ export default class GalleryScreen extends React.Component {
     return(
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton} onPress={this.showGalleryScreen.bind(this)}>
-          <Text style={{ color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Go To Gallery</Text>
+          <Text style={{ color: 'white', fontSize: 22, alignSelf: 'center', justifyContent: 'center', paddingTop: 15 }}>Return To Gallery</Text>
         </TouchableOpacity>
         
         <KeyboardAvoidingView behavior='padding' style={styles.keyboardAvoid}>

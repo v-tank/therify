@@ -89,7 +89,7 @@ class DetailScreen extends Component {
         headers: { 'Content-Type': 'application/json', },
       }).then(response => {
         Alert.alert( 'Photo Deleted',);
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Home');//goBack(); //goBack is correct but we don't have code to delete the photo from the feed yet
         this.isdeleting=false;
       }).catch(error => {
         console.log(error)
