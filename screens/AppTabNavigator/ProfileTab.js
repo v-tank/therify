@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Container, Content, Header, Left, Body, Right, Button, Thumbnail } from 'native-base';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import { Feather as Icon } from "@expo/vector-icons";
-import { ActivityIndicator, RefreshControl, AsyncStorage, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { ActivityIndicator, RefreshControl, AsyncStorage, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text, FlatList } from 'react-native';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
 
@@ -142,9 +142,18 @@ class ProfileTab extends Component {
         
         (noPhotosHere) ?
 
-          <Text 
-            style={styles.noPhotosText}
-          >Nothing to show here.</Text>
+          <FlatList
+            data={[{key: 'Nothing to show here.'}]}
+            refreshControl={
+              // adds pull-down-to-refresh functionality
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+            renderItem={({item}) => <Text style={styles.noPhotosText}>{item.key}</Text>}
+          >
+          </FlatList>
 
           :
 
@@ -206,6 +215,7 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 20,
     textAlign: 'center',
+    marginTop: 50
   },
   bottomView: {
     flex: 1,
