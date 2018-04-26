@@ -35,6 +35,7 @@ class MapComponent extends Component {
             title={pinLocation.title}
             description={pinLocation.description} 
             pinColor={(this.props.focusedPhoto == pinLocation.id) ? 'blue' : 'red' }
+            style={(this.props.focusedPhoto == pinLocation.id) ? styles.highlightedMarker : null}
           /> 
         ));
       }
@@ -59,3 +60,9 @@ class MapComponent extends Component {
 }
 
 export default MapComponent; // Export the component to be used in the Home Tab
+
+const styles = StyleSheet.create({
+  highlightedMarker: {
+    zIndex: 1
+  }
+});
