@@ -96,7 +96,7 @@ class DetailScreen extends Component {
         this.isdeleting=false;
       });
     }else{
-      console.log("\nDeletion is already happening\n");
+      console.log("Deletion is already happening");
     }
   }
 

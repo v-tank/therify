@@ -25,7 +25,14 @@ export default class GalleryScreen extends React.Component {
     this._mounted = false;
   }
 
+  uploading = false;
   async uploadPhoto (photoUri) {
+    if(this.uploading){
+      console.log("An upload is already happening");
+      return;
+    }
+    this.uploading = true;
+
     this.setState({ animating: true })
     var userEmail = await AsyncStorage.getItem('userEmail').catch(err => {
       console.log(err);
@@ -58,7 +65,11 @@ export default class GalleryScreen extends React.Component {
         this.showGalleryScreen();
         this.props.deletePhoto(this.state.currentPhotoIndex);
       }
-    }).catch(error => console.log(error));
+      this.uploading = false;
+    }).catch(error => {
+      this.uploading = false; 
+      console.log(error)
+    });
   }
 
   renderGalleryScreen(){
