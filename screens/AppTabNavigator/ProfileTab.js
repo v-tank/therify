@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Container, Content, Header, Left, Body, Right, Button, Thumbnail } from 'native-base';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import { Feather as Icon } from "@expo/vector-icons";
-import { RefreshControl, AsyncStorage, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { ActivityIndicator, RefreshControl, AsyncStorage, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
 
@@ -20,7 +20,8 @@ class ProfileTab extends Component {
     this.state = {
       images: [],
       refreshing: false,
-      username: ''
+      username: '',
+      animating: false,
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -41,6 +42,7 @@ class ProfileTab extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.setState({ animating: true });
   }
 
   componentWillUnmount() {
@@ -68,6 +70,7 @@ class ProfileTab extends Component {
   }
 
   onReceivedPhoto(photo) {
+    this.setState({ animating: false })
     console.log("photo");
     var photoIsNew;
     var images = this.state.images;
@@ -103,6 +106,8 @@ class ProfileTab extends Component {
   );
 
   render() {
+    const animating = this.state.animating;
+
     return (
     <Container style={{ flex: 1, backgroundColor: 'white'}}>
       <View style={{ padding: 10, alignItems: "center", backgroundColor: 'rgba(0, 0, 0, 0.7)', marginBottom: 10 }}>
@@ -110,14 +115,23 @@ class ProfileTab extends Component {
           <Thumbnail source={require("../../assets/images/icon.png")} style={styles.profileImage} />
         </View>
 
-        <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+        <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
           <Text style={{ fontWeight: "bold", color: 'white' }}>
             {this.state.username}
           </Text>
         </View>
       </View>
+      
+      { animating ?
+        <ActivityIndicator
+          animating={animating}
+          color='#bc2b78'
+          size="large"
+          style={styles.activityIndicator} />
 
-      <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
+        : 
+        <Grid style={styles.list} renderItem={this._renderItem} data={this.state.images} itemsPerRow={3} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />} />
+      }
     </Container>
     );
   }
