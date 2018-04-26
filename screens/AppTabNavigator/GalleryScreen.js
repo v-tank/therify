@@ -40,7 +40,7 @@ export default class GalleryScreen extends React.Component {
       email: userEmail,
       title: this.state.currentPhotoIndexTitle,
       description: this.state.currentPhotoIndexAbout,
-      date: this.state.currentPhotoIndex.date,
+      date: this.props.photos[this.state.currentPhotoIndex].date,
       verified: true
     }
 
