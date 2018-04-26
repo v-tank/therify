@@ -66,12 +66,10 @@ class ProfileTab extends Component {
 
     username = await AsyncStorage.getItem("username").catch(err => console.log(err));
     this.setState({username});
-    console.log("profile emit");
   }
 
   onReceivedPhoto(photo) {
     this.setState({ animating: false })
-    console.log("photo");
     var photoIsNew;
     var images = this.state.images;
     photoIsNew = images.every(image => {

@@ -13,7 +13,8 @@ export default class Feed extends Component {
       images: [],
       focusedPhoto: this.props.focusedPhoto,
       refreshing: false,
-      animating: false,
+      animating: false, //for the animation that plays when photos are loading
+      noPhotosHere:false //for the case when there are no photos in the user's location
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -75,11 +76,13 @@ export default class Feed extends Component {
   //when the server says there are no photos for the user, stop the loading animation
   stopLoading() {
     this.setState({ animating: false });
+    this.setState({ noPhotosHere: true });
   }
 
   // waits for received photos and adds pins based on the locations received
   onReceivedPhoto(photo) {
-    this.setState({ animating: false })
+    this.setState({ animating: false });
+    this.setState({ noPhotosHere: false });
     var photoIsNew;
     var images = this.state.images;
     photoIsNew = images.every(image => {
@@ -120,6 +123,7 @@ export default class Feed extends Component {
   // renders the grid with the pictures
   render() { 
     const animating = this.state.animating;
+    const noPhotosHere = this.state.noPhotosHere;
     return (
       <View style={styles.list}>
         { animating ? 
@@ -131,19 +135,31 @@ export default class Feed extends Component {
             
           : 
 
-          <Grid
-            style={styles.list}
-            renderItem={this._renderItem}
-            data={this.state.images}
-            itemsPerRow={3}
-            refreshControl={
-              // adds pull-down-to-refresh functionality
+          (noPhotosHere) ?
+
+            <Text refreshControl={
               <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }
-          />
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
+            >Nothing to show here.</Text>
+
+            :
+
+            <Grid
+              style={styles.list}
+              renderItem={this._renderItem}
+              data={this.state.images}
+              itemsPerRow={3}
+              refreshControl={
+                // adds pull-down-to-refresh functionality
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
+            />
         }
       </View>
     );
