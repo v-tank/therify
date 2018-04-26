@@ -1,6 +1,6 @@
 // import components
 import React, { Component } from 'react';
-import { RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { ActivityIndicator, RefreshControl, StyleSheet, View, Dimensions, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import PhotoThumbnail from './PhotoThumbnail.js';
 import Grid from 'react-native-grid-component';
 import SocketIOClient from 'socket.io-client';
@@ -12,7 +12,8 @@ export default class Feed extends Component {
     this.state = {
       images: [],
       focusedPhoto: this.props.focusedPhoto,
-      refreshing: false
+      refreshing: false,
+      animating: false,
     }
     
     this.onReceivedPhoto = this.onReceivedPhoto.bind(this);
@@ -36,6 +37,7 @@ export default class Feed extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.setState({ animating: true });
   }
 
   // this is here to enforce not updating state when the component is not mounted
@@ -72,11 +74,12 @@ export default class Feed extends Component {
 
   //when the server says there are no photos for the user, stop the loading animation
   stopLoading() {
-
+    this.setState({ animating: false });
   }
 
   // waits for received photos and adds pins based on the locations received
   onReceivedPhoto(photo) {
+    this.setState({ animating: false })
     var photoIsNew;
     var images = this.state.images;
     photoIsNew = images.every(image => {
@@ -115,21 +118,34 @@ export default class Feed extends Component {
   }
 
   // renders the grid with the pictures
-  render() {
+  render() { 
+    const animating = this.state.animating;
     return (
-      <Grid
-        style={styles.list}
-        renderItem={this._renderItem}
-        data={this.state.images}
-        itemsPerRow={3}
-        refreshControl={
-          // adds pull-down-to-refresh functionality
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh.bind(this)}
+      <View style={styles.list}>
+        { animating ? 
+          <ActivityIndicator
+            animating={animating}
+            color='#ea2564'
+            size="large"
+            style={styles.activityIndicator} />
+            
+          : 
+
+          <Grid
+            style={styles.list}
+            renderItem={this._renderItem}
+            data={this.state.images}
+            itemsPerRow={3}
+            refreshControl={
+              // adds pull-down-to-refresh functionality
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
           />
         }
-      />
+      </View>
     );
   }
 }
@@ -138,5 +154,11 @@ export default class Feed extends Component {
 const styles = StyleSheet.create({
   list: {
     flex: 1
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
   }
 });

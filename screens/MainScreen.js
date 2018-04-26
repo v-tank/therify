@@ -38,7 +38,8 @@ const FeedStack = StackNavigator({
       },
       headerStyle: {
         backgroundColor: '#ea2564',
-      }
+      },
+      headerBackTitleStyle : {color: 'white'}
     }
   }
 });
