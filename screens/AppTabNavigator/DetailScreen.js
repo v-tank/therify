@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
+import {Alert,ActivityIndicator, AsyncStorage, View, Text, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Vibration } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 
 const imageID = '';
@@ -84,8 +84,8 @@ class DetailScreen extends Component {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json', },
     }).then(response => {
-      console.log("Photo deleted, id: "+this.state.image._id);
-      //REDIRECT TO ANOTHER PAGE
+      Alert.alert( 'Photo Deleted',);
+      this.props.navigation.navigate('Home');
     }).catch(error => console.log(error));
   }
 
