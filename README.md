@@ -1,15 +1,16 @@
 # Welcome to Therify
 ![Therify-Banner](assets/images/ReadMe/banner.png "Therify")
-Therify is an app that was built by Denis Wu, Nick Wactor, Yusuf Mekias, Hillari Malle, Mike Thompson, and Vaibhav Tank.
+@authors Denis Wu, Nick Wactor, Yusuf Mekias, Hillari Malle, Mike Thompson, and Vaibhav Tank.
 
-The purpose of our app is to verify that a photo submitted by a user has been verified as authentic. Therify uses the GPS data along with the timestamps generated in the app at the time the photo was captured. Each photo will have a 'Therify' checkmark to provide users with a quick confirmation that our app recognizes it as a legitimate picture.
+Ever wanted a more reliable source for what a place is really like? Tired of inaccurate or misleading photos? Therify is a photo-sharing app that promises users that the content they see is authentic. It uses the GPS data along with the timestamps generated in the app at the time photos were captured to 'therify' that every picture uploaded really comes from where it says it does.
 
 Technologies Used:
 * React Native
 * Expo XDE 
-* mongoDB and mongoose 
+* Node.js / Express.js
+* mongoDB and mongoose
+* Socket.io
 * mLab and Heroku 
-* NPM packages such as express, body-parser, socket-io, etc.
 * Google Maps API / Google OAuth
 
 ## Use
