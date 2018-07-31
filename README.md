@@ -37,8 +37,8 @@ Requirements: You will need node.js installed in your terminal and Expo XDE, whi
 
 Keep reading if you'd like to run your own instance of the Therify server (you will have your own private photo and user database).
 
-1. Create a new directory separate from the Therify app and run `git clone https://github.com/nwactor/therifybackend.git`
-  (repository for backend code can be found here: https://github.com/nwactor/therifybackend)
+1. Create a new directory separate from the Therify app and run `git clone https://github.com/v-tank/therifybackend.git`
+  (repository for backend code can be found here: https://github.com/v-tank/therifybackend)
 
 2. `cd therifybackend` `npm install`
 
